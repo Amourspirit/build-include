@@ -1,0 +1,10 @@
+.vscode/*
+node_modules/
+scratch/
+tasks
+dist
+lib
+tmp
+/*.log
+types
+/docs
