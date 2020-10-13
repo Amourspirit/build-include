@@ -87,7 +87,26 @@
 					<h3>Log to Console</h3>
 				</a>
 				<p>Logging with <a href="/build-include/classes/src_log.logsimple.html">LogSimple</a></p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess,  LoggerSimple } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include&quot;</span>;
+				<a href="#common-js" id="common-js" style="color: inherit; text-decoration: none;">
+					<h4>Common JS</h4>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/cjs/BuildProcess&#x27;</span>;
+<span class="hljs-keyword">import</span> { LoggerSimple } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/cjs/log/LoggerSimple&quot;</span>;
+
+<span class="hljs-comment">// include LoggerSimple in the constructor so instance logs to the console.</span>
+<span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
+
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">comment</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace.txt&#x27;</span>, opt);</code></pre>
+				<a href="#es6-module" id="es6-module" style="color: inherit; text-decoration: none;">
+					<h4>ES6 Module</h4>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/esm/BuildProcess&#x27;</span>;
+<span class="hljs-keyword">import</span> { LoggerSimple } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/esm/log/LoggerSimple&quot;</span>;
 
 <span class="hljs-comment">// include LoggerSimple in the constructor so instance logs to the console.</span>
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
@@ -102,7 +121,23 @@
 					<h3>NO Logging</h3>
 				</a>
 				<p>Logging with <a href="/build-include/classes/src_log.loggernull.html">LoggerNull</a> requires not logger to be passed into constructor.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include&quot;</span>;
+				<a href="#common-js-1" id="common-js-1" style="color: inherit; text-decoration: none;">
+					<h4>Common JS</h4>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/cjs/BuildProcess&#x27;</span>;
+
+<span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
+
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">comment</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace.txt&#x27;</span>, opt);</code></pre>
+				<a href="#es6-module-1" id="es6-module-1" style="color: inherit; text-decoration: none;">
+					<h4>ES6 Module</h4>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/esm/BuildProcess&#x27;</span>;
 
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
 
