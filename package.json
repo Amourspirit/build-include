@@ -35,7 +35,6 @@
     "app-root-path": "^3.0.0",
     "file-sync-cmp": "^0.1.1",
     "multi-encoder": "^0.4.3",
-    "npm": "^6.14.8",
     "string-breaker": "^1.0.0"
   },
   "jest": {
