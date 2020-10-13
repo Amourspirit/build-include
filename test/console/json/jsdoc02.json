@@ -1,0 +1,12 @@
+{
+  "match": {
+    "kind": "buildIncludeHtml"
+  },
+  "comment": {
+    "type": "html"
+  },
+  "breakstring": {
+    "width": 70,
+    "flags": "word"
+  }
+}

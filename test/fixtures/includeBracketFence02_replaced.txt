@@ -1,0 +1,9 @@
+/**
+  * Represents a generic item with a string key value
+  * 
+  * Example:
+  * 
+  */
+export interface IKeyValue<T> {
+  [key: string]: T;
+}

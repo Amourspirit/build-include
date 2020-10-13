@@ -4,6 +4,18 @@ File [replace03.txt](replacements/replace03.txt.html) is to be included in outpu
 File [replace03.txt](replacements/replace03.txt.html) contains fences and enpty lines.  
 In this example fences are excluded from any extra processing and included verbatim in the output.
 
+### Input
+
+```ts
+/**
+ * [[include:includes/includeSubs/include-replaace03.md]]
+ */
+export interface IKeyValue<T> {
+  [key: string]: T;
+}
+```
+
+
 ### Options
 
 <div class="nowrapcode">
@@ -14,56 +26,29 @@ In this example fences are excluded from any extra processing and included verba
 
 </div>
 
-[[include:options/fence/fence.md]]
-
-[[include:options/fence/type/type.md]]
-
-[[include:options/fence/type/multiflex.md]]
-See: Fence Type [MultiFlex](/grunt-build-include/pages/Docs/Options/fence/type/MultiFlex/)
-
-[[include:options/comment/comment.md]]
-
-[[include:options/comment/type/SingleAsterisk.md]]
-
-[[include:options/text/text.md]]
-
-[[include:options/text/indent/indent.md]]
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        options: {
-          match: {
-            kind: 'bracketIncludeMulti',
-            path: './fixtures/'
-          },
-          comment: {
-            type: 'singleAsterisk'
-          },
-          text: {
-            indent: true
-          },
-          fence: 'strict'
-        },
-        src: './src/interfaces.ts',
-        dest: './scratch/js/interfaces.ts'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
+````js
+const bp = new BuildProcess();
+const opt = {
+  match: {
+    kind: 'bracketIncludeMulti',
+    path: './fixtures/'
+  },
+  comment: {
+    type: 'singleAsterisk'
+  },
+  text: {
+    indent: true
+  },
+  fence: 'strict'
 };
-```
+const results = bp.buildInclude('','./src/interfaces.ts', opt);
+````
 
 ### Output
 
-````text
+````ts
 /**
   * Represents a generic item with a string key value
   * 
@@ -89,6 +74,27 @@ export interface IKeyValue<T> {
   [key: string]: T;
 }
 ````
+
+[[include:includes/fence/fence.md]]
+
+[[include:includes/fence/type/type.md]]
+
+[[include:includes/fence/type/multiFlex/multiflex.md]]
+See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html)
+
+[[include:includes/comment/comment.md]]
+
+[[include:includes/comment/type/SingleAsterisk.md]]
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/indent/indent.md]]
+
+#### Match Kind: bracketIncludeMulti
+
+[[include:docs/enums/regexKind/bracketIncludeMulti.md]]
+
+[[include:includes/options/iopt.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

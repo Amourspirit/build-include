@@ -1,0 +1,13 @@
+{
+  "match": {
+    "kind": "bracketIncludeMulti",
+    "path": "md"
+  },
+  "comment": {
+    "type": "singleAsterisk"
+  },
+  "text": {
+    "indent": true
+  },
+  "fence": "strict"
+}

@@ -1,0 +1,38 @@
+without quotes file: (../replace1.txt)
+// BUILD_INCLUDE(../replace1.txt)
+
+with single quotes file: ('../replace1.txt')
+// BUILD_INCLUDE('../replace1.txt')
+
+with double quotes file: ("../replace1.txt")
+// BUILD_INCLUDE("../replace1.txt")
+
+with extra space file: ("../replace1.txt")
+//     BUILD_INCLUDE("../replace1.txt")
+
+with no space file: ("../replace1.txt")
+//BUILD_INCLUDE("../replace1.txt")
+
+with html comments, no quotes, no space file: (../replace1.txt)
+<!--BUILD_INCLUDE(../replace1.txt)-->
+
+with html comments, quotes, space file: ( '../replace1.txt' )
+<!--   BUILD_INCLUDE( '../replace1.txt' ) -->
+
+In a sentence, file: ("../replace1.txt")
+This part is permanent. THIS IS NOT: //BUILD_INCLUDE("../replace1.txt")
+
+Lower case build_include, flie: ("../replace1.txt")
+// build_include("../replace1.txt")
+
+Mixed case build_include file: (  ../replace1.txt  )
+// Build_Include(  ../replace1.txt  )
+
+with space on both sides of quote, file: (  "  ../replace1.txt  "   )
+//BUILD_INCLUDE(  "  ../replace1.txt  "   )
+
+with file that spaces in the name, file: ( "../replacement file 01.txt" )
+// BUILD_INCLUDE( "../replacement file 01.txt" )
+
+with file that spaces in the name not using quotes, file: ( ../replacement file 01.txt )
+// BUILD_INCLUDE( ../replacement file 01.txt )

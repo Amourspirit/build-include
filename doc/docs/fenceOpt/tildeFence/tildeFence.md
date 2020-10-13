@@ -1,14 +1,22 @@
 Matches the pattern of:  
-(reguired &#126;&#126;&#126;)(optional type)  
+
+```text
+(reguired ~~~)(optional type)
+```
+
 fenced text  
-(reguired &#126;&#126;&#126;)
+```text
+(reguired ~~~)
+```
 
 Some match examples:
 
-&#126;&#126;&#126;  
+````markdown
+~~~
 fenced text  
-&#126;&#126;&#126;
+~~~
 
-&#126;&#126;&#126;text  
+~~~text  
 fenced text  
-&#126;&#126;&#126;  
+~~~
+````  

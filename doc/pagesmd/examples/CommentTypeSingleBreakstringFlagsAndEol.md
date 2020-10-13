@@ -7,47 +7,27 @@ File [replace01.txt](replacements/replace01.txt.html) is to be included in outpu
 <div class="nowrapcode">
 
 ```text
-// BUILD_INCLUDE("./scratch/replace1.txt")[comment?type=Single, breakstring?width=75&flags=word&eol=none]
+// BUILD_INCLUDE("./scratch/replace1.txt")
 ```
 
 </div>
 
-### Options
-
-`[comment?type=Single, breakstring?width=75&flags=word&eol=none]`
-
-[[include:options/comment/comment.md]]
-[[include:options/comment/type/single.md]]
-[[include:options/breakstring/breakstring.md]]
-[[include:options/breakstring/width.md]]
-[[include:options/breakstring/flags/word.md]]
-[[include:options/breakstring/eol/none.md]]
-
-### Option
-
-`breakstring?width=75&flags=word&eol=none`
-
-`width=75` determines that breaking of lines is to start at 75 characters.  
-Due to `eol=none` the output will break when it gets to `width` or the end or a line.
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
+````js
+const bp = new BuildProcess();
+const opt = {
+  comment: {
+    type: "Single"
+  },
+  breakstring: {
+    width: 75,
+    flags: 'word',
+    eol: 'none'
+  }
 };
-```
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+````
 
 ### Output
 
@@ -74,6 +54,26 @@ module.exports = function (grunt) {
 // by MTV for luck. A wizard’s job is to vex chumps quickly in fog. Watch "Jeopardy!
 // ", Alex Trebek's fun TV quiz game. Woven silk pyjamas exchanged for blue quartz.
 ```
+
+### Options
+
+`[comment?type=Single, breakstring?width=75&flags=word&eol=none]`
+
+[[include:includes/comment/comment.md]]
+[[include:includes/comment/type/single.md]]
+[[include:includes/breakstring/breakstring.md]]
+[[include:includes/breakstring/width.md]]
+[[include:includes/breakstring/flags/word.md]]
+[[include:includes/breakstring/eol/none.md]]
+
+### Option
+
+`breakstring?width=75&flags=word&eol=none`
+
+`width=75` determines that breaking of lines is to start at 75 characters.  
+Due to `eol=none` the output will break when it gets to `width` or the end or a line.
+
+[[include:includes/options/iopt.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

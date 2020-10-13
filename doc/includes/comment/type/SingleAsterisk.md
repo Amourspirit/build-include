@@ -1,0 +1,25 @@
+##### Comment Type SingleAsterisk
+
+`{comment: { type: "singleAsterisk" }}` or inline `comment?type=singleAsterisk`  
+Pads the left side of each line with * and a single space.  
+Useful for comment replacement that is required inline.
+
+**Example:**  
+If you have the following.
+
+```js
+/**
+ * [[include:doc/myMarkdown.md]]
+ */
+```
+
+The output would be similar to the following.
+
+```js
+/**
+ * my multi line comments
+ * comments continue on this line
+ */
+```
+
+See: Enum values for [commentkind](/build-include/enums/enums.commentkind.html) for possible types.  

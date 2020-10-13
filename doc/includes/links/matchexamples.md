@@ -1,0 +1,2 @@
+* [BracketInclude & MultiSingleAsterisk](/build-include/pages/Docs/examples/bracketIncludeMultiSingleAsterisk.html)
+* [Include Json inline](/build-include/pages/Docs/examples/IncludeJsonMatchQuote.html#include-json-inline)

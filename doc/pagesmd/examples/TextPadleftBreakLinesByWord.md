@@ -10,58 +10,12 @@
 
 </div>
 
-### Text padding and break lines using BUILD_INCLUDE
-
-File with long lines such as [replace01.txt](replacements/replace01.txt.html).
-
-Include the contenst in another file and make it more readable.  
-Also `# ` is required at the start of each line.
-
-### Options
-
-`[text?padleft=# ,breakstring?width=75&flags=word]`  
-
-[[include:options/text/text.md]]
-
-[[include:options/text/padding/padleft.md]]
-
-[[include:options/breakstring/breakstring.md]]
-
-[[include:options/breakstring/width.md]]
-
-[[include:options/breakstring/flags/word.md]]
-
-### Option
-
-`text?padleft=# `  
-Pads the left side of each line with a single # and a single space.
-
-Note: There is a single space after **#**  
-Note: `text` Options are applied after `breakstring` options.
-
-`breakstring?width=75&flags=word`  
-Due to `flags=word` lines will be broken and close as possible to 75 characters without breaking in a word.  
-
-Note: `breakstring` is applied before `text` options.  
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
 ### Output
 
@@ -85,6 +39,40 @@ module.exports = function (grunt) {
 ```
 
 </div>
+
+### Text padding and break lines using BUILD_INCLUDE
+
+File with long lines such as [replace01.txt](replacements/replace01.txt.html).
+
+Include the contenst in another file and make it more readable.  
+Also `# ` is required at the start of each line.
+
+### Options
+
+`[text?padleft=# ,breakstring?width=75&flags=word]`  
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/padding/padleft.md]]
+
+[[include:includes/breakstring/breakstring.md]]
+
+[[include:includes/breakstring/width.md]]
+
+[[include:includes/breakstring/flags/word.md]]
+
+### Option
+
+`text?padleft=# `  
+Pads the left side of each line with a single # and a single space.
+
+Note: There is a single space after **#**  
+Note: `text` Options are applied after `breakstring` options.
+
+`breakstring?width=75&flags=word`  
+Due to `flags=word` lines will be broken and close as possible to 75 characters without breaking in a word.  
+
+Note: `breakstring` is applied before `text` options.  
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

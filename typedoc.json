@@ -1,0 +1,10 @@
+{
+  "mode": "modules",
+  "inputFiles": ["./src"],
+  "exclude": ["**/*+(.test|.spec).ts"],
+  "name": "Build-include Pages",
+  "out": "docs/build-include",
+  "readme": "./Readme.md",
+  "includes": "./doc",
+  "theme": "pages-plugin"
+}

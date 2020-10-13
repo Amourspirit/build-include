@@ -14,7 +14,6 @@
 
 File [replace02.txt](replacements/replace02.txt.html) is to be included in output file.
 
-### Options
 
 <div class="nowrapcode">
 
@@ -24,24 +23,13 @@ File [replace02.txt](replacements/replace02.txt.html) is to be included in outpu
 
 </div>
 
-[[include:options/fence/fence.md]]
+### Config
 
-[[include:options/fence/type/type.md]]
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
-[[include:options/fence/type/multiflex.md]]
-See: Fence Type [MultiFlex](/grunt-build-include/pages/Docs/Options/fence/type/MultiFlex/)
-
-[[include:options/fence/remove/remove.md]]
-
-[[include:options/comment/comment.md]]
-
-[[include:options/comment/type/SingleAsterisk.md]]
-
-[[include:options/text/text.md]]
-
-[[include:options/text/indent/indent.md]]
-
-[[include:options/text/whiteSpaceLine/removeAllWs.md]]
 
 ### Output
 
@@ -62,6 +50,26 @@ See: Fence Type [MultiFlex](/grunt-build-include/pages/Docs/Options/fence/type/M
 ```
 
 </div>
+
+
+[[include:includes/fence/fence.md]]
+
+[[include:includes/fence/type/type.md]]
+
+[[include:includes/fence/type/multiFlex/multiflex.md]]
+See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html)
+
+[[include:includes/fence/remove/remove.md]]
+
+[[include:includes/comment/comment.md]]
+
+[[include:includes/comment/type/SingleAsterisk.md]]
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/indent/indent.md]]
+
+[[include:includes/text/whiteSpaceLine/removeAllWs.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

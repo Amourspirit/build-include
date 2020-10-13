@@ -1,0 +1,26 @@
+without quotes file: (badlink/replace1.txt)
+// BUILD_INCLUDE(badlink/replace1.txt)
+
+with single quotes file: ('replace1.txt')
+This is the text from replacement 1
+
+with double quotes file: ("replace1.txt")
+This is the text from replacement 1
+
+with file does not exits file: ("rep1.txt")
+//     BUILD_INCLUDE("rep1.txt")
+
+with no space file: ("replace1.txt")
+This is the text from replacement 1
+
+with html comments, no quotes, no space file: (replace1.txt)
+This is the text from replacement 1
+
+with html comments, quotes, space and file does not extis: ( 'replace1' )
+<!--   BUILD_INCLUDE( 'replace1' ) -->
+
+In a sentence, file does not exits: ("<rootDir>/replace1.txt")
+This part is permanent. THIS IS NOT: //BUILD_INCLUDE("<rootDir>replace1.txt")
+
+Lower case build_include, flie: ("replace1.txt")
+This is the text from replacement 1

@@ -1,0 +1,9 @@
+{
+  "comment": {
+    "type": "pound"
+  },
+   "breakstring": {
+     "width": 60,
+     "flags": "word"
+   }
+}

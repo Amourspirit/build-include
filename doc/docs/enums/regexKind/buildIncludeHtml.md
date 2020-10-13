@@ -1,8 +1,10 @@
 #### Matches the following
 
-&lt;!--BUILD_INCLUDE(filePath)--&gt;  
-&lt;!--BUILD_INCLUDE(filePath)&#91;options&#93;--&gt;  
-&lt;!--BUILD_INCLUDE(filePath)  
-&#91;options&#93;--&gt;
+```html
+<!--BUILD_INCLUDE(filePath)-->
+<!--BUILD_INCLUDE(filePath)[options]-->
+<--BUILD_INCLUDE(filePath)
+[options]-->
+````
 
-**See Also:** [Class MatchBuildIncludeHtml](/grunt-build-include/classes/matchoptions.matchbuildincludehtml.html)  
+**See Also:** [Class MatchBuildIncludeHtml](/build-include/classes/src_matches.matchbuildincludehtml.html)  

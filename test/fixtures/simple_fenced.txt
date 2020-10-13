@@ -1,0 +1,12 @@
+-------file: (replace1.txt)
+-------options:	[comment?type=jsdoc]
+// BUILD_INCLUDE("md/replace6.md")[comment?type=jsdoc]
+
+-------file: 	(replace1.txt)
+-------options:	[comment?type=jsdoc,text?indent=true]
+		// BUILD_INCLUDE("md/replace6.md")[comment?type=jsdoc,text?indent=true]
+
+-------file: 	(replace1.txt)
+-------options:	[comment?type=single,text?indent=true]
+	// BUILD_INCLUDE("md/replace6.md")[comment?type=single,text?indent=true]
+

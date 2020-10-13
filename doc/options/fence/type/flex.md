@@ -51,4 +51,4 @@ fenced text
 ```
 ````
 
-See Also: [flexFence](/grunt-build-include/classes/fences.flexfence.html)  
+See Also: [flexFence](/build-include/classes/src_fences.flexfence.html)  

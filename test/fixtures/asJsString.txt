@@ -1,0 +1,2 @@
+asJsString option with breakString width=80
+var css = '// BUILD_INCLUDE(style.min.css)[asjsstring,breakstring?width=80]';

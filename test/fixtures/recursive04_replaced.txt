@@ -1,0 +1,30 @@
+recursive03.txt include recursive02.txt
+recursive02.txt include recursive01.txt
+// BUILD_INCLUDE(recursive01.txt)
+
+recursive02.txt include simple02.txt that contains two BUILD_INCLUDE statements
+// BUILD_INCLUDE(../../scratch/test/replace1.txt)
+ some other text
+This is the text from replacement 1
+final line of text
+
+recursive02.txt include replace2.txt
+This is the text from replacement 2 
+A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+
+I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
+
+        -->intentional space before I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
+
+I should be incapable of drawing a single stroke at the present moment;
+
+
+recursive03.txt include replace2.txt
+This is the text from replacement 2 
+A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+
+I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
+
+        -->intentional space before I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.
+
+I should be incapable of drawing a single stroke at the present moment;

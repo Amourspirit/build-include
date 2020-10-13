@@ -1,0 +1,1 @@
+const jData = "BUILD_INCLUDE(jsonSample01.json)";

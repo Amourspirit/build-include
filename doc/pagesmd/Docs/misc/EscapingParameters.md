@@ -15,4 +15,4 @@ Escapes are as follows:
 |    \\r\\n   |      \\\\r\\\\n  |      %0D%0A       |
 |     \\t     |       \\\\t      |        %X9        | 
 
-Example: [Text Before After With Special Chars](/pages/examples/TextBeforeAfterWithSpecialChars.html)
+Example: [Text Before After With Special Chars](/build-include/pages/Docs/examples/TextBeforeAfterWithSpecialChars.html)

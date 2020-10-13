@@ -28,22 +28,29 @@ See example: [Comment Remove Fenced And White Space Lines](FencedRemoveWithComme
 
 </div>
 
-[[include:options/fence/fence.md]]
+[[include:includes/fence/fence.md]]
 
-[[include:options/fence/type/type.md]]
+[[include:includes/fence/type/type.md]]
 
-[[include:options/fence/type/multiflex.md]]
-See: Fence Type [MultiFlex](/grunt-build-include/pages/Docs/Options/fence/type/MultiFlex/)
+[[include:includes/fence/type/multiFlex/multiflex.md]]
+See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html)
 
-[[include:options/fence/remove/remove.md]]
+[[include:includes/fence/remove/remove.md]]
 
-[[include:options/comment/comment.md]]
+[[include:includes/comment/comment.md]]
 
-[[include:options/comment/type/SingleAsterisk.md]]
+[[include:includes/comment/type/SingleAsterisk.md]]
 
-[[include:options/text/text.md]]
+[[include:includes/text/text.md]]
 
-[[include:options/text/indent/indent.md]]
+[[include:includes/text/indent/indent.md]]
+
+### Config
+
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace2.txt', {});
+````
 
 ### Output
 

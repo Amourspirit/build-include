@@ -1,6 +1,8 @@
 #### Matches the following
 
-&#91;&#91;include:filepath&#93;&#93;  
-&#91;&#91;include:filepath&#93;&#93;&#40;options&#41;
+```text
+[[include:filepath]]
+[[include:filepath]](options)
+```
 
-**See Also:** [Class MatchBracketInclude](/grunt-build-include/classes/matchoptions.matchbracketinclude.html)  
+**See Also:** [Class MatchBracketInclude](/build-include/classes/src_matches.matchbracketinclude.html)  

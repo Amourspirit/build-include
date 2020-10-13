@@ -1,34 +1,43 @@
 Matches the pattern of:  
-(optional space)(optional *)(optional space)(reguired &#96;&#96;&#96;)(optional type)  
+
+```text
+(optional space)(optional *)(optional space)(reguired ```)(optional type)
+```
+
 fenced text  
-(reguired &#96;&#96;&#96;)
+
+```text
+(reguired ```)
+```
 
 Some match examples:
 
-&#96;&#96;&#96;  
+````markdown
+```  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#96;&#96;&#96;text  
+```text  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#96;&#96;&#96;  
+```  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#42;&#96;&#96;&#96;js  
+*```js  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#42;&#96;&#96;&#96;  
+*```  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#42;&nbsp;&#96;&#96;&#96;ini  
+* ```ini  
 fenced text  
-&#96;&#96;&#96;
+```
 
-&#42;&nbsp;&#96;&#96;&#96;  
+* ```  
 fenced text  
-&#96;&#96;&#96;  
+```
+````  

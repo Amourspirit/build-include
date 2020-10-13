@@ -9,4 +9,4 @@
 # comments continue on this line
 ```
 
-See: Enum values for [commentkind](/grunt-build-include/enums/enums.commentkind.html) for possible types.  
+See: Enum values for [commentkind](/build-include/enums/enums.commentkind.html) for possible types.  

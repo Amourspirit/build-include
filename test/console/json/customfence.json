@@ -1,0 +1,13 @@
+{
+  "fence": {
+    "start": "^^^^",
+    "end": "^^^^"
+  },
+  "breakstring": {
+    "width": 70,
+    "flags": "word"
+  },
+  "comment": {
+    "type": "jsDoc"
+  }
+}

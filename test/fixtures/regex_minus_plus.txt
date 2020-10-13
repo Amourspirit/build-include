@@ -1,0 +1,9 @@
+-------file:    (replace1.txt)
+-------options: none
+-------name: minus_plus
+---- minus_plus[replace1.txt] ++++
+
+-------file:    ("replace3.txt")
+-------options: {text?padleft=4&before=\n&after=\n,breakstring?width=90&flags=word}
+-------name: minus_plus
+----minus_plus["replace3.txt"]{text?padleft=4&before=\n&after=\n,breakstring?width=90&flags=word}++++

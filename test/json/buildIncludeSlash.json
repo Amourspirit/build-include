@@ -1,0 +1,6 @@
+{
+  "expand": true,
+  "match": {
+    "kind": "buildIncludeSlash"
+  }
+}

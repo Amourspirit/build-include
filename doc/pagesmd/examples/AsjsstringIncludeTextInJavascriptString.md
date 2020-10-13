@@ -5,60 +5,28 @@
 <div class="nowrapcode">
 
 ```js
-var getStyleCss = function () {
-  var css = '// BUILD_INCLUDE("./scratch/css/style.min.css")[asjsstring,breakString?width=80]';
+const getStyleCss = () => {
+  const css = '// BUILD_INCLUDE("./includes/css/style.min.css")[asJsString,breakstring?width=80]';
   return css;
 };
 ```
 
 </div>
 
-### Include minified css file
-
-Include file as javascript string.  
-In this case we have a file that has been minified in the build process an outputed to `./scratch/css/style.min.css`.  
-The output file `style.min.css` is one long line. **BUILD_INCLUDE** can be used to inlcude the file and make it a little more readable.
-
-### Options
-
-`[asjsstring,breakString?width=80]`
-
-[[include:options/asjsstring/asjsstring.md]]
-[[include:options/breakstring/breakstring.md]]
-[[include:options/breakstring/width.md]]
-
-### Option
-
-`breakString?width=80`
-
-`Width=80` determines that each line will be broken at 80 characers.
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/main.js',
-        dest: './scratch/main.js'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/css.js', {});
+````
 
 ### Output
 
 <div class="nowrapcode">
 
 ```js
-var getStyleCss = function () {
-  var css = '\
+const getStyleCss = () => {
+  const css = '\
 .mem-fs-button::after{content:\"\";background-image:url(data:image/png;base64,i\
 VBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACk0lEQVR42mNgGAWjYBSMUFAlx8RQI69I\
 JJanyK5qOS4S7BIjzfAaeVmGFbr/icYLtH4zNClmkOyJXpXjDEt1iLdnktp92noEhGdqfCTJjnoFV5L\
@@ -98,13 +66,33 @@ dth:0 3px 3px 0;display:inline-block;padding:3px}i.mem-fs-tog.right{transform:r\
 otate(-45deg);-webkit-transform:rotate(-45deg)}i.mem-fs-tog.left{transform:rota\
 te(135deg);-webkit-transform:rotate(135deg)}i.mem-fs-tog.up{transform:rotate(-1\
 35deg);-webkit-transform:rotate(-135deg)}i.mem-fs-tog.down{transform:rotate(45d\
-eg);-webkit-transform:rotate(45deg)};';
+eg);-webkit-transform:rotate(45deg)}';
   return css;
 };
-
 ```
 
 </div>
+
+### Include minified css file
+
+Include file as javascript string.  
+In this case we have a minified file.  
+The output file `style.min.css` is one long line. **BUILD_INCLUDE** can be used to inlcude the file and make it a little more readable.
+
+### Options
+
+`[asjsstring,breakString?width=80]`
+
+[[include:includes/asjsstring/asjsstring.md]]
+[[include:includes/breakstring/breakstring.md]]
+[[include:includes/breakstring/width.md]]
+
+### Option
+
+`breakString?width=80`
+
+`Width=80` determines that each line will be broken at 80 characers.
+
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

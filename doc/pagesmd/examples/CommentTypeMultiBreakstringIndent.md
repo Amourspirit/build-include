@@ -5,49 +5,17 @@
 <div class="nowrapcode">
 
 ```text
-		// BUILD_INCLUDE("./scratch/replace1.txt")[comment?type=multi,text?indent=true,breakstring?Flags=word]
+		// BUILD_INCLUDE("./includes/replace.txt")[comment?type=multi,text?indent=true,breakstring?Flags=word]
 ```
 
 </div>
 
-File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
-
-The indent before // BUILD_INCLUDE is added before each line of the output.
-
-### Options
-
-`[comment?type=multi,text?indent=true,breakstring?Flags=word]`
-
-[[include:options/comment/comment.md]]
-
-[[include:options/comment/type/multi.md]]
-
-[[include:options/text/text.md]]
-
-[[include:options/text/indent/indent.md]]
-
-[[include:options/breakstring/breakstring.md]]
-
-[[include:options/breakstring/flags/word.md]]
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
 ### Output
 
@@ -72,6 +40,27 @@ module.exports = function (grunt) {
 ```
 
 </div>
+
+
+File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
+
+The indent before // BUILD_INCLUDE is added before each line of the output.
+
+### Options
+
+`[comment?type=multi,text?indent=true,breakstring?Flags=word]`
+
+[[include:includes/comment/comment.md]]
+
+[[include:includes/comment/type/multi.md]]
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/indent/indent.md]]
+
+[[include:includes/breakstring/breakstring.md]]
+
+[[include:includes/breakstring/flags/word.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

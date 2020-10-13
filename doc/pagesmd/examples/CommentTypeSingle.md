@@ -5,38 +5,22 @@
 <div class="nowrapcode">
 
 ```text
-// BUILD_INCLUDE("./scratch/replace1.txt")[comment?type=Single]
+// BUILD_INCLUDE(./includes/replace.txt)
 ```
 
 </div>
 
-File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
-
-### Options
-
-`[comment?type=Single]`
-
-[[include:options/comment/comment.md]]
-[[include:options/comment/type/single.md]]
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
+````js
+const bp = new BuildProcess();
+const opt = {
+  comment: {
+    type: "Single"
+  }
 };
-```
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+````
 
 ### Output
 
@@ -54,6 +38,17 @@ module.exports = function (grunt) {
 ```
 
 </div>
+
+File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
+
+### Options
+
+`[comment?type=Single]`
+
+[[include:includes/comment/comment.md]]
+[[include:includes/comment/type/single.md]]
+
+[[include:includes/options/iopt.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

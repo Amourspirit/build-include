@@ -1,0 +1,17 @@
+{
+  "match": {
+    "path": "",
+    "name": "BUILD_INCLUDE",
+    "fileName": "\\((?:[ ]+)?(?:['\"])?(.*?)(?:['\"](?:[ ]+)?)?\\)",
+    "parameters": "(?:(?:[\\n\\r]+)?\\[(.*)\\])?",
+    "prefix": "(?:(?:(?:\\/\\/)|(?:<\\!\\-\\-)|(?:\\/\\*)|(?:\\*))[ \\t]*)",
+    "suffix": "(?:(?:[ \\t]*\\-\\->)|(?:[ \\t]*\\*\\/))?",
+    "options": "i",
+    "kind": "buildInclude",
+    "indexFile": 1,
+    "indexParam": 2
+  },
+  "breakstring": {
+    "width": 60
+  }
+}

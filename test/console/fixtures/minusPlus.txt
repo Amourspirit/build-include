@@ -1,0 +1,2 @@
+Should match next line
+----minus_plus["replace01.txt"]{text?padleft=4&before=\n&after=\n,breakstring?width=90&flags=word}++++

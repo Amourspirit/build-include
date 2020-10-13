@@ -5,47 +5,17 @@
 <div class="nowrapcode">
 
 ```text
-// BUILD_INCLUDE("./scratch/replace1.txt")[comment?type=multi&padleft=4,text?padleft=6]
+// BUILD_INCLUDE(./includes/replace.txt)[comment?type=multi&padleft=4,text?padleft=6]
 ```
 
 </div>
 
-File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
-
-Comment in multi style and insert six spaces before each line and four spaces between comment mark and start of line.
-
-### Options
-
-`[comment?type=multi&padleft=4,text?padleft=6]`
-
-[[include:options/comment/comment.md]]
-
-[[include:options/comment/type/multi.md]]
-
-[[include:options/comment/padding/padleft.md]]
-
-[[include:options/text/text.md]]
-
-[[include:options/text/padding/padleft.md]]
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
 ### Output
 
@@ -65,6 +35,25 @@ module.exports = function (grunt) {
 ```
 
 </div>
+
+
+File [replace01.txt](replacements/replace01.txt.html) is to be included in output file.
+
+Comment in multi style and insert six spaces before each line and four spaces between comment mark and start of line.
+
+### Options
+
+`[comment?type=multi&padleft=4,text?padleft=6]`
+
+[[include:includes/comment/comment.md]]
+
+[[include:includes/comment/type/multi.md]]
+
+[[include:includes/comment/padding/padleft.md]]
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/padding/padleft.md]]
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

@@ -24,7 +24,7 @@
 
 Includes [replace01.txt](replacements/replace01.txt.html).  
 Special characters are escaped.  
-See: [Escaping Parameters](/grunt-build-include/pages/Docs/misc/EscapingParameters.html)  
+See: [Escaping Parameters](/build-include/pages/Docs/misc/EscapingParameters.html)  
 
 ### Options
 
@@ -32,57 +32,13 @@ See: [Escaping Parameters](/grunt-build-include/pages/Docs/misc/EscapingParamete
 --or--  
 `[text?before=%5B\n&after=\n%5D&PadRight=%5C,breakstring?width=60]`
 
-[[include:options/text/text.md]]
-
-[[include:options/text/before/before.md]]
-
-[[include:options/text/after/after.md]]
-
-[[include:options/text/padding/padright.md]]
-
-[[include:options/breakstring/breakstring.md]]
-
-[[include:options/breakstring/width.md]]
-
-### Option
-
-`before=\[\n` or `before=%5B\n`  
-Inserts [ followed by a new line. The rest of the input contents will start on the new line.
-
-```text
-[
-
-```
-
-`PadRight=\\` or `PadRight=%5C`  
-Inserts \ at the end of each line.
-
-`after=\n\]` or `after=\n%5D`  
-Inserts new line and the end of the input contents followed by ]
-
-```text
-
-]
-```
-
 ### Config
 
-#### GruntFile.js
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
 
 ### Output
 
@@ -113,6 +69,39 @@ tz.\
 ```
 
 </div>
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/before/before.md]]
+
+[[include:includes/text/after/after.md]]
+
+[[include:includes/text/padding/padright.md]]
+
+[[include:includes/breakstring/breakstring.md]]
+
+[[include:includes/breakstring/width.md]]
+
+### Option
+
+`before=\[\n` or `before=%5B\n`  
+Inserts [ followed by a new line. The rest of the input contents will start on the new line.
+
+```text
+[
+
+```
+
+`PadRight=\\` or `PadRight=%5C`  
+Inserts \ at the end of each line.
+
+`after=\n\]` or `after=\n%5D`  
+Inserts new line and the end of the input contents followed by ]
+
+```text
+
+]
+```
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

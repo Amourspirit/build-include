@@ -1,0 +1,172 @@
+-------file: ('md/replace8.md')
+-------options: [fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true&whiteSpaceLine=removeAllWs]
+/**
+ * # Fence Test
+ * ## Repace8
+ * `type=multiflex` Apply multiflex fencing options.  
+ * Matches the pattern of:  
+ * (optional space)(optional `*`)(optional space)(reguired &#96;&#96;&#96;(optional type)
+ * fenced text
+ * (reguired &#96;&#96;&#96;)
+ * Some match examples:
+ * See Also: [flexFence](/modules/_modules_fenceoptions_.html#flexfence)  
+ */
+
+-------file: ('md/replace8.md')
+-------options: [fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true&whiteSpaceLine=removeAllEmpty]
+/**
+ * # Fence Test
+ * ## Repace8
+ *   
+ * `type=multiflex` Apply multiflex fencing options.  
+ * Matches the pattern of:  
+ * (optional space)(optional `*`)(optional space)(reguired &#96;&#96;&#96;(optional type)
+ * fenced text
+ * (reguired &#96;&#96;&#96;)
+ * Some match examples:
+ * See Also: [flexFence](/modules/_modules_fenceoptions_.html#flexfence)  
+ *     
+ */
+
+-------file: ('md/replace8.md')
+-------options: [fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true&whiteSpaceLine=noTwoWsLn]
+/**
+ * # Fence Test
+ * 
+ * ## Repace8
+ * 
+ * `type=multiflex` Apply multiflex fencing options.  
+ * 
+ * Matches the pattern of:  
+ * (optional space)(optional `*`)(optional space)(reguired &#96;&#96;&#96;(optional type)
+ * fenced text
+ * (reguired &#96;&#96;&#96;)
+ * 
+ * Some match examples:
+ * 
+ * See Also: [flexFence](/modules/_modules_fenceoptions_.html#flexfence)  
+ * 
+ */
+
+-------file: ('md/replace8.md')
+-------options: [fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true&whiteSpaceLine=noTwoEmptyLn]
+/**
+ * # Fence Test
+ * 
+ * ## Repace8
+ * 
+ *   
+ * 
+ * `type=multiflex` Apply multiflex fencing options.  
+ * 
+ * Matches the pattern of:  
+ * (optional space)(optional `*`)(optional space)(reguired &#96;&#96;&#96;(optional type)
+ * fenced text
+ * (reguired &#96;&#96;&#96;)
+ * 
+ * Some match examples:
+ * 
+ * See Also: [flexFence](/modules/_modules_fenceoptions_.html#flexfence)  
+ * 
+ *     
+ */
+
+-------file: ('md/replace8.md')
+-------options: [fence?type=multiflex,comment?type=singleAsterisk,text?indent=true]
+/**
+ * # Fence Test
+ * 
+ * 
+ * ## Repace8
+ * 
+ *   
+ * 
+ * `type=multiflex` Apply multiflex fencing options.  
+ * 
+ * Matches the pattern of:  
+ * (optional space)(optional `*`)(optional space)(reguired &#96;&#96;&#96;(optional type)
+ * fenced text
+ * (reguired &#96;&#96;&#96;)
+ * 
+ * Some match examples:
+ * 
+~~~
+```js
+fenced text
+```
+~~~
+ * 
+ * 
+````text
+```
+fenced text
+```
+````
+ * 
+ * 
+````text
+```text
+fenced text
+```
+````
+ * 
+ * 
+````
+```
+fenced text
+```
+````
+ * 
+ * 
+````text
+*```js
+fenced text
+```
+````
+ * 
+ * 
+````text
+*```
+fenced text
+```
+````
+ * 
+ * 
+````text
+* ```ini
+fenced text
+```
+````
+ * 
+ * 
+````
+* ```
+fenced text
+```
+````
+ * 
+ * 
+```
+fenced text
+```
+ * 
+ * 
+```text
+fenced text
+```
+ * 
+ * 
+~~~text
+```js
+fenced text
+```
+~~~
+ * 
+ * 
+ * 
+ * 
+ * See Also: [flexFence](/modules/_modules_fenceoptions_.html#flexfence)  
+ * 
+ *     
+ */
+

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2015",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationDir": "scratch/commonjs",
+    "outDir": "./scratch/commonjs",
+    "strict": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "test/**", "**/__test__/**", "doc", "build", "scratch"]
+}

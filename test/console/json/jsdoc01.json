@@ -1,0 +1,9 @@
+{
+  "comment": {
+    "type": "jsDoc"
+  },
+  "breakstring": {
+    "width": 70,
+    "flags": "word"
+  }
+}

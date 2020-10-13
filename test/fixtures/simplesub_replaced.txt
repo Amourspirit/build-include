@@ -1,0 +1,38 @@
+without quotes file: (sub/replace001.txt)
+This is the text from replacement 001
+
+with single quotes file: ('sub/replace001.txt')
+This is the text from replacement 001
+
+with double quotes file: ("./sub/replace001.txt")
+This is the text from replacement 001
+
+with extra space file: ("sub/replace001.txt")
+This is the text from replacement 001
+
+with no space file: ("sub/replace001.txt")
+This is the text from replacement 001
+
+with html comments, no quotes, no space file: (sub/replace001.txt)
+This is the text from replacement 001
+
+with html comments, quotes, space file: ( './sub/replace001.txt' )
+This is the text from replacement 001
+
+In a sentence, file: ("sub/replace001.txt")
+This part is permanent. THIS IS NOT: This is the text from replacement 001
+
+Lower case build_include, flie: ("sub/replace001.txt")
+This is the text from replacement 001
+
+Mixed case build_include file: (  sub/replace001.txt  )
+This is the text from replacement 001
+
+with space on both sides of quote, file: (  "  ./sub/replace001.txt  "   )
+This is the text from replacement 001
+
+with file that spaces in the name, file: ( "./sub/replacement file 001.txt" )
+This is the text from replacement file 001
+
+with file that spaces in the name not using quotes, file: ( sub/replacement file 001.txt )
+This is the text from replacement file 001

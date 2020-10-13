@@ -10,69 +10,12 @@
 
 </div>
 
-### Text padding and break lines using BUILD_INCLUDE
-
-Includes [replace01.txt](replacements/replace01.txt.html) and places text before and after output.
-
-
-### Options
-
-`[text?before=# \u{1F913}\n# \u{1F44C}\n&padleft=#\u2014\u{1F600}\u2014,breakstring?width=50&flags=word]`  
-
-[[include:options/text/text.md]]
-
-[[include:options/text/before/before.md]]
-
-[[include:options/text/padding/padleft.md]]
-
-[[include:options/text/after/after.md]]
-
-[[include:options/breakstring/breakstring.md]]
-
-[[include:options/breakstring/width.md]]
-
-[[include:options/breakstring/flags/word.md]]
-
-### Option
-
-`text?before=# \u{1F913}\n# \u{1F44C}\n&padleft=#\u2014\u{1F600}\u2014`
-
-`before=# \u{1F913}\n# \u{1F44C}\n`  
-Inserts at the start of the output:
-
-```text
-# 🤓
-# 👌
-```
-
-Note: `\n` is used to insert a new line:  
-Note: unicode characters can be used in text parameters.
-
-`padleft=#\u2014\u{1F600}\u2014`  
-Inserts before each line:
-
-```text
-#—😀—
-```
-
 ### Config
 
-#### GruntFile.js
-
-```js
-module.exports = function (grunt) {
-  grunt.initConfig({
-    build_include: {
-      default: {
-        src: './lib/test.txt',
-        dest: './scratch/test.txt'
-      }
-    }
-  });
-  grunt.loadNpmTasks('grunt-build-include');
-  grunt.registerTask('default', ['build_include:default']);
-};
-```
+````js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./includes/replace.txt', {});
+````
 
 ### Output
 
@@ -105,6 +48,51 @@ module.exports = function (grunt) {
 ```
 
 </div>
+
+### Text padding and break lines using BUILD_INCLUDE
+
+Includes [replace01.txt](replacements/replace01.txt.html) and places text before and after output.
+
+
+### Options
+
+`[text?before=# \u{1F913}\n# \u{1F44C}\n&padleft=#\u2014\u{1F600}\u2014,breakstring?width=50&flags=word]`  
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/before/before.md]]
+
+[[include:includes/text/padding/padleft.md]]
+
+[[include:includes/text/after/after.md]]
+
+[[include:includes/breakstring/breakstring.md]]
+
+[[include:includes/breakstring/width.md]]
+
+[[include:includes/breakstring/flags/word.md]]
+
+### Option
+
+`text?before=# \u{1F913}\n# \u{1F44C}\n&padleft=#\u2014\u{1F600}\u2014`
+
+`before=# \u{1F913}\n# \u{1F44C}\n`  
+Inserts at the start of the output:
+
+```text
+# 🤓
+# 👌
+```
+
+Note: `\n` is used to insert a new line:  
+Note: unicode characters can be used in text parameters.
+
+`padleft=#\u2014\u{1F600}\u2014`  
+Inserts before each line:
+
+```text
+#—😀—
+```
 
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

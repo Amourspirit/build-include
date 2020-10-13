@@ -1,17 +1,19 @@
 // #region imports
 import { codeString } from 'multi-encoder';
-import { eKind, eKindType } from "./enumEKind";
-import { eProcess, eProcessType } from "./enumEProcess";
+import { eKind, eKindType } from "./enums/enumEKind";
+import { eProcess, eProcessType } from "./enums/enumEProcess";
 import {
   IBuildIncludeOpt,
   IMatchOpt,
-  IBiGruntOpt,
+  IBiOpt,
+  IOpt,
   IMatchType,
   IFence,
-  IGruntOptFence,
+  IOptFence,
   IMatchItemWsItm,
-  ILogger
-} from "./build-incude/interfaces";
+  ILogger,
+  InternalOptType
+} from "./interface/projectInterfaces";
 import {
   stringBreaker,
   splitByOpt,
@@ -22,9 +24,9 @@ import {
   commentKind,
   matchKind,
   fenceKind,
-  whiteSpLn
-} from "./build-incude/enums";
-import { 
+  whiteSpLn, triState
+} from "./enums/projectEnums";
+import {
   setMatchOptions,
   getBiOptionsDefault,
   defaultOptions,
@@ -33,39 +35,54 @@ import {
   DEFAULT_FENCE_END,
   getFenceKind,
   getFenceOptions
-} from './build-incude/defaultOptions';
-import { Util } from './build-incude/util';
-// import * as grunt from './build-incude/node_modules/grunt';
-import { StrictFence } from './build-incude/fences/StrictFence';
-import { TildeFence } from './build-incude/fences/TildeFence';
-import { EscapeFence } from './build-incude/fences/EscapeFence';
-import { MatchItem } from './build-incude/MatchItem';
+} from './opt/defaultOptions';
+import { Util } from './util/Util';
+import { StrictFence } from './fences/StrictFence';
+import { TildeFence } from './fences/TildeFence';
+import { EscapeFence } from './fences/EscapeFence';
+import { MatchItem } from './matches/MatchItem';
 import { EOL } from 'os';
-import fs from 'fs';
+import * as fs from 'fs';
+import * as path from 'path';
+
+// see: https://github.com/inxilpro/node-app-root-path
+// see: https://stackoverflow.com/questions/10265798/determine-project-root-from-a-running-node-js-application
+import * as appRoot from 'app-root-path';
+import { LoggerNull } from './log/LoggerNull';
+import { NullFence } from './fences/NullFence';
+
 // #endregion
 
 /**
- * Class that does all the work of replacing BUILD_INCLUDE statments in a files contents.
+ * Class that does all the work of replacing BUILD_INCLUDE statments in a files contents.  
+ * See [Online Docs](https://amourspirit.github.io/build-include/pages/Docs/index.html)
  */
 export class BuildProcess {
   // #region Properties
   /**
    * When true verbose logging will take place.
-   * State is determined by grunt. If grunt --verbose then value will be true
+   * State to determine if verbose logging will be used.
+   * This options can be overriddend by [[IOpt.verbose]]
    */
-  private verbose: boolean = false;
-  /** Boolean flag that is true if running in windows; Otherwise, false */
-  private isWindows: boolean;
+  public verbose: boolean = false;
+  private isRecursive: boolean = false;
+  private logger: ILogger;
   // #endregion
   // #region constructor
   /**
    * Constructs a new instace of class
+   * @param {ILogger} [logModule] the logger used to output results of build include,
+   * If excluede then will default to LoggerNull
+   * See [[LoggerNull]]
    */
-  private logger: ILogger;
-  public constructor(logModule: ILogger) {
-    this.logger = logModule;
-    this.isWindows = process.platform === 'win32';
-   
+
+  public constructor(logModule?: ILogger) {
+    if (logModule) {
+      this.logger = logModule;
+    } else {
+      this.logger = new LoggerNull();
+    }
+    this.setVerbose(this.verbose);
   }
   // #endregion
 
@@ -75,24 +92,93 @@ export class BuildProcess {
    * BUILD_INCLUDE statment base upon the parameters in the BUILD_INCLUDE statment.
    * @description
    * [[include:docs/BuildProcess/buildInclude.md]]
-   * @param contents The string to search and replace BUILD_INCLUDE statements
-   * @param srcpath The source path of the contents
-   * @param opt The options for  the current taks
+   * @param fileContents The string to search and replace BUILD_INCLUDE statements
+   * If empty string is passed in for this parameter then file contents from srcPath will be 
+   * read and loaded.
+   * @param srcPath The source path of the contents. this path is required and may be use to resolve relative paths
+   * to other include files.
+   * @param opt The options for  the current taks If not options or empty options are passed
+   * in then default options [[defaultOptions]] will be used.
    */
-  public buildInclude(contents: string, srcpath: string, opt: IBiGruntOpt): string {
-    // for unkown reason grunt.task.current.options() becomes undefined
-    // in windows with debugging one of the test gruntfiles. All test still
-    // pass just not when debug using call-grunt.js. This works fine in linux.
+  public buildInclude(fileContents: string, srcPath: string, opt?: IOpt): string {
 
-    const options: IBiGruntOpt = Util.MergeObject(defaultOptions, opt);
+    // if file contents are not loaded in the load from srcPath
+    /**
+    * Joins appRoot.path and strPath if strPath does not start with appRoot.path
+    * @param strPath the path to joine with if needed
+    * @return path with root path
+    */
+    const joinRootPath = (strPath: string): string => {
+      let result = strPath;
+      if (strPath.startsWith(appRoot.path) === false) {
+        result = path.join(appRoot.path, strPath);
+      }
+      return result;
+    }
+    if (typeof opt !== 'object') {
+      opt = {};
+    }
+    const options: IBiOpt = Util.MergeDefaults(defaultOptions, opt);
     if (options.verbose) {
       this.verbose = options.verbose;
     } else {
       this.verbose = false;
     }
-    // merge any unset options with potential match options in grunt
-    setMatchOptions(options);
+    // merge any unset options with potential match options passed in via options
+    const optMatch = setMatchOptions(options, this.logger);
+    const sourcePath = this.processFilePath(srcPath);
 
+    let contents = fileContents;
+    if (!contents) {
+      // attempt to load contents from srcPath
+
+
+      if (!fs.existsSync(sourcePath)) {
+        this.logger.log.error("Path '" + srcPath + "' does not exist.");
+        throw new Error("Path '" + srcPath + "' does not exist.");
+
+      }
+      contents = fs.readFileSync(sourcePath, { encoding: Util.Encoding('utf8') });
+      if (contents.length === 0) {
+        return '';
+      }
+    }
+
+    const getInternalOption = <T extends InternalOptType>(localOpt: IBiOpt, key: string, defaultVal: T): T => {
+      const interanlVal = localOpt.internal[key];
+      if (typeof interanlVal === typeof defaultVal) {
+        return <T>interanlVal;
+      }
+      return defaultVal;
+    }
+
+    const setOption = (localOpt: IBiOpt, key: string, value: InternalOptType) => {
+      localOpt.internal[key] = value;
+    }
+    const isRecursiveCall = (): boolean => {
+      if (getInternalOption<number>(options, "recursiveCount", 0) > 0) {
+        return true;
+      }
+      return false;
+    };
+
+    const getRecursiveOptions = (): IBiOpt => {
+      // set the recursive flag to pass to next call
+      const newOpt = Util.DeepCopy(options);
+      setOption(options, 'recursive', 'true');
+      // newOpt.internal.recursive = 'true';
+      newOpt.internal.recursiveCount = getInternalOption<number>(options, "recursiveCount", 0) + 1;
+      newOpt.internal.recursiveStr = getInternalOption<string>(options, "recursiveStr", '.');
+      if (newOpt.internal.recursiveStr) {
+        newOpt.internal.recursiveStr = newOpt.internal.recursiveStr + '.';
+      }
+      return newOpt;
+    }
+    this.isRecursive = isRecursiveCall();
+
+    if (this.isRecursive === false) {
+      this.setOptionsFence(options);
+    }
     // this should never be able to happen because setMatchOptions
     // takes care of this condition already and returns default match options
     // if there is an error.
@@ -107,24 +193,20 @@ export class BuildProcess {
       allowIndent = false;
     }
 
-    const optMatch: IMatchOpt = options.match;
-
     if (!optMatch.name) {
-      this.logger.log.write('GRUNT-BUILD-INCLUDE: ');
-      this.logger.log.writeln(` options.match.name is missing`);
+      this.logger.log.warn(`options.match.name is missing`);
       return contents;
     }
     const nameRegex = new RegExp(`${optMatch.prefix}${optMatch.name}`, optMatch.options);
     if (nameRegex.exec(contents)) {
-      if (srcpath && srcpath.length > 0) {
-        this.logger.log.write('GRUNT-BUILD-INCLUDE: ');
-        this.logger.log.writeln(` [${srcpath}] has ${optMatch.name}:`);
+      if (sourcePath && sourcePath.length > 0) {
+        this.logger.log.writeln(`[${path.relative(appRoot.path, sourcePath)}] has ${optMatch.name}:`);
       }
 
       // https://regexr.com/4cjvh
       // https://regexr.com/4d14r revised April 27, 2019
       // const re = /(?:(?:\/\/)|(?:<\!\-\-)|(?:\/\*))[ \t]*BUILD_INCLUDE\((?:[ ]+)?(?:['"])?(.*?)(?:['"](?:[ ]+)?)?\)(?:(?:[\n\r]+)?\[(.*)\])?(?:(?:[ \t]*\-\->)|(?:[ \t]*\*\/))?/i;
-      
+
       let indexFile: number;
       let indexOpt: number;
       let indexOrigMatch: number;
@@ -142,7 +224,7 @@ export class BuildProcess {
         indexOpt = optMatch.indexParam;
         indexOrigMatch = 0;
       }
-      
+
       // regex capture group to capture indent
       const reGroup1 = `(^[ \\t]+)?`;
       let reGroup2: string = '';
@@ -170,43 +252,110 @@ export class BuildProcess {
         mOpt = 'm';
       }
       if (this.verbose) {
-        this.logger.log.write('GRUNT-BUILD-INCLUDE: ');
-        this.logger.log.writeln(` Regex Match in: /${optMatch.prefix}${optMatch.name}${optMatch.fileName}${optMatch.parameters}${optMatch.suffix}/${optMatch.options}`);
-
-        this.logger.log.write('GRUNT-BUILD-INCLUDE: ');
-        this.logger.log.writeln(` Regex Full: /${reStr}/${mOpt}`);
+        this.logger.verbose.writeln(`Regex Match in: /${optMatch.prefix}${optMatch.name}${optMatch.fileName}${optMatch.parameters}${optMatch.suffix}/${optMatch.options}`);
+        this.logger.verbose.writeln(`Regex Full: /${reStr}/${mOpt}`);
       }
 
       const re = new RegExp(reStr, mOpt);
       let match: RegExpExecArray | null;
 
       match = re.exec(contents);
+      let innerReplacemnets: Record<string, string> = {};
 
+
+      /**
+       * insert a placeholder for match and stores the original match
+       * @param {string} inputStr contents of file
+       * @param {RegExpExecArray} m match array
+       */
+      const insertPlaceholder = (inputStr: string, mStr: string): string => {
+        const rnStr = Util.GenAlphStr(32);
+        // store the replacement to restore later
+        innerReplacemnets[rnStr] = mStr;
+        const rx = new RegExp(Util.EscapeRegex(mStr), 'g');
+
+        const result = inputStr.replace(rx, rnStr);
+        if (result === inputStr) {
+          this.logger.log.error('Failed to insert placeholder');
+          throw new Error(`Failed to insert placeholder in '${srcPath}'`);
+        }
+        return result;
+      }
+      /**
+       * Restores any placeholders that were put in place with original values
+       * @param {string} str the contents of file
+       */
+      const resotrePlacholers = (str: string): string => {
+        let result = str;
+        for (const key in innerReplacemnets) {
+          if (Object.prototype.hasOwnProperty.call(innerReplacemnets, key)) {
+            const rep = innerReplacemnets[key];
+            const rx = new RegExp(Util.EscapeRegex(key), 'g');
+            result = result.replace(rx, rep);
+          }
+        }
+        innerReplacemnets = {};
+        return result;
+      }
+      if (this.isRecursive) {
+
+        if (getInternalOption<string>(options, 'recursiveStr', '')) {
+          this.logger.log.write(getInternalOption<string>(options, 'recursiveStr', ''));
+        }
+        this.logger.log.write(`Recursively loading file: ${path.relative(appRoot.path, this.processIncludeFilePath(srcPath, optMatch))}`);
+        this.logger.log.emptyln();
+      }
+      const wasUsingVerbose = this.verbose;
       while (match !== null) {
+
         const biOpt: IBuildIncludeOpt = getBiOptionsDefault();
         let fileContent: string;
         this.logger.log.write('.');
-        this.logger.verbose.writeln('    Match array: ' + match);
+        this.logger.verbose.emptyln();
+        this.logger.verbose.writeln('Match array: ' + match);
 
-        const filePath: string = this.processFilePath(match[indexFile], optMatch);
+        let filePath: string = this.processIncludeFilePath(match[indexFile], optMatch);
         if (filePath.length === 0) {
-          this.logger.log.error(`GRUNT-BUILD-INCLUDE: No valid file name for replacement: '${match[indexOrigMatch]}' in: '${srcpath}'`);
+          if (this.verbose === false) {
+            this.logger.log.emptyln();
+          }
+          this.logger.log.error(`No valid file name for replacement: '${match[indexOrigMatch]}' in: '${srcPath}'`);
           // replace the bad match so we do not end up in a endless recursive loop
           // replace form start of line to end of match.
-          contents = contents.replace(match[0], '');
+          contents = insertPlaceholder(contents, match[indexOrigMatch]);
           match = re.exec(contents);
           continue;
         }
 
         if (this.verbose) {
-          this.logger.verbose.write('GRUNT-BUILD-INCLUDE: ');
           this.logger.verbose.writeln(`File to embed: '${filePath}'`);
         }
-        if (!fs.existsSync(filePath)) {
-          throw new Error("Path '" + filePath + "' does not exist.");
+        if (path.isAbsolute(filePath) === true) {
+          filePath = joinRootPath(filePath);
+        } else {
+          // file included as buldinclude will have their path recognized
+          // as relative to the buldinclude file itself.
+          filePath = path.join(path.dirname(sourcePath), filePath);
         }
-        
-        fileContent = fs.readFileSync(filePath, {encoding: Util.Encoding(options.encoding)});
+        if (!fs.existsSync(filePath)) {
+          if (options.ignoreMissing === false) {
+            this.logger.log.error("Path '" + filePath + "' does not exist.");
+            this.setVerbose(wasUsingVerbose);
+            throw new Error("Path '" + filePath + "' does not exist.");
+          } else {
+            if (this.verbose === false) {
+              this.logger.log.emptyln();
+            }
+            this.logger.log.warn('Could not find file to include: ', filePath);
+            // take care of the missing import file by replaceing he import with a placeholder.
+            contents = insertPlaceholder(contents, match[indexOrigMatch]);
+            match = re.exec(contents);
+            continue;
+          }
+
+        }
+
+        fileContent = fs.readFileSync(filePath, { encoding: Util.Encoding(options.encoding) });
         // once the file contents are read the first thing to do is process any build_inclue
         // statements in the fileContent.
         // This will not match other types of matches different than the original match
@@ -216,13 +365,33 @@ export class BuildProcess {
         let innerMatch: RegExpExecArray | null;
         innerMatch = re.exec(fileContent);
         if (innerMatch !== null) {
-          if (this.verbose) {
-            this.logger.verbose.write('GRUNT-BUILD-INCLUDE: ');
-            this.logger.verbose.writeln(`Recursivly processing file '${filePath}'`);
+          if (this.verbose === false) {
+            this.logger.log.emptyln();
           }
-          const inProcess: BuildProcess = new BuildProcess(this.logger);
-          // replace the fileContent with the new content from the recursion.
-          fileContent = inProcess.buildInclude(fileContent, filePath, options);
+          if (options.recursion === true) {
+            if (this.verbose) {
+              this.logger.verbose.writeln(`Recursive file found: '${path.relative(appRoot.path, this.processIncludeFilePath(filePath, optMatch))}'`);
+            }
+            const inProcess: BuildProcess = new BuildProcess(this.logger);
+            // replace the fileContent with the new content from the recursion.
+            fileContent = inProcess.buildInclude(fileContent, filePath, getRecursiveOptions());
+          } else {
+            if (this.verbose) {
+              this.logger.verbose.writeln(`Found inner match: '${filePath}'. Inserting Placeholder`);
+            }
+            fileContent = insertPlaceholder(fileContent, innerMatch[indexOrigMatch]);
+
+            const newFileContent = contents.replace(match[indexOrigMatch], fileContent);
+            if (newFileContent === contents) {
+              this.logger.log.error('Failed to insert placeholder');
+              this.setVerbose(wasUsingVerbose);
+              throw new Error(`Failed to insert placeholder in '${srcPath}'`);
+            }
+            contents = newFileContent;
+            match = re.exec(contents);
+            continue;
+          }
+
         }
         // If options were set, then parse them
         let hasOptions: boolean = false;
@@ -231,14 +400,22 @@ export class BuildProcess {
           hasOptions = this.processOptions(indexIndent, indexOpt, match, biOpt);
         } // if (match[indexOpt])
 
-        // check to see if any options were set at the grunt file level.
+        // check to see if any options were set at the options level passed in.
         // and merge them if exist.
         hasOptions = biMergeOptions(biOpt, options) || hasOptions;
-
+        if (hasOptions === true) {
+          if (biOpt.verbose === triState.true) {
+            // if verbose is not turned on then it will be turned of
+            // for the rest of this file procsssing and recursive files.
+            this.setVerbose(true)
+          } else if (biOpt.verbose === triState.false) {
+            this.setVerbose(false);
+          }
+        }
         if (allowIndent === false) {
           // if allow indent is false this will be an exception to 
           // what may be set with text options for indent.
-          // in this case grunt file will win if match prefix contains ^
+          // in this case passed in options will win if match prefix contains ^
           biOpt.text.indent = false;
         }
         // now that all the options have been parsed process based upon options
@@ -292,8 +469,11 @@ export class BuildProcess {
         contents = contents.replace(match[replaceIndex], fileContent);
         match = re.exec(contents);
       } // while (match !== null)
-      this.logger.log.writeln('');
-      return contents;
+      if (this.isRecursive === false) {
+        this.logger.log.emptyln();
+      }
+      this.setVerbose(wasUsingVerbose);
+      return resotrePlacholers(contents);
     } // if (contents.indexOf('BUILD_INCLUDE') > -1)
     return contents;
   }; // end: buildInclude()
@@ -331,12 +511,13 @@ export class BuildProcess {
         if (biOpt.comment.isSet === true && biOpt.bs.isSet === false) {
           // only split fileContent into array if not yet split
           if (biOpt.lines.length === 0) {
-            biOpt.lines = stringBreaker(segment,
+            biOpt.lines = stringBreaker(this.breakStringBeforeAfter(segment, biOpt),
               {
                 lnEnd: lnEndOpt.noLnBr,
                 splitOpt: splitByOpt.line,
                 lenOpt: biOpt.bs.flags
               });
+            
           }
         }
         // break string is set. time to break fileContent into lines
@@ -345,7 +526,7 @@ export class BuildProcess {
           if (biOpt.lines.length === 0) {
             // if encoding as javascript string then width will be width -1 to accomidate
             // enscaped line chars \
-            biOpt.lines = stringBreaker(segment,
+            biOpt.lines = stringBreaker(this.breakStringBeforeAfter(segment, biOpt),
               {
                 width: biOpt.asJsString ? biOpt.bs.width - 1 : biOpt.bs.width,
                 lnEnd: biOpt.bs.lineEnd,
@@ -405,6 +586,19 @@ export class BuildProcess {
     return strA.join(EOL);
   }
   //  #endregion
+  /**
+   * Sets the verbose state of logging.
+   * @param verbose if true verbose loggign will take place; Otherwise,
+   * verbose logging will be disabled.
+   * 
+   * If state is currently in a recursive procdess thatn verbose options will not change.
+   */
+  private setVerbose(verbose: boolean) {
+    if (this.isRecursive === false) {
+      this.verbose = verbose;
+      this.logger.isVerbose = verbose;
+    }
+  }
   //  #region processComment
   /**
    * Process any comments that are in the current biOpt.Lines and returns
@@ -504,31 +698,88 @@ export class BuildProcess {
     if (this.getOptionsFence(fileIncludeOptions, biOpt)) {
       hasOptions = true;
     }
+    if (this.getOptionsVerbose(fileIncludeOptions, biOpt)) {
+      hasOptions = true;
+    }
     return hasOptions;
   }
   //  #endregion
   //  #region processFilePath
   /**
    * Process File Path of build_include
+   * Normalizes the path as well.
    * @param strFile The current matched file from build_replacement ( or variation of ).
    * @param optMatch Match options for matching build_include in files.
+   * 
+   * If the path contains <rootDir> it get replaced with the actual root directery in this method
    */
-  private processFilePath(strFile: string, optMatch: IMatchOpt): string {
+  private processIncludeFilePath(strFile: string, optMatch: IMatchOpt): string {
     if (!strFile) {
       return '';
     }
-    let filePath: string = strFile;
+    let filePath: string = path.normalize(strFile);
     // optMath.path will be '' or a parent path to append to the file
-    filePath = optMatch.path + filePath;
+    // process.cwd() returns the current working directory,
+    // __dirname returns the directory name of the directory containing the JavaScript source code file
+    // if file path starts with <rootDir> then replace it
     filePath = filePath.trim();
+    const rootRx = /^<rootDir>/i;
+    let hasRoot = false;
+    if (filePath.match(rootRx)) {
+      hasRoot = true;
+      filePath = filePath.replace(rootRx, ''); // remove <rootDir> from path
+    }
+
+    filePath = path.join(optMatch.path, filePath);
+    if (hasRoot) {
+      filePath = path.join(appRoot.path, filePath);
+    }
     if (filePath.length === 0) {
       return '';
     }
     filePath = this.unixifyPath(filePath);
-    // filePath = grunt.template.process(filePath, undefined);
     return filePath;
   }
+
+
+
   //  #endregion
+  //#region processFilePath
+  /**
+   * Processes incoming file path.
+   * @param strFile File path to process
+   * 
+   * Path is normalized
+   * If path contains <rootDir> it is swaped for app root dir.
+   */
+  private processFilePath(strFile: string): string {
+    if (!strFile) {
+      return '';
+    }
+    let filePath: string = path.normalize(strFile)
+    // if file path starts with <rootDir> then replace it
+    filePath = filePath.trim();
+    const rootRx = /^<rootDir>/i;
+    if (filePath.match(rootRx)) {
+      filePath = filePath.replace(rootRx, ''); // remove <rootDir> from path
+      filePath = path.join(appRoot.path, filePath);
+    }
+    // path.isAbsolute return true for any path that starts with /
+    if (path.isAbsolute(filePath)) {
+      if (filePath.startsWith(appRoot.path) === false) {
+        filePath = path.join(appRoot.path, filePath);
+      }
+    } else {
+      filePath = path.join(appRoot.path, filePath);
+    }
+    if (filePath.length === 0) {
+      return '';
+    }
+    filePath = this.unixifyPath(filePath);
+    return filePath;
+  }
+  //#endregion processFilePath
+
   // #endregion
   // #region Get Options Methods
   //  #region getOptionsAsJsString
@@ -571,6 +822,58 @@ export class BuildProcess {
     return false;
   }
   //  #endregion
+  //#region getOptionsVerbose
+  /**
+   * Check opts for verbose and assigns any found options to biOpt
+   * @param opts The array of options to search for break string options in
+   * @param biOpt The current options. This parameter is an object and
+   */
+  private getOptionsVerbose(opts: string[], biOpt: IBuildIncludeOpt): boolean {
+    biOpt.verbose = triState.unset;
+    // match verbose only means set to true
+    // match verbose=true or verbose=false and set accordingly
+    const rx: RegExp = /\s*(verbose)(\s*=\s*true|\s*=\s*false)?/i;
+    if (
+      opts.some(option => {
+        /*
+         * Test to seee if verbose is present in the options
+         */
+        if (rx.test(option)) {
+          let cMatch: RegExpExecArray | null;
+          cMatch = rx.exec(option);
+          if (cMatch) {
+            if (cMatch[2]) {
+              let str = cMatch[2]; // = true or = false
+              str = str.replace('=', '').trim().toLowerCase();
+              if (str.startsWith('t')
+                || str.startsWith('y')
+                || str === '1') {
+                biOpt.verbose = triState.true;
+                return true;
+              } else if (str.startsWith('f')
+                || str.startsWith('n')
+                || str === '0') {
+                biOpt.verbose = triState.false;
+                return false;
+              } else {
+                biOpt.verbose = triState.unset;
+                return false;
+              }
+            } else {
+              biOpt.verbose = triState.true;
+              return true;
+            }
+          }
+        }
+        return false;
+      })
+    ) {
+      return true;
+    }
+    return false;
+  }
+  //#endregion getOptionsVerbose
+
   //  #region getOptionsBreakString
   /**
    * Checks opts for breakstring options and assigns any found options to biOpt
@@ -652,6 +955,16 @@ export class BuildProcess {
                     biOpt.bs.break = Util.ParseEnumSplitByOpt(eqArgs[1]);
                   }
                   break;
+                case 'before':
+                  if (eqArgs.length === 2) {
+                    biOpt.bs.before = eqArgs[1];
+                  }
+                  break;
+                case 'after':
+                  if (eqArgs.length === 2) {
+                    biOpt.bs.after = eqArgs[1];
+                  }
+                  break;
                 default:
                   break;
               }
@@ -664,8 +977,7 @@ export class BuildProcess {
       })
     ) {
       if (this.verbose) {
-        this.logger.verbose.write('GRUNT-BUILD-INCLUDE: Break String options set: ');
-        this.logger.verbose.writeln(this.keyValueToString(biOpt.bs));
+        this.logger.verbose.writeln('Break String options set: ', this.keyValueToString(biOpt.bs));
       }
       return true;
     }
@@ -736,7 +1048,7 @@ export class BuildProcess {
       })
     ) {
       if (this.verbose) {
-        this.logger.verbose.write('GRUNT-BUILD-INCLUDE: Comment options set: ');
+        this.logger.verbose.write('Comment options set: ');
         this.logger.verbose.writeln(this.keyValueToString(biOpt.comment));
       }
       return true;
@@ -815,18 +1127,18 @@ export class BuildProcess {
       })
     ) {
       if (this.verbose) {
-        this.logger.verbose.write('GRUNT-BUILD-INCLUDE: Fence options set: ');
+        this.logger.verbose.write('Fence options set: ');
         this.logger.verbose.writeln(this.keyValueToString(biOpt.fence));
       }
       // process the end and start to build biOpt.regex
       if (biOpt.fence.type === fenceKind.none) {
-        if (biOpt.fence.start.length === 0
-          || biOpt.fence.end.length === 0) {
+        if ((typeof biOpt.fence.start === 'string' && biOpt.fence.start.length === 0)
+          || (typeof biOpt.fence.end === 'string' && biOpt.fence.end.length === 0)) {
           // Defalut to strict if start or end is not valid
           biOpt.fence.type = fenceKind.strict;
         }
       }
-      const currentFence: IGruntOptFence | undefined = getFenceKind(biOpt.fence.type);
+      const currentFence: IOptFence | undefined = getFenceKind(biOpt.fence.type);
       if (currentFence) {
         const fenceOpt: RegExp | undefined = getFenceOptions(currentFence);
         if (fenceOpt) {
@@ -998,21 +1310,22 @@ export class BuildProcess {
       // if code or kind is set both should be set
       if (biOpt.text.code > eKind.none || biOpt.text.codeKind > eProcess.none) {
         if (biOpt.text.codeKind === eProcess.none) {
-          this.logger.log.warn(`GRUNT-BUILD-INCLUDE: when code is set the kind option of text must be set to a valid value: "${opts.join()}"`);
+          this.logger.log.warn(`when code is set the kind option of text must be set to a valid value: "${opts.join()}"`);
           // if kind is invalid the reset code
           biOpt.text.code = eKind.none;
         } else if (biOpt.text.code === eKind.none) {
-          this.logger.log.warn(`GRUNT-BUILD-INCLUDE: when kind is set the code option of text must be set to a valid value: "${opts.join()}"`);
+          this.logger.log.warn(`when kind is set the code option of text must be set to a valid value: "${opts.join()}"`);
           // if code is invalid the reset kind
           biOpt.text.codeKind = eProcess.none;
         }
         if (this.verbose) {
-          this.logger.verbose.write('GRUNT-BUILD-INCLUDE: Text options set: ');
-          this.logger.verbose.writeln(this.keyValueToString(biOpt.text));
+          this.logger.verbose.writeln('Text options set: ', this.keyValueToString(biOpt.text));
         }
       }
       if (biOpt.text.code > eKind.none && biOpt.text.codeKind > eProcess.none) {
         biOpt.text.isCode = true;
+      } else {
+        biOpt.text.isCode = false;
       }
       return true;
     }
@@ -1035,6 +1348,19 @@ export class BuildProcess {
     }
   };
   // #endregion
+  /**
+   * Appends Before and After to breakstring if they are set.
+   * @param strInput input string
+   * @param biOpt The arguments from the options string values
+   * @returns strInput wrapend in before and after.
+   */
+  private breakStringBeforeAfter(strInput:string ,biOpt: IBuildIncludeOpt): string {
+    
+    let result = biOpt.bs.before;
+    result += strInput;
+    result += biOpt.bs.after;
+    return result;
+  }
   //  #region buildBreakStringJs
   /**
    * Builds a muli-line javascript string that has no padding before each line start.  
@@ -1054,7 +1380,7 @@ export class BuildProcess {
     const strPrefix: string = this.getPadding(biOpt.text.padding.padLeft);
     const strSuffix: string = this.getPadding(biOpt.text.padding.padRight);
     const splitEol = biOpt.bs.lineEnd === lnEndOpt.none;
-    let isIndent: boolean = false;
+   let isIndent: boolean = false;
     let indent: string = '';
     strA.push('\\');
     if (biOpt.text.indent === true && biOpt.indent && biOpt.indent.length > 0) {
@@ -1088,16 +1414,18 @@ export class BuildProcess {
         if ((lastLn.length - 1) < biOpt.bs.width) {
           // remove last escape \
           lastLn = lastLn.substring(0, lastLn.length - 1);
-          lastLn += ';';
+          // lastLn += strClose;
           strA.push(lastLn);
         } else {
           strA.push(lastLn);
-          strA.push(';');
+          // if (strClose.length > 0) {
+          //   strA.push(strClose);  
+          // }
         }
       } else {
         // in theory this should never happen
         // but typscript forces .pop() to possibley be undefined
-        strA.push(';');
+        strA.push('');
       }
     }
     return strA;
@@ -1148,6 +1476,7 @@ export class BuildProcess {
         strA.push(newStr);
       }
     } // if (splitEol === true)
+   
     return strA;
   };
   // #endregion
@@ -1173,18 +1502,27 @@ export class BuildProcess {
     let regStart: RegExp;
     let regEnd: RegExp;
     let x: string;
-    if (this.isRegexStr(fence.start) === true) {
-      x = fence.start.substr(1, fence.start.length - 1);
-      regStart = new RegExp(x);
+    if (typeof fence.start === 'string') {
+      if (this.isRegexStr(fence.start) === true) {
+        x = fence.start.substr(1, fence.start.length - 1);
+        regStart = new RegExp(x);
+      } else {
+        regStart = new RegExp(DEFAULT_FENCE_START.replace('{0}', Util.EscapeRegex(fence.start)));
+      }
     } else {
-      regStart = new RegExp(DEFAULT_FENCE_START.replace('{0}', Util.EscapeRegex(fence.start)));
+      regStart = fence.start;
     }
-    if (this.isRegexStr(fence.end) === true) {
-      x = fence.end.substr(1, fence.end.length - 1);
-      regEnd = new RegExp(x);
+    if (typeof fence.end === 'string') {
+      if (this.isRegexStr(fence.end) === true) {
+        x = fence.end.substr(1, fence.end.length - 1);
+        regEnd = new RegExp(x);
+      } else {
+        regEnd = new RegExp(DEFAULT_FENCE_END.replace('{0}', Util.EscapeRegex(fence.end)));
+      }
     } else {
-      regEnd = new RegExp(DEFAULT_FENCE_END.replace('{0}', Util.EscapeRegex(fence.end)));
+      regEnd = fence.end;
     }
+
     const result = new RegExp(`(${regStart.source}${regEnd.source})`, 'm');
     return result;
   }
@@ -1672,7 +2010,7 @@ export class BuildProcess {
     } catch (error) {
       // ignore errors
       if (this.verbose) {
-        this.logger.verbose.write('GRUNT-BUILD-INCLUDE: Error decoding parameter str of decodeParam with value of:');
+        this.logger.verbose.write('Error decoding parameter str of decodeParam with value of: ');
         this.logger.verbose.write(str);
         this.logger.verbose.write(' Error:');
         this.logger.verbose.writeln(error.message);
@@ -1780,8 +2118,8 @@ export class BuildProcess {
     // need to match \, but not \\,
     str = str.replace(/\\\\/g, '\uFEFF');
     str = str.replace(/\\,/g, '\uFFFE');
-   
-   
+
+
     // replace \[ with [ and \] with ]
     str = str.replace(/\\\[/g, '[')
       .replace(/\\\]/g, ']');
@@ -1920,11 +2258,7 @@ export class BuildProcess {
    * @param filepath Path to convert from window to unix style
    */
   private unixifyPath(filepath: string): string {
-    if (this.isWindows) {
-      return filepath.replace(/\\/g, '/');
-    } else {
-      return filepath;
-    }
+    return filepath.replace(/\\/g, path.sep);
   };
   //  #endregion
   // #region isRegexStr
@@ -1946,7 +2280,7 @@ export class BuildProcess {
   // #endregion
   /**
    * Get an array of match matches that contains matches and if
-   * [[IBuildIncludeOpt.fence]] is set in the options or grunt settings [[IBiGruntOpt.fence]]
+   * [[IBuildIncludeOpt.fence]] is set in the options or settings [[IBiOpt.fence]]
    * is set then the return array may contain fences as well.
    * @param fileContent 
    * @param biOpt 
@@ -2000,7 +2334,7 @@ export class BuildProcess {
           value: segment
         });
       }
-     
+
       // remove everything that has been process thus far.
       contents = contents.substring(endIndex + 1);
       match = re.exec(contents);
@@ -2045,10 +2379,10 @@ export class BuildProcess {
             if (prevItem.countEnd > 0) {
               if (item.countStart > 0) {
                 // remove empty lines as needed
-                  while (item.countStart > 0) {
-                    item.lines.shift();
-                    item.countStart--;
-                  }
+                while (item.countStart > 0) {
+                  item.lines.shift();
+                  item.countStart--;
+                }
               }
             } else if (item.countStart > 1) {
               while (item.countStart > 1) {
@@ -2107,7 +2441,7 @@ export class BuildProcess {
     let startDone: boolean = false;
     let isEmpty: boolean = false;
     const lines: string[] = stringBreaker(mt.value, { splitOpt: splitByOpt.line });
-    
+
     lines.forEach(ln => {
       switch (lineOpt) {
         case whiteSpLn.noTwoEmptyLn:
@@ -2179,5 +2513,61 @@ export class BuildProcess {
     };
 
     return result;
+  }
+  /**
+   * Checks if fence options are assigned in the form of string,
+   * number or object. If assigend then opts.fence will be converted to
+   * instance of IFence
+   */
+  private setOptionsFence(opts: IBiOpt) {
+    if (opts.fence) {
+
+      const standinFence = new NullFence();
+      let maybeFence: IOptFence | undefined;
+      if (typeof opts.fence === 'string') {
+        standinFence.type = fenceKind.parse(opts.fence);
+        maybeFence = getFenceKind(standinFence.type);
+        if (maybeFence) {
+          standinFence.start = maybeFence.start;
+          standinFence.end = maybeFence.end;
+        }
+      } else if (typeof opts.fence === 'number') {
+        standinFence.type = fenceKind.parse(opts.fence);
+        maybeFence = getFenceKind(standinFence.type);
+        if (maybeFence) {
+          standinFence.start = maybeFence.start;
+          standinFence.end = maybeFence.end;
+        }
+      } else if (typeof opts.fence === 'object') {
+        if (opts.fence.type) {
+          standinFence.type = fenceKind.parse(opts.fence.type);
+          maybeFence = getFenceKind(standinFence.type);
+          if (maybeFence) {
+            standinFence.start = maybeFence.start;
+            standinFence.end = maybeFence.end;
+            standinFence.remove = false;
+            standinFence.type = opts.fence.type;
+          }
+        }
+        // give actual setting in options final say
+        // if the options fence include start or end then overirde
+        // any potenital values set with type.
+        if (opts.fence.hasOwnProperty('start')) {
+          standinFence.start = opts.fence.start;
+        }
+        if (opts.fence.hasOwnProperty('end')) {
+          standinFence.end = opts.fence.end;
+        }
+        if (opts.fence.hasOwnProperty('remove')) {
+          standinFence.remove = opts.fence.remove;
+        }
+      }
+      if ((!standinFence.start)
+        || (!standinFence.end)) {
+        opts.fence = undefined;
+        return;
+      }
+      opts.fence = standinFence;
+    }
   }
 }

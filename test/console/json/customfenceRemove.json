@@ -1,0 +1,14 @@
+{
+  "fence": {
+    "start": "^^^^",
+    "end": "^^^^",
+    "remove": true
+  },
+  "breakstring": {
+    "width": 70,
+    "flags": "word"
+  },
+  "comment": {
+    "type": "jsDoc"
+  }
+}

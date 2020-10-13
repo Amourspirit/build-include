@@ -1,0 +1,31 @@
+-------file: ('replace5.txt')
+-------options: [comment?type=jsdoc, fence?type=flex]
+// BUILD_INCLUDE('replace5.txt')[comment?type=jsdoc, fence?type=flex]
+
+-------file: ('replace5.txt')
+-------options: [comment?type=jsdoc, fence?type=flex&remove=true]
+// BUILD_INCLUDE('replace5.txt')[comment?type=jsdoc, fence?type=flex&remove=true]
+
+-------file: ('replace5.txt')
+-------options: [comment?type=jsdoc, fence?type=flex&remove]
+// BUILD_INCLUDE('replace5.txt')[comment?type=jsdoc, fence?type=flex&remove]
+
+-------file: ("md/replace6.md")
+-------options: [comment?type=jsdoc, fence?type=strict]
+// BUILD_INCLUDE("md/replace6.md")[comment?type=jsdoc, fence?type=strict]
+
+-------file: 	("md/replace6.md")
+-------options:	[comment?type=jsdoc,text?indent=true, fence?type=strict]
+		// BUILD_INCLUDE("md/replace6.md")[comment?type=jsdoc,text?indent=true, fence?type=strict]
+
+-------file: 	("md/replace7.md")
+-------options:	[comment?type=single,text?indent=true, fence?type=strict]
+	// BUILD_INCLUDE("md/replace7.md")[comment?type=single,text?indent=true, fence?type=strict]
+
+-------file: 	("md/replace7.md")
+-------options:	[comment?type=single,text?indent=true, fence?type=strict&remove=true]
+	// BUILD_INCLUDE("md/replace7.md")[comment?type=single,text?indent=true, fence?type=strict&remove=true]
+
+-------file: ('replace6.txt')
+-------options: [comment?type=pound, text?indent=true, fence?start=**&end=**]
+		// BUILD_INCLUDE('replace6.txt')[comment?type=pound, text?indent=true, fence?start=**&end=**]

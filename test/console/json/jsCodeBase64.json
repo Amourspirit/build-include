@@ -1,0 +1,10 @@
+{
+  "asJsString": true,
+  "text": {
+    "code": "base64",
+    "codekind": "encode"
+  },
+  "breakstring": {
+    "width": 70
+  }
+}

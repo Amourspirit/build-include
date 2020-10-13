@@ -1,0 +1,17 @@
+In a sentence: [[include:replace5.md]]
+
+/**
+  * [[include:replace4.md]]
+  */
+
+
+    	/**
+    	 * [[include:replace3.md]]
+    	 */
+
+	/**
+	 * A few extra spaces and tabs were placed before the next include.
+	 * Expect them to be ignored.
+	 *
+	 *  		[[include:replace4.md]]
+	 */

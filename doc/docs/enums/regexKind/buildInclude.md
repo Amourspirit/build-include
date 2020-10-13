@@ -1,24 +1,26 @@
 #### Matches the following
 
-// BUILD_INCLUDE(filePath)  
-// BUILD_INCLUDE(filePath)&#91;options&#93;  
-// BUILD_INCLUDE(filePath)  
-&#91;options&#93;  
+```text
+// BUILD_INCLUDE(filePath)
+// BUILD_INCLUDE(filePath)[options]
+// BUILD_INCLUDE(filePath)
+[options]
 
-\* BUILD_INCLUDE(filePath)  
-\* BUILD_INCLUDE(filePath)&#91;options&#93;  
-\* BUILD_INCLUDE(filePath)  
-&#91;options&#93;  
+* BUILD_INCLUDE(filePath)
+* BUILD_INCLUDE(filePath)[options]
+* BUILD_INCLUDE(filePath)
+[options]
 
-/\* BUILD_INCLUDE(filePath)  
-/\* BUILD_INCLUDE(filePath)&#91;options&#93;  
-/\* BUILD_INCLUDE(filePath)  
-&#91;options&#93;  
+/* BUILD_INCLUDE(filePath)
+/* BUILD_INCLUDE(filePath)[options]
+/* BUILD_INCLUDE(filePath)
+[options]
 
-// BUILD_INCLUDE(filePath)  
-&lt;!--BUILD_INCLUDE(filePath)--&gt;  
-&lt;!--BUILD_INCLUDE(filePath)&#91;options&#93;--&gt;  
-&lt;!--BUILD_INCLUDE(filePath)  
-&#91;options&#93;--&gt;
+<!-- BUILD_INCLUDE(filePath)
+<!--BUILD_INCLUDE\(filePath\)-->
+<!--BUILD_INCLUDE\(filePath\)\[options\]-->
+<!--BUILD_INCLUDE\(filePath\)
+[options]-->
+```
 
-**See Also:** [Class MatchBuildInclude](/grunt-build-include/classes/matchoptions.matchbuildinclude.html)  
+**See Also:** [Class MatchBuildInclude](/build-include/classes/src_matches.matchbuildinclude.html)  

@@ -1,15 +1,74 @@
 # BUILD_INCLUDE
 
-Options that may be used with **build_include** statements.  
-In most cases it is recommended to use the [options](Options/) to set configuration options for a **build_include** statement.
-This allows for fine control of how each **build_include** statement is processed.
+Build-Include has a primary purpose of reading input file and finding matching *build-include* statements that are
+parsed and replaced with the actual contents.
 
-Sometimes more of a global approach is perfered. In these cases [Grunt File](GruntFile/) level options can be applied.  
-Consider the following scenario.  
-Your using a document generator in your TypeScript project that allows for <code>&#91;include:somePath/somefile.md&#93;&#93;</code> type include statments to be replaced by file contents during the document generation process. This might be preferable when you need finer control over markdown of some comments.  
-The down side to this approach is any `file.d.ts` types documents will contain <code>&#91;include:somePath/somefile.md&#93;&#93;</code> statments which may not be helpful for code completion help.  
-Using a [Grunt File](GruntFile/) configuraton can be helpful to transform your `file.d.ts` outputs to have <code>&#91;include:somePath/somefile.md&#93;&#93;</code> includes replaced with the actual markdown contents.
+## Simple example
 
-* [Options](Options/)
-* [Grunt File](GruntFile/)
-* [Misc](misc/)
+*main.js* includes in it contents the following line
+
+```js
+// BUILD_INCLUDE(./includes/replaceComment.txt)
+```
+
+### Build-Include Replace
+
+```js
+const bp = new BuildProcess();
+const results = bp.buildInclude('','./lib/main.js', {});
+```
+
+The **// BUILD_INCLUDE** in main.js will be replaced with the contents of *replaceComment.txt*.
+
+See other [examples](/build-include/pages/Docs/examples/index.html)
+
+## Options
+
+Many [Options](/build-include/pages/Docs/Main/Options/asjsstring/index.html) may be used with **build_include**.  
+
+Setting up instance of **build-include**
+
+## Simple Setup
+
+### Common JS
+
+```js
+import { BuildProcess } from 'build-include/cjs/BuildProcess';
+import { LoggerSimple } from "build-include/cjs/log/LoggerSimple";
+
+// include LoggerSimple in the constructor so instance logs to the console.
+const bp = new BuildProcess(new LoggerSimple());
+
+const opt = {
+  comment: {
+    type: "Single"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+```
+
+### ES6 Module
+
+```js
+import { BuildProcess } from 'build-include/esm/BuildProcess';
+import { LoggerSimple } from "build-include/esm/log/LoggerSimple";
+
+// include LoggerSimple in the constructor so instance logs to the console.
+const bp = new BuildProcess(new LoggerSimple());
+
+const opt = {
+  comment: {
+    type: "Single"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+```
+
+See: [Comment Type Single](/build-include/pages/Docs/examples/CommentTypeSingle.html) for full example.
+
+## See Also
+
+* [Options](/build-include/pages/Docs/Main/Options/asjsstring/index.html)
+* [Logging](/build-include/pages/Docs/Logging/index.html)
+* [Examples](/build-include/pages/Docs/examples/index.html)
+* [Source Documentation](/build-include/modules/src.html)
