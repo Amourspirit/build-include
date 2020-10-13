@@ -1,0 +1,344 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Pass File contents | Build-include Pages</title>
+	<meta name="description" content="Documentation for Build-include Pages">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../../assets/css/main.css">
+	<link rel="stylesheet" href="../../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../../assets/js/search.json" data-base="../../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../../index.html" class="title">Build-include Pages</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="index.html">Misc</a>
+				</li>
+				<li>
+					<a href="index.html">Examples</a>
+				</li>
+				<li>
+					<a href="IncludeJsonReadContents.html">Pass File contents</a>
+				</li>
+			</ul>
+			<h1>Pass File contents</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#include-json-read-contents-first" id="include-json-read-contents-first" style="color: inherit; text-decoration: none;">
+					<h1>Include Json read contents first</h1>
+				</a>
+				<a href="#build_include" id="build_include" style="color: inherit; text-decoration: none;">
+					<h2>BUILD_INCLUDE</h2>
+				</a>
+				<div class="nowrapcode">
+					<pre><code class="language-js"><span class="hljs-keyword">const</span> jData = <span class="hljs-string">&quot;BUILD_INCLUDE(actors.json)&quot;</span>;</code></pre>
+				</div>
+				<a href="#config" id="config" style="color: inherit; text-decoration: none;">
+					<h3>Config</h3>
+				</a>
+				<p>Contents of file are passed to <em>buildInclude</em>.
+				When contents are passed <em>buildInclude</em> will use the passed in contents.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/esm/BuildProcess&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>;
+
+<span class="hljs-keyword">const</span> filePath = <span class="hljs-string">&#x27;./includes/jsonJs.js&#x27;</span>;
+<span class="hljs-keyword">const</span> srcPath = path.join(__dirname, filePath);
+<span class="hljs-keyword">const</span> contents = fs.readFileSync(srcPath, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+
+<span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeQuote&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(contents, filePath, opt);</code></pre>
+				<a href="#output" id="output" style="color: inherit; text-decoration: none;">
+					<h3>Output</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> jData = {
+  <span class="hljs-string">&quot;Actors&quot;</span>: [{
+      <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Tom Cruise&quot;</span>,
+      <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">56</span>,
+      <span class="hljs-string">&quot;Born At&quot;</span>: <span class="hljs-string">&quot;Syracuse, NY&quot;</span>,
+      <span class="hljs-string">&quot;Birthdate&quot;</span>: <span class="hljs-string">&quot;July 3, 1962&quot;</span>,
+      <span class="hljs-string">&quot;photo&quot;</span>: <span class="hljs-string">&quot;https://jsonformatter.org/img/tom-cruise.jpg&quot;</span>,
+      <span class="hljs-string">&quot;wife&quot;</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-string">&quot;weight&quot;</span>: <span class="hljs-number">67.5</span>,
+      <span class="hljs-string">&quot;hasChildren&quot;</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-string">&quot;hasGreyHair&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">&quot;children&quot;</span>: [
+        <span class="hljs-string">&quot;Suri&quot;</span>,
+        <span class="hljs-string">&quot;Isabella Jane&quot;</span>,
+        <span class="hljs-string">&quot;Connor&quot;</span>
+      ]
+    },
+    {
+      <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Robert Downey Jr.&quot;</span>,
+      <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">53</span>,
+      <span class="hljs-string">&quot;Born At&quot;</span>: <span class="hljs-string">&quot;New York City, NY&quot;</span>,
+      <span class="hljs-string">&quot;Birthdate&quot;</span>: <span class="hljs-string">&quot;April 4, 1965&quot;</span>,
+      <span class="hljs-string">&quot;photo&quot;</span>: <span class="hljs-string">&quot;https://jsonformatter.org/img/Robert-Downey-Jr.jpg&quot;</span>,
+      <span class="hljs-string">&quot;wife&quot;</span>: <span class="hljs-string">&quot;Susan Downey&quot;</span>,
+      <span class="hljs-string">&quot;weight&quot;</span>: <span class="hljs-number">77.1</span>,
+      <span class="hljs-string">&quot;hasChildren&quot;</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-string">&quot;hasGreyHair&quot;</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-string">&quot;children&quot;</span>: [
+        <span class="hljs-string">&quot;Indio Falconer&quot;</span>,
+        <span class="hljs-string">&quot;Avri Roel&quot;</span>,
+        <span class="hljs-string">&quot;Exton Elias&quot;</span>
+      ]
+    }
+  ]
+};</code></pre>
+				<p>File <a href="replacements/actors.json.html">actors.json</a> is to be included in output file.</p>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<a href="#match-kind-buildincludequote" id="match-kind-buildincludequote" style="color: inherit; text-decoration: none;">
+					<h4>Match Kind: buildIncludeQuote</h4>
+				</a>
+				<a href="#matches-the-following" id="matches-the-following" style="color: inherit; text-decoration: none;">
+					<h4>Matches the following</h4>
+				</a>
+				<pre><code class="language-text">&#x27;BUILD_INCLUDE(filePath)&#x27;
+&#x27;BUILD_INCLUDE(filePath)[options]&#x27;
+
+&#x27;BUILD_INCLUDE(filePath)\
+[options]&#x27;  
+
+&quot;BUILD_INCLUDE(filePath)&quot;
+&quot;BUILD_INCLUDE(filePath)[options]&quot;
+
+&quot;BUILD_INCLUDE(filePath)\
+[options]&quot;</code></pre>
+				<p>Spaces are permitted after quotes.<br>The following is Valid:<br><code>&quot;  BUILD_INCLUDE(filePath)[options]  &quot;</code><br><strong>See Also:</strong> <a href="/build-include/classes/src_matches.matchbuildincludequote.html">Class MatchBuildIncludeQuote</a>  </p>
+				<p><strong>See Also:</strong> <a href="/build-include/interfaces/src_interface.iopt.html">IOpt</a>  </p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Documentation</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../index.html">Intro</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Main/Options/asjsstring/index.html">Main <wbr>Options</a>
+					</li>
+					<li class=" pp-nav pp-page pp-parent">
+						<a href="../OtherConventions/placeholders.html">Other <wbr>Conventions</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Misc</span>
+					</li>
+					<li class=" pp-nav pp-page pp-parent pp-active">
+						<a href="index.html">Examples</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="AsjsstringIncludeTextInJavascriptString.html">Asjsstring <wbr>Include <wbr>Text <wbr>In <wbr>Javascript <wbr>String</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="base64withBs.html">Base 64 <wbr>Encoding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="BreakstringBeforeAfter.html">Breakstring <wbr>Before and <wbr>After</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="buildIncludeFun.html">Build<wbr>Include <wbr>Function <wbr>Example</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="IncludeJsonMatchQuote.html">Include <wbr>Json inline</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="MissingFile.html">Ignore <wbr>Misssing</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentJsdocBreakstringByWord.html">Comment <wbr>Jsdoc <wbr>Breakstring <wbr>By <wbr>Word</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeJsdocRemovePadding.html">Comment <wbr>Type <wbr>Jsdoc <wbr>Remove <wbr>Padding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeMultiBreakstringIndent.html">Comment <wbr>Type <wbr>Multi <wbr>Breakstring <wbr>Indent</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeMultiWithTwoTypesOfPadding.html">Comment <wbr>Type <wbr>Multi <wbr>With <wbr>Two <wbr>Types <wbr>Of <wbr>Padding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeSingle.html">Comment <wbr>Type <wbr>Single</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeSingleBreakstringFlagsAndEol.html">Comment <wbr>Type <wbr>Single <wbr>Breakstring <wbr>Flags <wbr>And <wbr>Eol</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FenceCommentAndTextOptions.html">Fence <wbr>Comment <wbr>And <wbr>Text <wbr>Options</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FenceCommentTextSimple.html">Fence <wbr>Comment <wbr>Text <wbr>Simple</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FencedRemoveWithCommentAndWhiteSpaceLines.html">Fenced <wbr>Remove <wbr>With <wbr>Comment <wbr>And <wbr>White <wbr>Space <wbr>Lines</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextBeforeAfterWithSpecialChars.html">Text <wbr>Before <wbr>After <wbr>With <wbr>Special <wbr>Chars</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextBeforeAfterWithUnicode.html">Text <wbr>Before <wbr>After <wbr>With <wbr>Unicode</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextPadleftBreakLinesByWord.html">Text <wbr>Padleft <wbr>Break <wbr>Lines <wbr>By <wbr>Word</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeHtml.html">Comment <wbr>Type <wbr>Html</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="poundBreakString.html">Comment <wbr>Type <wbr>Pound</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="bracketIncludeMultiSingleAsterisk.html">Bracket<wbr>Include &amp; <wbr>Multi<wbr>Single<wbr>Asterisk</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CustomFence.html">Custom <wbr>Fence</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CustomFenceRemove.html">Custom <wbr>Fence <wbr>Remove</a>
+					</li>
+					<li class="current pp-nav pp-page pp-child">
+						<a href="IncludeJsonReadContents.html">Pass <wbr>File contents</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../misc/EscapingParameters.html">Escaping <wbr>Parameters</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Logging/index.html">Logging</a>
+					</li>
+					<li class=" pp-nav pp-page pp-parent">
+						<a href="replacements/index.html">Replacements</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class="globals  ">
+						<a href="../../../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/enums.html">enums</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src.html">src</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_enums.html">src/enums</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_fences.html">src/fences</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_interface.html">src/interface</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_log.html">src/log</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_matches.html">src/matches</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_util.html">src/util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Comment Type Pound | Build-include Pages</title>
+	<meta name="description" content="Documentation for Build-include Pages">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../../assets/css/main.css">
+	<link rel="stylesheet" href="../../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../../assets/js/search.json" data-base="../../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../../index.html" class="title">Build-include Pages</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="index.html">Misc</a>
+				</li>
+				<li>
+					<a href="index.html">Examples</a>
+				</li>
+				<li>
+					<a href="poundBreakString.html">Comment Type Pound</a>
+				</li>
+			</ul>
+			<h1>Comment Type Pound</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#comment-type-pound-with-breakstring" id="comment-type-pound-with-breakstring" style="color: inherit; text-decoration: none;">
+					<h1>Comment Type Pound with BreakString</h1>
+				</a>
+				<a href="#build_include" id="build_include" style="color: inherit; text-decoration: none;">
+					<h2>BUILD_INCLUDE</h2>
+				</a>
+				<div class="nowrapcode">
+					<pre><code class="language-text">// BUILD_INCLUDE(&quot;./includes/replace01.txt&quot;)</code></pre>
+				</div>
+				<a href="#config" id="config" style="color: inherit; text-decoration: none;">
+					<h3>Config</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">comment</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;pound&quot;</span>
+  },
+   <span class="hljs-attr">breakstring</span>: {
+     <span class="hljs-attr">width</span>: <span class="hljs-number">60</span>,
+     <span class="hljs-attr">flags</span>: <span class="hljs-string">&quot;word&quot;</span>
+   }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace.txt&#x27;</span>, opt<span class="hljs-string">`);</span></code></pre>
+				<a href="#output" id="output" style="color: inherit; text-decoration: none;">
+					<h3>Output</h3>
+				</a>
+				<div class="nowrapcode">
+					<pre><code class="language-text"># The quick, brown fox jumps over a lazy dog. DJs flock by when
+# MTV ax quiz prog. Junk MTV quiz graced by fox whelps.Bawds jog,
+# flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex!
+# Fox nymphs grab quick-jived waltz. Brick quiz whangs jumpy veldt
+# fox.Bright vixens jump; dozy fowl quack. Quick wafting zephyrs
+# vex bold Jim. Quick zephyrs blow, vexing daft Jim. Sex-charged
+# fop blew my junk TV quiz.How quickly daft jumping zebras vex.
+# Two driven jocks help fax my big quiz. Quick, Baz, get my woven
+# flax jodhpurs! &quot;Now fax quiz Jack!&quot; my brave ghost pled. Five
+# quacking zephyrs jolt my wax bed. Flummoxed by job, kvetching
+# W. zaps Iraq. Cozy sphinx waves quart jug of bad milk.A very
+# bad quack might jinx zippy fowls. Few quips galvanized the mock
+# jury box. Quick brown dogs jump over the lazy fox. The jay,
+# pig, fox, zebra, and my wolves quack!Blowzy red vixens fight
+# for a quick jump. Joaquin Phoenix was gazed by MTV for luck.
+# A wizard’s job is to vex chumps quickly in fog. Watch &quot;Jeopardy!
+# &quot;, Alex Trebek&#x27;s fun TV quiz game. Woven silk pyjamas exchanged
+# for blue quartz.</code></pre>
+				</div>
+				<p>File <a href="replacements/replace01.txt.html">replace01.txt</a> is to be included in output file.</p>
+				<p>Comment in jsDoc style and remove padding between * and start of lines.</p>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<p><code>[comment?type=pound&amp;breakstring?width=60&amp;flags=word]</code></p>
+				<a href="#comment" id="comment" style="color: inherit; text-decoration: none;">
+					<h3>Comment</h3>
+				</a>
+				<p>The option <code>comments</code> allow for input file content to be treated as comments in the output.  </p>
+				<a href="#comment-type-pound" id="comment-type-pound" style="color: inherit; text-decoration: none;">
+					<h5>Comment Type Pound</h5>
+				</a>
+				<p><code>{comment: { type: &quot;pound&quot; }}</code> or inline <code>comment?type=pound</code><br>Pads the left side of each line with # and a single space.</p>
+				<p><strong>Example:</strong>  </p>
+				<pre><code class="language-ini"><span class="hljs-comment"># my multi line comments</span>
+<span class="hljs-comment"># comments continue on this line</span></code></pre>
+				<p>See: Enum values for <a href="/build-include/enums/enums.commentkind.html">commentkind</a> for possible types.  </p>
+				<a href="#option" id="option" style="color: inherit; text-decoration: none;">
+					<h4>Option</h4>
+				</a>
+				<p><code>comment?padleft=0</code><br>Setting padleft to a value of 0 actually removes any padding between * and the input file line contents. This may not be perferable in most cases. The value can be increased to created more spaces other than the default of 1.</p>
+				<p><strong>See Also:</strong> <a href="/build-include/interfaces/src_interface.iopt.html">IOpt</a>  </p>
+				<style>
+  @media (min-width: 641px) {
+    div.nowrapcode {
+      overflow-x: auto;
+      background-color: rgba(0, 0, 0, 0.04);
+      -webkit-overflow-scrolling: touch;
+    }
+    div.nowrapcode pre {
+      background-color: transparent;
+      word-wrap:normal;
+      white-space: pre;
+    }
+    div.nowrapcode pre code {
+      white-space: pre;
+      word-wrap:normal;
+    }
+  }
+</style>  
+				<style>
+.tsd-typography h5, .tsd-typography h6 {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+</style>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Documentation</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../index.html">Intro</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Main/Options/asjsstring/index.html">Main <wbr>Options</a>
+					</li>
+					<li class=" pp-nav pp-page pp-parent">
+						<a href="../OtherConventions/placeholders.html">Other <wbr>Conventions</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Misc</span>
+					</li>
+					<li class=" pp-nav pp-page pp-parent pp-active">
+						<a href="index.html">Examples</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="AsjsstringIncludeTextInJavascriptString.html">Asjsstring <wbr>Include <wbr>Text <wbr>In <wbr>Javascript <wbr>String</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="base64withBs.html">Base 64 <wbr>Encoding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="BreakstringBeforeAfter.html">Breakstring <wbr>Before and <wbr>After</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="buildIncludeFun.html">Build<wbr>Include <wbr>Function <wbr>Example</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="IncludeJsonMatchQuote.html">Include <wbr>Json inline</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="MissingFile.html">Ignore <wbr>Misssing</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentJsdocBreakstringByWord.html">Comment <wbr>Jsdoc <wbr>Breakstring <wbr>By <wbr>Word</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeJsdocRemovePadding.html">Comment <wbr>Type <wbr>Jsdoc <wbr>Remove <wbr>Padding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeMultiBreakstringIndent.html">Comment <wbr>Type <wbr>Multi <wbr>Breakstring <wbr>Indent</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeMultiWithTwoTypesOfPadding.html">Comment <wbr>Type <wbr>Multi <wbr>With <wbr>Two <wbr>Types <wbr>Of <wbr>Padding</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeSingle.html">Comment <wbr>Type <wbr>Single</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeSingleBreakstringFlagsAndEol.html">Comment <wbr>Type <wbr>Single <wbr>Breakstring <wbr>Flags <wbr>And <wbr>Eol</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FenceCommentAndTextOptions.html">Fence <wbr>Comment <wbr>And <wbr>Text <wbr>Options</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FenceCommentTextSimple.html">Fence <wbr>Comment <wbr>Text <wbr>Simple</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="FencedRemoveWithCommentAndWhiteSpaceLines.html">Fenced <wbr>Remove <wbr>With <wbr>Comment <wbr>And <wbr>White <wbr>Space <wbr>Lines</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextBeforeAfterWithSpecialChars.html">Text <wbr>Before <wbr>After <wbr>With <wbr>Special <wbr>Chars</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextBeforeAfterWithUnicode.html">Text <wbr>Before <wbr>After <wbr>With <wbr>Unicode</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="TextPadleftBreakLinesByWord.html">Text <wbr>Padleft <wbr>Break <wbr>Lines <wbr>By <wbr>Word</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CommentTypeHtml.html">Comment <wbr>Type <wbr>Html</a>
+					</li>
+					<li class="current pp-nav pp-page pp-child">
+						<a href="poundBreakString.html">Comment <wbr>Type <wbr>Pound</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="bracketIncludeMultiSingleAsterisk.html">Bracket<wbr>Include &amp; <wbr>Multi<wbr>Single<wbr>Asterisk</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CustomFence.html">Custom <wbr>Fence</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="CustomFenceRemove.html">Custom <wbr>Fence <wbr>Remove</a>
+					</li>
+					<li class=" pp-nav pp-page pp-child">
+						<a href="IncludeJsonReadContents.html">Pass <wbr>File contents</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../misc/EscapingParameters.html">Escaping <wbr>Parameters</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Logging/index.html">Logging</a>
+					</li>
+					<li class=" pp-nav pp-page pp-parent">
+						<a href="replacements/index.html">Replacements</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class="globals  ">
+						<a href="../../../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/enums.html">enums</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src.html">src</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_enums.html">src/enums</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_fences.html">src/fences</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_interface.html">src/interface</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_log.html">src/log</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_matches.html">src/matches</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_util.html">src/util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
