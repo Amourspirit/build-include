@@ -1,6 +1,6 @@
 ##### Comment Type Multi
 
-`{comment: {type: "nulti"}}` or inline `comment?type=multi`  
+`{comment: {type: "multi"}}` or inline `comment?type=multi`  
 The first line is `/*`  
 Pads the left side of each line with * and a single space.  
 The last lie is ` */`  

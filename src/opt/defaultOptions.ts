@@ -40,7 +40,7 @@ export const defaultOptions: IBiOpt = {
   /**
   * Determins if recursion should be used.  
   * If recursion is true then build include files will be searched
-  * for matches as alos replaced in a recursive manor.  
+  * for matches as also replaced in a recursive manor.  
   * Default value is true.
   */
   recursion: true,

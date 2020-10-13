@@ -18,8 +18,28 @@ See [Class LogSimple](/build-include/classes/src_log.logsimple.html) and
 
 Logging with [LogSimple](/build-include/classes/src_log.logsimple.html)
 
+#### Common JS
+
 ```js
-import { BuildProcess,  LoggerSimple } from "build-include";
+import { BuildProcess } from 'build-include/cjs/BuildProcess';
+import { LoggerSimple } from "build-include/cjs/log/LoggerSimple";
+
+// include LoggerSimple in the constructor so instance logs to the console.
+const bp = new BuildProcess(new LoggerSimple());
+
+const opt = {
+  comment: {
+    type: "Single"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+```
+
+#### ES6 Module
+
+```js
+import { BuildProcess } from 'build-include/esm/BuildProcess';
+import { LoggerSimple } from "build-include/esm/log/LoggerSimple";
 
 // include LoggerSimple in the constructor so instance logs to the console.
 const bp = new BuildProcess(new LoggerSimple());
@@ -36,8 +56,25 @@ const results = bp.buildInclude('','./includes/replace.txt', opt);
 
 Logging with [LoggerNull](/build-include/classes/src_log.loggernull.html) requires not logger to be passed into constructor.
 
+#### Common JS
+
 ```js
-import { BuildProcess } from "build-include";
+import { BuildProcess } from 'build-include/cjs/BuildProcess';
+
+const bp = new BuildProcess();
+
+const opt = {
+  comment: {
+    type: "Single"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
+```
+
+#### ES6 Module
+
+```js
+import { BuildProcess } from 'build-include/esm/BuildProcess';
 
 const bp = new BuildProcess();
 
