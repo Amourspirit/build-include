@@ -27,15 +27,15 @@ import {
   whiteSpLn, triState
 } from "./enums/projectEnums";
 import {
-  setMatchOptions,
   getBiOptionsDefault,
   defaultOptions,
-  biMergeOptions,
   DEFAULT_FENCE_START,
   DEFAULT_FENCE_END,
   getFenceKind,
   getFenceOptions
 } from './opt/defaultOptions';
+import { MergeOptions } from "./opt/MergeOptions";
+import { MergeMatch } from "./opt/MergeMatch";
 import { Util } from './util/Util';
 import { StrictFence } from './fences/StrictFence';
 import { TildeFence } from './fences/TildeFence';
@@ -102,21 +102,16 @@ export class BuildProcess {
    */
   public buildInclude(fileContents: string, srcPath: string, opt?: IOpt): string {
 
-    // if file contents are not loaded in the load from srcPath
-    /**
-    * Joins appRoot.path and strPath if strPath does not start with appRoot.path
-    * @param strPath the path to joine with if needed
-    * @return path with root path
-    */
+    
+    if (typeof opt !== 'object') {
+      opt = {};
+    }
     const joinRootPath = (strPath: string): string => {
       let result = strPath;
       if (strPath.startsWith(appRoot.path) === false) {
         result = path.join(appRoot.path, strPath);
       }
       return result;
-    }
-    if (typeof opt !== 'object') {
-      opt = {};
     }
     const options: IBiOpt = Util.MergeDefaults(defaultOptions, opt);
     if (options.verbose) {
@@ -125,7 +120,7 @@ export class BuildProcess {
       this.verbose = false;
     }
     // merge any unset options with potential match options passed in via options
-    const optMatch = setMatchOptions(options, this.logger);
+    const optMatch = new MergeMatch(options, this.logger).getMergedMatchOptions();
     const sourcePath = this.processFilePath(srcPath);
 
     let contents = fileContents;
@@ -402,7 +397,7 @@ export class BuildProcess {
 
         // check to see if any options were set at the options level passed in.
         // and merge them if exist.
-        hasOptions = biMergeOptions(biOpt, options) || hasOptions;
+        hasOptions = new MergeOptions(biOpt, options).isBiMergedOptions() || hasOptions;
         if (hasOptions === true) {
           if (biOpt.verbose === triState.true) {
             // if verbose is not turned on then it will be turned of
@@ -476,6 +471,7 @@ export class BuildProcess {
       return resotrePlacholers(contents);
     } // if (contents.indexOf('BUILD_INCLUDE') > -1)
     return contents;
+    
   }; // end: buildInclude()
   // #endregion
   // #region Process Methods
