@@ -48,8 +48,8 @@ import * as path from 'path';
 // see: https://github.com/inxilpro/node-app-root-path
 // see: https://stackoverflow.com/questions/10265798/determine-project-root-from-a-running-node-js-application
 import * as appRoot from 'app-root-path';
-import { LoggerNull } from './log/LoggerNull';
 import { NullFence } from './fences/NullFence';
+import { LoggerEvent } from "./log/LoggerEvent";
 
 // #endregion
 
@@ -66,7 +66,7 @@ export class BuildProcess {
    */
   public verbose: boolean = false;
   private isRecursive: boolean = false;
-  private logger: ILogger;
+  public logger: ILogger;
   // #endregion
   // #region constructor
   /**
@@ -80,7 +80,7 @@ export class BuildProcess {
     if (logModule) {
       this.logger = logModule;
     } else {
-      this.logger = new LoggerNull();
+      this.logger = new LoggerEvent();
     }
     this.setVerbose(this.verbose);
   }
@@ -261,7 +261,7 @@ export class BuildProcess {
       /**
        * insert a placeholder for match and stores the original match
        * @param {string} inputStr contents of file
-       * @param {RegExpExecArray} m match array
+       * @param {RegExpExecArray} mStr match array
        */
       const insertPlaceholder = (inputStr: string, mStr: string): string => {
         const rnStr = Util.GenAlphStr(32);
@@ -306,14 +306,14 @@ export class BuildProcess {
         const biOpt: IBuildIncludeOpt = getBiOptionsDefault();
         let fileContent: string;
         this.logger.log.write('.');
-        this.logger.verbose.emptyln();
+        // this.logger.verbose.emptyln();
         this.logger.verbose.writeln('Match array: ' + match);
 
         let filePath: string = this.processIncludeFilePath(match[indexFile], optMatch);
         if (filePath.length === 0) {
-          if (this.verbose === false) {
-            this.logger.log.emptyln();
-          }
+          // if (this.verbose === false) {
+          //   this.logger.log.emptyln();
+          // }
           this.logger.log.error(`No valid file name for replacement: '${match[indexOrigMatch]}' in: '${srcPath}'`);
           // replace the bad match so we do not end up in a endless recursive loop
           // replace form start of line to end of match.
@@ -338,9 +338,9 @@ export class BuildProcess {
             this.setVerbose(wasUsingVerbose);
             throw new Error("Path '" + filePath + "' does not exist.");
           } else {
-            if (this.verbose === false) {
-              this.logger.log.emptyln();
-            }
+            // if (this.verbose === false) {
+            //   this.logger.log.emptyln();
+            // }
             this.logger.log.warn('Could not find file to include: ', filePath);
             // take care of the missing import file by replaceing he import with a placeholder.
             contents = insertPlaceholder(contents, match[indexOrigMatch]);
@@ -360,9 +360,9 @@ export class BuildProcess {
         let innerMatch: RegExpExecArray | null;
         innerMatch = re.exec(fileContent);
         if (innerMatch !== null) {
-          if (this.verbose === false) {
-            this.logger.log.emptyln();
-          }
+          // if (this.verbose === false) {
+          //   this.logger.log.emptyln();
+          // }
           if (options.recursion === true) {
             if (this.verbose) {
               this.logger.verbose.writeln(`Recursive file found: '${path.relative(appRoot.path, this.processIncludeFilePath(filePath, optMatch))}'`);

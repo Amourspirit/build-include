@@ -1,46 +1,34 @@
-//#region Imports
 import { ILog } from "../interface/projectInterfaces";
-import * as util from 'util';
-import { EOL } from 'os';
 import { Events } from "../event/Events";
-import { MsgEventArgs } from "../event/MsgEventArg";
+import { MsgEventAnyArgs } from "../event/MsgEventAnyArgs";
 import { EventArgs } from "../event/EventArgs";
 import { CancelEventArgs } from "../event/CancelEventArgs";
-//#endregion Imports
-
+// export type msgEventArgs = (...args:any[]) => void;
 /**
- * Simple Loging. Outputs to StdOut
+ * Does not output. Triggers Events containing log messages.
  */
-export class LogSimple implements ILog {
-	//#region fields
+export class LogEvent implements ILog {
 	public isVerbose: boolean = false;
-	public preFix = '[Build-Include]:';
 	private events: Events;
-	//#endregion fields
-
-	//#region Constructor
+	// tslint:disable-next-line: no-empty
 	constructor() {
 		this.events = new Events();
 	}
-	//#endregion constructor
 
-	//#region ILog Methods
+	//#region  ILog Methods
 	/**
 	 * Log Errors method
 	 * @param args Arguments to write
 	 */
 	public error(...args: any[]): void {
 		if (this.isVerbose === true) {
-			const mArgs = new MsgEventArgs();
-			mArgs.message = this.preFix + ' ' + this.foramted(...args);
-			mArgs.message = mArgs.message.trim();
+			const mArgs = new MsgEventAnyArgs();
+			mArgs.args = [...args];
 			this.onBeforeError(mArgs);
 			if (mArgs.cancel === true) {
 				return;
 			}
-			process.stdout.write(mArgs.message);
-			process.stdout.write(EOL);
-			this.onAfterError(mArgs);
+			this.onAfterError(mArgs)
 		}
 	}
 
@@ -50,14 +38,13 @@ export class LogSimple implements ILog {
 	 */
 	public write(...args: string[]): void {
 		if (this.isVerbose === true) {
-			const mArgs = new MsgEventArgs();
-			mArgs.message = this.foramted(...args);
+			const mArgs = new MsgEventAnyArgs();
+			mArgs.args = [...args];
 			this.onBeforeWrite(mArgs);
 			if (mArgs.cancel === true) {
 				return;
 			}
-			process.stdout.write(mArgs.message);
-			this.onAfterWrite(mArgs);
+			this.onAfterWrite(mArgs)
 		}
 	}
 	/**
@@ -66,16 +53,13 @@ export class LogSimple implements ILog {
 	 */
 	public writeln(...args: any[]): void {
 		if (this.isVerbose === true) {
-			const mArgs = new MsgEventArgs();
-			mArgs.message = this.preFix + ' ' + this.foramted(...args);
-			mArgs.message = mArgs.message.trim();
+			const mArgs = new MsgEventAnyArgs();
+			mArgs.args = [...args];
 			this.onBeforeWriteln(mArgs);
 			if (mArgs.cancel === true) {
 				return;
 			}
-			process.stdout.write(mArgs.message);
-			process.stdout.write(EOL);
-			this.onAfterWriteln(mArgs);
+			this.onAfterWriteln(mArgs)
 		}
 	}
 	/**
@@ -84,16 +68,13 @@ export class LogSimple implements ILog {
 	*/
 	public warn(...args: any[]): void {
 		if (this.isVerbose === true) {
-			const mArgs = new MsgEventArgs();
-			mArgs.message = this.preFix + ' Warning: ' + this.foramted(...args);
-			mArgs.message = mArgs.message.trim();
+			const mArgs = new MsgEventAnyArgs();
+			mArgs.args = [...args];
 			this.onBeforeWarn(mArgs);
 			if (mArgs.cancel === true) {
 				return;
 			}
-			process.stdout.write(mArgs.message);
-			process.stdout.write(EOL);
-			this.onAfterWarn(mArgs);
+			this.onAfterWarn(mArgs)
 		}
 	}
 	/**
@@ -106,55 +87,39 @@ export class LogSimple implements ILog {
 			if (cArgs.cancel === true) {
 				return;
 			}
-			process.stdout.write(EOL);
 			this.onAfterEmptyln(EventArgs.Empty);
 		}
 	}
-	//#endregion ILog Methods
+	//#endregion Ilog methods
 
-	//#region Formatting
-	private foramted(...args: any[]): string {
-		if (args.length === 0) {
-			return '';
-		}
-		if (args.length === 1) {
-			// tslint:disable-next-line: no-construct
-			return new String(args[0]).toString();
-		}
-		// const arr = { ...args };
-		const first: any = args.shift();
-		return util.format(first, ...args);
-	}
-	//#endregion
-
-	//#region  Events
+	//#region Events
 
 	//#region Raise Events
-	protected onBeforeError(e: MsgEventArgs) {
+	protected onBeforeError(e: MsgEventAnyArgs) {
 		this.events.trigger('beforeError', e);
 	}
-	protected onAfterError(e: MsgEventArgs) {
+	protected onAfterError(e: MsgEventAnyArgs) {
 		this.events.trigger('afterError', e);
 	}
 
-	protected onBeforeWrite(e: MsgEventArgs) {
+	protected onBeforeWrite(e: MsgEventAnyArgs) {
 		this.events.trigger('beforeWrite', e);
 	}
-	protected onAfterWrite(e: MsgEventArgs) {
+	protected onAfterWrite(e: MsgEventAnyArgs) {
 		this.events.trigger('afterWrite', e);
 	}
 
-	protected onBeforeWriteln(e: MsgEventArgs) {
+	protected onBeforeWriteln(e: MsgEventAnyArgs) {
 		this.events.trigger('beforeWriteln', e);
 	}
-	protected onAfterWriteln(e: MsgEventArgs) {
+	protected onAfterWriteln(e: MsgEventAnyArgs) {
 		this.events.trigger('afterWriteln', e);
 	}
 
-	protected onBeforeWarn(e: MsgEventArgs) {
+	protected onBeforeWarn(e: MsgEventAnyArgs) {
 		this.events.trigger('beforeWarn', e);
 	}
-	protected onAfterWarn(e: MsgEventArgs) {
+	protected onAfterWarn(e: MsgEventAnyArgs) {
 		this.events.trigger('afterWarn', e);
 	}
 
@@ -168,28 +133,28 @@ export class LogSimple implements ILog {
 
 	//#region Event Handlers
 	//#region Add Event Handlers
-	public addHandlerBeforeError(callback: (e: MsgEventArgs) => void) {
+	public addHandlerBeforeError(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('beforeError', callback);
 	}
-	public addHandlerAfterError(callback: (e: MsgEventArgs) => void) {
+	public addHandlerAfterError(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('afterError', callback);
 	}
-	public addHandlerBeforeWrite(callback: (e: MsgEventArgs) => void) {
+	public addHandlerBeforeWrite(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('beforeWrite', callback);
 	}
-	public addHandlerAfterWrite(callback: (e: MsgEventArgs) => void) {
+	public addHandlerAfterWrite(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('afterWrite', callback);
 	}
-	public addHandlerBeforeWriteln(callback: (e: MsgEventArgs) => void) {
+	public addHandlerBeforeWriteln(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('beforeWriteln', callback);
 	}
-	public addHandlerAfterWriteln(callback: (e: MsgEventArgs) => void) {
+	public addHandlerAfterWriteln(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('afterWriteln', callback);
 	}
-	public addHandlerBeforeWarn(callback: (e: MsgEventArgs) => void) {
+	public addHandlerBeforeWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('beforeWarn', callback);
 	}
-	public addHandlerAfterWarn(callback: (e: MsgEventArgs) => void) {
+	public addHandlerAfterWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.on('afterWarn', callback);
 	}
 	public addHandlerBeforeEmptyln(callback: (e: CancelEventArgs) => void) {
@@ -201,28 +166,28 @@ export class LogSimple implements ILog {
 	//#endregion Add Event Handlers
 
 	//#region Remove Event Handlers
-	public removeHandlerBeforeError(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerBeforeError(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('beforeError', callback);
 	}
-	public removeHandlerAfterError(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerAfterError(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('afterError', callback);
 	}
-	public removeHandlerBeforeWrite(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerBeforeWrite(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('beforeWrite', callback);
 	}
-	public removeHandlerAfterWrite(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerAfterWrite(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('afterWrite', callback);
 	}
-	public removeHandlerBeforeWriteln(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerBeforeWriteln(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('beforeWriteln', callback);
 	}
-	public removeHandlerAfterWriteln(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerAfterWriteln(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('afterWriteln', callback);
 	}
-	public removeHandlerBeforeWarn(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerBeforeWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('beforeWarn', callback);
 	}
-	public removeHandlerAfterWarn(callback: (e: MsgEventArgs) => void) {
+	public removeHandlerAfterWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.events.off('afterWarn', callback);
 	}
 	public removeHandlerBeforeEmptyln(callback: (e: CancelEventArgs) => void) {
@@ -231,7 +196,8 @@ export class LogSimple implements ILog {
 	public removeHandlerAfterEmptyln(callback: (e: EventArgs) => void) {
 		this.events.off('afterEmptyln', callback);
 	}
-	//#endregion remove Event Handlers
+	//#endregion Remove Event Handlers
+
 	//#endregion Event Handlers
 
 	//#endregion Events

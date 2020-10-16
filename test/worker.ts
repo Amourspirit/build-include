@@ -9,6 +9,8 @@ import { FancyLogger } from "./fancy.logger";
 import { ILogger } from "../src/interface/projectInterfaces";
 import { LoggerNull } from "../src/log/LoggerNull";
 import { LoggerSimple } from "../src/log/LoggerSimple";
+import { LoggerEvent } from "../src/log/LoggerEvent";
+import { LogEvents } from "./LogEvents";
 import * as appRoot from 'app-root-path';
 
 export class TestWorker {
@@ -52,6 +54,9 @@ export class TestWorker {
       case 'simple':
         logger = new LoggerSimple();
         break;
+      case 'event':
+        logger = new LoggerEvent();
+        break;
       default:
         logger = new FancyLogger();
         break;
@@ -80,10 +85,13 @@ export class TestWorker {
     if (path.isAbsolute(dirPath)) {
       dirPath = this.joinRootPath(dirPath);
     } else {
-      dirPath = path.join(process.cwd(), dirPath) 
+      dirPath = path.join(process.cwd(), dirPath)
     }
     mkdirp.sync(dirPath);
-   
+    let logMonitior: LogEvents;
+    if (logger instanceof LoggerEvent) {
+      logMonitior = new LogEvents(logger);
+    }
     const bp = new BuildProcess(logger);
     let paths: string[] = [];
 
@@ -117,7 +125,7 @@ export class TestWorker {
       }
       try {
         const results = bp.buildInclude(contents, p, opt);
-        
+
         fs.writeFileSync(outFile, results, { encoding: Util.Encoding('utf8') });
       } catch (err) {
         throw err;
@@ -150,7 +158,7 @@ export class TestWorker {
     return result;
   }
 
-  private isDir(strPath:string) {
+  private isDir(strPath: string) {
     try {
       var stat = fs.lstatSync(strPath);
       return stat.isDirectory();

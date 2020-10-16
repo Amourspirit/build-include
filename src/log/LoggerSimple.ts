@@ -1,12 +1,15 @@
 import { ILogger } from "../interface/projectInterfaces";
 import { LogSimple } from "./LogSimple";
+import { CancelEventArgs } from "../event/CancelEventArgs";
+import { MsgEventArgs } from "../event/MsgEventArg";
+import { EOL } from "os";
 
 /**
  * Logger that logs to the Console.
  * If Verbose [[isVerbose]] is true then verbose logging will take place as well.
  */
 export class LoggerSimple implements ILogger {
-
+  private static LAST_LINE:string = '';
   /**
    * Creates a new instance of class
    */
@@ -15,6 +18,16 @@ export class LoggerSimple implements ILogger {
     this.verbose = new LogSimple();
     this.isVerbose = false;
     this.log.isVerbose = true;
+    this.log.addHandlerBeforeError(this.onError);
+    this.verbose.addHandlerBeforeError(this.onError);
+    this.log.addHandlerBeforeWrite(this.onWrite);
+    this.verbose.addHandlerBeforeWrite(this.onWrite);
+    this.log.addHandlerBeforeWriteln(this.onWriteln);
+    this.verbose.addHandlerBeforeWriteln(this.onWriteln);
+    this.log.addHandlerBeforeWarn(this.onWarn);
+    this.verbose.addHandlerBeforeWarn(this.onWarn);
+    this.log.addHandlerBeforeEmptyln(this.onEmptyln);
+    this.verbose.addHandlerBeforeEmptyln(this.onEmptyln);
   }
   /**
    * Logger that does the general logging
@@ -40,5 +53,31 @@ export class LoggerSimple implements ILogger {
   */
   public set isVerbose(verbose: boolean) {
     this.verbose.isVerbose = verbose;
+  }
+
+  private onError(e: MsgEventArgs) {
+    if (LoggerSimple.LAST_LINE === ".") {
+      process.stdout.write(EOL);
+    }
+    LoggerSimple.LAST_LINE = e.message;
+  }
+  private onWrite(e: MsgEventArgs) {
+    LoggerSimple.LAST_LINE = e.message;
+  }
+  private onWriteln(e: MsgEventArgs) {
+    if (LoggerSimple.LAST_LINE === ".") {
+      process.stdout.write(EOL);
+    }
+    LoggerSimple.LAST_LINE = e.message;
+  }
+  private onWarn(e: MsgEventArgs) {
+    if (LoggerSimple.LAST_LINE === ".") {
+      process.stdout.write(EOL);
+    }
+    LoggerSimple.LAST_LINE = e.message;
+  }
+  // tslint:disable-next-line: variable-name
+  private onEmptyln(_e: CancelEventArgs) {
+    LoggerSimple.LAST_LINE = EOL;
   }
 }

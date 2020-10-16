@@ -3,27 +3,29 @@ import mkdirp = require("mkdirp");
 import * as path from 'path';
 import { IOpt } from "../src/interface/projectInterfaces";
 import { TestWorker } from "./worker";
+import * as appRoot from 'app-root-path';
 
-const worker = new TestWorker(path.join(__dirname, '..', 'scratch/test'));
+const worker = new TestWorker(path.join(appRoot.path, 'scratch/test'));
 worker.verbose = false;
 // set the default logger for output from BuidProcess
-const logger: string = 'null'; // fancy, null or simple
+const logger: string = 'null'; // fancy, null, event or simple
+const testDir = path.join(appRoot.path, 'test');
 const contains = (where: any, what: string): boolean => {
 	const index: number = where.toString().indexOf(what);
 	return index > -1;
 }
 
-const jsonDir = path.join(__dirname, 'json');
+const jsonDir = path.join(testDir, 'json');
 const outDir = worker.outPath;
-const fixDir = path.join(__dirname, 'fixtures');
+const fixDir = path.join(testDir, 'fixtures');
 const copyTestFiles = () => {
 	const testFiles: string[][] = [];
-	testFiles.push(['fixtures/style.min.css', '../scratch/test/css/style.min.css']);
-	testFiles.push(['fixtures/replace1.txt', '../scratch/test/replace1.txt']);
+	testFiles.push(['fixtures/style.min.css', 'scratch/test/css/style.min.css']);
+	testFiles.push(['fixtures/replace1.txt', 'scratch/test/replace1.txt']);
 	// testFiles.push(['fixtures/sample01.js', '../scratch/test/sample_inline.js']);
 	testFiles.map(pair => {
-		const src = path.join(__dirname, pair[0]);
-		const dest = path.join(__dirname, pair[1]);
+		const src = path.join(testDir, pair[0]);
+		const dest = path.join(appRoot.path, pair[1]);
 		if (fs.existsSync(dest)) {
 			fs.unlinkSync(dest);
 		}
@@ -590,11 +592,12 @@ describe("Test Missing", function () {
 		done();
 	});
 	it("should test missing include and throw an error", (done) => {
-		worker.setOption({}, 'logger', logger);
+		const opt = {};
+		worker.setOption(opt, 'logger', logger);
 		const inPath = path.join(fixDir, 'badfile.txt');
 		const outPath = path.join(outDir, 'badfile02_replaced.txt');
 		expect(() => {
-			worker.doWork(inPath, outPath, {})
+			worker.doWork(inPath, outPath, opt)
 		}).toThrow();
 		done();
 	});
@@ -639,8 +642,8 @@ describe('Relative Paths Test', function () {
 		opt.verbose = worker.verbose;
 		worker.setOption(opt, 'logger', logger);
 		worker.setOption(opt, 'readSrc', false);
-		const inPath = path.join("test", "fixtures", 'simple.txt');
-		const outPath = path.join("/scratch","test", 'simple_replaced.txt');
+		const inPath = path.join(testDir, "fixtures", 'simple.txt');
+		const outPath = path.join(appRoot.path, "scratch","test", 'simple_replaced.txt');
 		const comparePath = path.join(fixDir, 'simple_replaced.txt');
 
 		worker.doWork(inPath, outPath, opt);
