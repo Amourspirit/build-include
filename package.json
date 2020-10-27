@@ -8,7 +8,7 @@
   "_sourceDir": "src",
   "_sourceDirTs": "{0}/build-include",
   "name": "build-include",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Set of classes for including files in other files",
   "type": "commonjs",
   "main": "./cjs/index.js",

@@ -341,7 +341,12 @@ export class BuildProcess {
 				} else {
 					// file included as buldinclude will have their path recognized
 					// as relative to the buldinclude file itself.
-					filePath = path.join(path.dirname(sourcePath), filePath);
+					let tmpPath = path.join(path.dirname(sourcePath), filePath);
+					if (fs.existsSync(tmpPath) === false) {
+						// if not existing relative to source then go with app root
+						tmpPath = path.join(appRoot.path, filePath);	
+					}
+					filePath = tmpPath;
 				}
 				if (isIncludeFileOK(filePath) === false) {
 					continue;

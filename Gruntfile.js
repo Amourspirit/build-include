@@ -172,7 +172,7 @@ module.exports = function (grunt) {
           match: {
             // kind: 'bracketInclude',
             kind: 'bracketIncludeMulti',
-            path: './doc/'
+            path: 'doc/'
           },
           comment: {
             type: 'singleAsterisk'
