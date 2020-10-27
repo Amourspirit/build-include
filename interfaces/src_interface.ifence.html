@@ -82,7 +82,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IFence</span>
+						<a href="src_interface.ioptfence.html" class="tsd-signature-type">IOptFence</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">IFence</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -99,9 +104,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="src_interface.ifence.html#end" class="tsd-kind-icon">end</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="src_interface.ifence.html#end" class="tsd-kind-icon">end</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="src_interface.ifence.html#remove" class="tsd-kind-icon">remove</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="src_interface.ifence.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="src_interface.ifence.html#start" class="tsd-kind-icon">start</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="src_interface.ifence.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
@@ -110,13 +115,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="end" class="tsd-anchor"></a>
 					<h3>end</h3>
 					<div class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="src_interface.ioptfence.html">IOptFence</a>.<a href="src_interface.ioptfence.html#end">end</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/c9b7ae7/src/interface/projectInterfaces.ts#L472">src/interface/projectInterfaces.ts:472</a></li>
+							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/f894972/src/interface/projectInterfaces.ts#L456">src/interface/projectInterfaces.ts:456</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -124,9 +130,7 @@
 							<p>End of Fence.<br>Can be string value such as:</p>
 							<pre><code><span class="hljs-string">&quot;```&quot;</span></code></pre>
 							<p>--or-- regular expression such as</p>
-							<pre><code><span class="hljs-string">&quot;/```(:?(?:$)|(?:[\r\n]+))/&quot;</span>  </code></pre>
-							<p>When constructing a regular expressiong it must start with <code>/</code> and end with <code>/</code>; Otherwise, it will be treated as a string.<br><strong>Do not</strong> include options after regular expression.  </p>
-							<p>Start and end are ignored if <a href="/build-include/interfaces/src_modules.ifence.html#type">type</a> is set.  </p>
+							<pre><code><span class="hljs-regexp">/^```(?:(?:$)|(?:[\r\n]+))/</span>  </code></pre>
 						</div>
 					</div>
 				</section>
@@ -136,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/c9b7ae7/src/interface/projectInterfaces.ts#L476">src/interface/projectInterfaces.ts:476</a></li>
+							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/f894972/src/interface/projectInterfaces.ts#L471">src/interface/projectInterfaces.ts:471</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -145,13 +149,14 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="start" class="tsd-anchor"></a>
 					<h3>start</h3>
 					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="src_interface.ioptfence.html">IOptFence</a>.<a href="src_interface.ioptfence.html#start">start</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/c9b7ae7/src/interface/projectInterfaces.ts#L468">src/interface/projectInterfaces.ts:468</a></li>
+							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/f894972/src/interface/projectInterfaces.ts#L452">src/interface/projectInterfaces.ts:452</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,9 +164,7 @@
 							<p>Start of Fence.<br>Can be string value such as:</p>
 							<pre><code><span class="hljs-string">&quot;```&quot;</span></code></pre>
 							<p>--or-- regular expression such as</p>
-							<pre><code><span class="hljs-string">&quot;/```(?:(?:$)|(?:[\r\n]+))/&quot;</span>  </code></pre>
-							<p>When constructing a regular expressiong it must start with <code>/</code> and end with <code>/</code>; Otherwise, it will be treated as a string.<br><strong>Do not</strong> include options after regular expression.</p>
-							<p>Start and end are ignored if <a href="/build-include/interfaces/src_modules.ifence.html#type">type</a> is set.  </p>
+							<pre><code>/^```<span class="hljs-comment">(?:([a-zA-Z]+)</span>?<span class="hljs-comment">(?:[\r\n]+)</span>)<span class="hljs-comment">(?:[\s\S]+?)</span>/  </code></pre>
 						</div>
 					</div>
 				</section>
@@ -171,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/enums.fencekind.html" class="tsd-signature-type">fenceKind</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/c9b7ae7/src/interface/projectInterfaces.ts#L464">src/interface/projectInterfaces.ts:464</a></li>
+							<li>Defined in <a href="https://github.com/Amourspirit/build-include/blob/f894972/src/interface/projectInterfaces.ts#L467">src/interface/projectInterfaces.ts:467</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -246,6 +249,12 @@
 						<a href="../modules/src_opt.html">src/opt</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/src_typeguard.html">src/type<wbr>Guard</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/src_util.html">src/util</a>
 					</li>
 				</ul>
@@ -272,13 +281,13 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="src_interface.ifence.html" class="tsd-kind-icon">IFence</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="src_interface.ifence.html#end" class="tsd-kind-icon">end</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="src_interface.ifence.html#remove" class="tsd-kind-icon">remove</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="src_interface.ifence.html#start" class="tsd-kind-icon">start</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -302,6 +311,12 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="src_interface.ilog.html" class="tsd-kind-icon">ILog</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="src_interface.ilogevents.html" class="tsd-kind-icon">ILog<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="src_interface.ilogeventsverbose.html" class="tsd-kind-icon">ILog<wbr>Events<wbr>Verbose</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="src_interface.ilogger.html" class="tsd-kind-icon">ILogger</a>

@@ -85,7 +85,12 @@
 					<h3>Build-Include Replace</h3>
 				</a>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
-<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./lib/main.js&#x27;</span>, {});</code></pre>
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./lib/main.js&#x27;</span>, opt);</code></pre>
 				<p>The <strong>// BUILD_INCLUDE</strong> in main.js will be replaced with the contents of <em>replaceComment.txt</em>.</p>
 				<p>See other <a href="/build-include/pages/Docs/examples/index.html">examples</a></p>
 				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
@@ -99,13 +104,16 @@
 				<a href="#common-js" id="common-js" style="color: inherit; text-decoration: none;">
 					<h3>Common JS</h3>
 				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/cjs/BuildProcess&#x27;</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/cjs/BuildProcess&quot;</span>;
 <span class="hljs-keyword">import</span> { LoggerSimple } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/cjs/log/LoggerSimple&quot;</span>;
 
 <span class="hljs-comment">// include LoggerSimple in the constructor so instance logs to the console.</span>
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
 
 <span class="hljs-keyword">const</span> opt = {
+   <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -114,13 +122,16 @@
 				<a href="#es6-module" id="es6-module" style="color: inherit; text-decoration: none;">
 					<h3>ES6 Module</h3>
 				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;build-include/esm/BuildProcess&#x27;</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BuildProcess } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/esm/BuildProcess&quot;</span>;
 <span class="hljs-keyword">import</span> { LoggerSimple } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;build-include/esm/log/LoggerSimple&quot;</span>;
 
 <span class="hljs-comment">// include LoggerSimple in the constructor so instance logs to the console.</span>
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
 
 <span class="hljs-keyword">const</span> opt = {
+   <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  }
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -200,6 +211,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/src_typeguard.html">src/type<wbr>Guard</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../modules/src_util.html">src/util</a>

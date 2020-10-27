@@ -87,6 +87,9 @@
 				<p>Any Missing file will be ignoreed with <a href="/build-include/pages/Docs/Main/Options/ignoreMissing/index.html">ignoreMissing</a> is set to <code>true</code></p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
 <span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">text</span>: {
     <span class="hljs-attr">code</span>: <span class="hljs-string">&quot;base64&quot;</span>,
     <span class="hljs-attr">codekind</span>: <span class="hljs-string">&quot;encode&quot;</span>
@@ -151,7 +154,16 @@ vdmVuIHNpbGsgcHlqYW1hcyBleGNoYW5nZWQgZm9yIGJsdWUgcXVhcnR6Lg==)</code></pre>
 }</code></pre>
 				<p>or
 				inlline <code>text?code=base64&amp;codeKind=encode</code><br>Depending on the value of <code>codeKind</code> Base64 encoding or decoding is applied.<br><code>code</code> and <code>codeKind</code> are both required when encoding or decoding.  </p>
-				<p><strong>See Also:</strong> <a href="/build-include/interfaces/src_interface.iopt.html">IOpt</a>  </p>
+				<p><code>{match:{kind: &quot;buildIncludeSlash&quot; }}</code>  </p>
+				<a href="#matches-the-following" id="matches-the-following" style="color: inherit; text-decoration: none;">
+					<h4>Matches the following</h4>
+				</a>
+				<pre><code class="language-text">// BUILD_INCLUDE(filePath)
+// BUILD_INCLUDE(filePath)[options]
+// BUILD_INCLUDE(filePath)  
+[options]</code></pre>
+				<p><strong>See Also:</strong> Class <a href="../../../classes/src_matches.matchbuildincludeslash.html">MatchBuildIncludeSlash</a>  </p>
+				<p><strong>See Also:</strong> <a href="../../../interfaces/src_interface.iopt.html">IOpt</a><br><strong>See Also:</strong> <a href="../../../enums/enums.regexkind.html">regexKind</a>  for match kind options.  </p>
 				<style>
 .tsd-typography h5, .tsd-typography h6 {
     font-weight: bold;
@@ -294,6 +306,12 @@ vdmVuIHNpbGsgcHlqYW1hcyBleGNoYW5nZWQgZm9yIGJsdWUgcXVhcnR6Lg==)</code></pre>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_typeguard.html">src/type<wbr>Guard</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_util.html">src/util</a>

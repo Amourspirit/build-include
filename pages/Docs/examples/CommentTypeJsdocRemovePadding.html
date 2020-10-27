@@ -87,7 +87,12 @@
 					<h3>Config</h3>
 				</a>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
-<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace.txt&#x27;</span>, {});</code></pre>
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace.txt&#x27;</span>, opt);</code></pre>
 				<a href="#output" id="output" style="color: inherit; text-decoration: none;">
 					<h3>Output</h3>
 				</a>
@@ -149,6 +154,16 @@
 					<h4>Option</h4>
 				</a>
 				<p><code>comment?padleft=0</code><br>Setting padleft to a value of 0 actually removes any padding between * and the input file line contents. This may not be perferable in most cases. The value can be increased to created more spaces other than the default of 1.</p>
+				<p><code>{match:{kind: &quot;buildIncludeSlash&quot; }}</code>  </p>
+				<a href="#matches-the-following" id="matches-the-following" style="color: inherit; text-decoration: none;">
+					<h4>Matches the following</h4>
+				</a>
+				<pre><code class="language-text">// BUILD_INCLUDE(filePath)
+// BUILD_INCLUDE(filePath)[options]
+// BUILD_INCLUDE(filePath)  
+[options]</code></pre>
+				<p><strong>See Also:</strong> Class <a href="../../../classes/src_matches.matchbuildincludeslash.html">MatchBuildIncludeSlash</a>  </p>
+				<p><strong>See Also:</strong> <a href="../../../interfaces/src_interface.iopt.html">IOpt</a><br><strong>See Also:</strong> <a href="../../../enums/enums.regexkind.html">regexKind</a>  for match kind options.  </p>
 				<style>
   @media (min-width: 641px) {
     div.nowrapcode {
@@ -309,6 +324,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_typeguard.html">src/type<wbr>Guard</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_util.html">src/util</a>

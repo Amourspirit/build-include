@@ -74,19 +74,17 @@
 				<a href="#logging" id="logging" style="color: inherit; text-decoration: none;">
 					<h2>Logging</h2>
 				</a>
-				<p>By default instances of <a href="/build-include/classes/src.buildprocess.html">BuildProcess</a> do not log activity.</p>
+				<p>By default instances of <a href="../../../classes/src.buildprocess.html">BuildProcess</a> do not log activity.</p>
 				<p>There are two loggers that come bundled with <strong>build-include</strong>.  </p>
-				<p><a href="/build-include/classes/src_log.loggersimple.html">LoggerSimple</a>. Logs activity to console.
-					<a href="/build-include/classes/src_log.loggernull.html">LoggerNull</a> - Actually ignores all logging.
+				<p><a href="../../../classes/src_log.loggersimple.html">LoggerSimple</a> - Logs activity to console.
+					<a href="../../../classes/src_log.loggerevent.html">LoggerEvent</a> - Actually ignores all logging.
 				This is the default logger used if no other logger is specified.</p>
-				<p>Custom Loggers can be created  by creating a class thet implements the <a href="/build-include/interfaces/src_interface.ilogger.html">Interface ILogger</a>
-				and a class the implements <a href="/build-include/interfaces/src_interface.ilog.html">Interface ILog</a>.</p>
-				<p>See <a href="/build-include/classes/src_log.logsimple.html">Class LogSimple</a> and
-				<a href="/build-include/classes/src_log.loggersimple.html">Class LoggerSimple</a> for examples.</p>
+				<p>Custom Loggers can be created  by creating a class thet implements the Interface <a href="../../../interfaces/src_interface.ilogger.html">ILogger</a>
+				and a class the implements Interface <a href="../../../interfaces/src_interface.ilog.html">ILog</a>.</p>
 				<a href="#log-to-console" id="log-to-console" style="color: inherit; text-decoration: none;">
 					<h3>Log to Console</h3>
 				</a>
-				<p>Logging with <a href="/build-include/classes/src_log.logsimple.html">LogSimple</a></p>
+				<p>Logging with <a href="../../../classes/src_log.loggersimple.html">LoggerSimple</a></p>
 				<a href="#common-js" id="common-js" style="color: inherit; text-decoration: none;">
 					<h4>Common JS</h4>
 				</a>
@@ -97,6 +95,9 @@
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
 
 <span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -112,6 +113,9 @@
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess(<span class="hljs-keyword">new</span> LoggerSimple());
 
 <span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -120,7 +124,7 @@
 				<a href="#no-logging" id="no-logging" style="color: inherit; text-decoration: none;">
 					<h3>NO Logging</h3>
 				</a>
-				<p>Logging with <a href="/build-include/classes/src_log.loggernull.html">LoggerNull</a> requires not logger to be passed into constructor.</p>
+				<p>Logging with <a href="../../../classes/src_log.loggerevent.html">LoggerEvent</a> requires no logger to be passed into constructor.<br>Due to the fact that <a href="../../../classes/src_log.loggerevent.html">LoggerEvent</a> only raises events no actual logging will take place.</p>
 				<a href="#common-js-1" id="common-js-1" style="color: inherit; text-decoration: none;">
 					<h4>Common JS</h4>
 				</a>
@@ -129,6 +133,9 @@
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
 
 <span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -142,6 +149,9 @@
 <span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
 
 <span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;buildIncludeSlash&quot;</span>
+  },
   <span class="hljs-attr">comment</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;Single&quot;</span>
   }
@@ -211,6 +221,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_typeguard.html">src/type<wbr>Guard</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_util.html">src/util</a>

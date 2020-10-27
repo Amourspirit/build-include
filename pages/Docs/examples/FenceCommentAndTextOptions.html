@@ -87,60 +87,16 @@
 				</div>
 				<p>File <a href="replacements/replace02.txt.html">replace02.txt</a> is to be included in output file.
 				File <a href="replacements/replace02.txt.html">replace02.txt</a> contains fences and enpty lines.<br>When fences are removed it may result in extra lines that are not the most desired output.<br>When you need to remove empty lines and or white space lines you can use the <code>text</code> <code>whiteSpaceLine</code> options.<br>See example: <a href="FencedRemoveWithCommentAndWhiteSpaceLines.html">Comment Remove Fenced And White Space Lines</a></p>
-				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
-					<h3>Options</h3>
-				</a>
-				<div class="nowrapcode">
-					<pre><code class="language-text">[fence?type=multiflex&amp;remove=true,comment?type=singleAsterisk,text?indent=true]</code></pre>
-				</div>
-				<a href="#fence" id="fence" style="color: inherit; text-decoration: none;">
-					<h3>Fence</h3>
-				</a>
-				<p>The various options of <code>fence</code> allow for the processing of fenced sections in input file.<br>Fences are used to omit section of a build_include replacement from being processed.<br>Thus the fenced section is included verbatium unless options are set to explicity exclude fences from output.  </p>
-				<a href="#fence-type" id="fence-type" style="color: inherit; text-decoration: none;">
-					<h4>Fence Type</h4>
-				</a>
-				<p>Determines the type of Fence to Apply.<br>Can be any <a href="/build-include/enums/enums.fencekind.html">fenceKind</a> such as <code>strict</code>  </p>
-				<a href="#fence-type-multiflex" id="fence-type-multiflex" style="color: inherit; text-decoration: none;">
-					<h2>Fence Type MultiFlex</h2>
-				</a>
-				<p>See: Fence Type <a href="/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html">MultiFlex</a></p>
-				<a href="#fence-remove" id="fence-remove" style="color: inherit; text-decoration: none;">
-					<h4>Fence Remove</h4>
-				</a>
-				<p><code>fence?remove=true</code>  <code>true</code> or <code>false</code> - Default: <code>false</code><br>Boolean value to determine if fences should be removed from output.<br>If set to true then fenced sections will be excluded from output.  </p>
-				<a href="#comment" id="comment" style="color: inherit; text-decoration: none;">
-					<h3>Comment</h3>
-				</a>
-				<p>The option <code>comments</code> allow for input file content to be treated as comments in the output.  </p>
-				<a href="#comment-type-singleasterisk" id="comment-type-singleasterisk" style="color: inherit; text-decoration: none;">
-					<h5>Comment Type SingleAsterisk</h5>
-				</a>
-				<p><code>{comment: { type: &quot;singleAsterisk&quot; }}</code> or inline <code>comment?type=singleAsterisk</code><br>Pads the left side of each line with * and a single space.<br>Useful for comment replacement that is required inline.</p>
-				<p><strong>Example:</strong><br>If you have the following.</p>
-				<pre><code class="language-js"><span class="hljs-comment">/**
- * [[include:doc/myMarkdown.md]]
- */</span></code></pre>
-				<p>The output would be similar to the following.</p>
-				<pre><code class="language-js"><span class="hljs-comment">/**
- * my multi line comments
- * comments continue on this line
- */</span></code></pre>
-				<p>See: Enum values for <a href="/build-include/enums/enums.commentkind.html">commentkind</a> for possible types.  </p>
-				<a href="#text" id="text" style="color: inherit; text-decoration: none;">
-					<h3>Text</h3>
-				</a>
-				<p>The option <code>text</code> allow for input file content to be manipulated in several ways before being outputed.  </p>
-				<a href="#text-indent" id="text-indent" style="color: inherit; text-decoration: none;">
-					<h4>Text Indent</h4>
-				</a>
-				<p><code>{text: {indent: true}}</code> or inline <code>text?indent=true</code><br>The option <code>text?indent</code> or <code>text?indent=true</code> will result in the output including the indent on each line
-				that came before the BUILD_INCLUDE.  </p>
 				<a href="#config" id="config" style="color: inherit; text-decoration: none;">
 					<h3>Config</h3>
 				</a>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> bp = <span class="hljs-keyword">new</span> BuildProcess();
-<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace2.txt&#x27;</span>, {});</code></pre>
+<span class="hljs-keyword">const</span> opt = {
+  <span class="hljs-attr">match</span>: {
+    <span class="hljs-attr">kind</span>: <span class="hljs-string">&quot;bracketIncludeMulti&quot;</span>
+  }
+};
+<span class="hljs-keyword">const</span> results = bp.buildInclude(<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;./includes/replace2.txt&#x27;</span>, opt);</code></pre>
 				<a href="#output" id="output" style="color: inherit; text-decoration: none;">
 					<h3>Output</h3>
 				</a>
@@ -191,6 +147,66 @@
  *     
  */</span></code></pre>
 				</div>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<div class="nowrapcode">
+					<pre><code class="language-text">[fence?type=multiflex&amp;remove=true,comment?type=singleAsterisk,text?indent=true]</code></pre>
+				</div>
+				<a href="#fence" id="fence" style="color: inherit; text-decoration: none;">
+					<h3>Fence</h3>
+				</a>
+				<p>The various options of <code>fence</code> allow for the processing of fenced sections in input file.<br>Fences are used to omit section of a build_include replacement from being processed.<br>Thus the fenced section is included verbatium unless options are set to explicity exclude fences from output.  </p>
+				<a href="#fence-type" id="fence-type" style="color: inherit; text-decoration: none;">
+					<h4>Fence Type</h4>
+				</a>
+				<p>Determines the type of Fence to Apply.<br>Can be any <a href="/build-include/enums/enums.fencekind.html">fenceKind</a> such as <code>strict</code>  </p>
+				<a href="#fence-type-multiflex" id="fence-type-multiflex" style="color: inherit; text-decoration: none;">
+					<h2>Fence Type MultiFlex</h2>
+				</a>
+				<p>See: Fence Type <a href="/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html">MultiFlex</a></p>
+				<a href="#fence-remove" id="fence-remove" style="color: inherit; text-decoration: none;">
+					<h4>Fence Remove</h4>
+				</a>
+				<p><code>fence?remove=true</code>  <code>true</code> or <code>false</code> - Default: <code>false</code><br>Boolean value to determine if fences should be removed from output.<br>If set to true then fenced sections will be excluded from output.  </p>
+				<a href="#comment" id="comment" style="color: inherit; text-decoration: none;">
+					<h3>Comment</h3>
+				</a>
+				<p>The option <code>comments</code> allow for input file content to be treated as comments in the output.  </p>
+				<a href="#comment-type-singleasterisk" id="comment-type-singleasterisk" style="color: inherit; text-decoration: none;">
+					<h5>Comment Type SingleAsterisk</h5>
+				</a>
+				<p><code>{comment: { type: &quot;singleAsterisk&quot; }}</code> or inline <code>comment?type=singleAsterisk</code><br>Pads the left side of each line with * and a single space.<br>Useful for comment replacement that is required inline.</p>
+				<p><strong>Example:</strong><br>If you have the following.</p>
+				<pre><code class="language-js"><span class="hljs-comment">/**
+ * [[include:doc/myMarkdown.md]]
+ */</span></code></pre>
+				<p>The output would be similar to the following.</p>
+				<pre><code class="language-js"><span class="hljs-comment">/**
+ * my multi line comments
+ * comments continue on this line
+ */</span></code></pre>
+				<p>See: Enum values for <a href="/build-include/enums/enums.commentkind.html">commentkind</a> for possible types.  </p>
+				<a href="#text" id="text" style="color: inherit; text-decoration: none;">
+					<h3>Text</h3>
+				</a>
+				<p>The option <code>text</code> allow for input file content to be manipulated in several ways before being outputed.  </p>
+				<a href="#text-indent" id="text-indent" style="color: inherit; text-decoration: none;">
+					<h4>Text Indent</h4>
+				</a>
+				<p><code>{text: {indent: true}}</code> or inline <code>text?indent=true</code><br>The option <code>text?indent</code> or <code>text?indent=true</code> will result in the output including the indent on each line
+				that came before the BUILD_INCLUDE.  </p>
+				<p><code>{match:{kind: &quot;bracketIncludeMulti&quot; }}</code>  </p>
+				<a href="#matches-the-following" id="matches-the-following" style="color: inherit; text-decoration: none;">
+					<h4>Matches the following</h4>
+				</a>
+				<pre><code class="language-text">[[include:filepath]]
+[[include:filepath]](options)  
+* [[include:filepath]]  
+* [[include:filepath]](options)  
+// [[include:filepath]]  
+// [[include:filepath]](options)</code></pre>
+				<p><strong>See Also:</strong> Class <a href="../../../classes/src_matches.matchbracketincludemulti.html">MatchBracketIncludeMulti</a><br><strong>See Also:</strong> <a href="../../../interfaces/src_interface.iopt.html">IOpt</a><br><strong>See Also:</strong> <a href="../../../enums/enums.regexkind.html">regexKind</a>  for match kind options.  </p>
 				<style>
   @media (min-width: 641px) {
     div.nowrapcode {
@@ -351,6 +367,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_opt.html">src/opt</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_process.html">src/process</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../../modules/src_typeguard.html">src/type<wbr>Guard</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../../modules/src_util.html">src/util</a>
