@@ -8,7 +8,10 @@ by seting fence to string value of [regexKind.strict](/build-include/enums/enums
 ````js
 bp = new BuildProcess();
 const opt = {
-  fence: 'strict'
+  match: {
+    kind: "buildIncludeSlash"
+  },
+  fence: "strict"
 };
 const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````

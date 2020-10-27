@@ -9,10 +9,10 @@ import { IFence } from "../interface/projectInterfaces";
  * Not recommented to be use externally.
  */
 export class NullFence implements IFence {
-  type: fenceKind;
-  start: string | RegExp;
-  end: string | RegExp;
-  remove: boolean;
+  public type: fenceKind;
+  public start: string | RegExp;
+  public end: string | RegExp;
+  public remove: boolean;
   constructor() {
     this.end = '';
     this.start = '';

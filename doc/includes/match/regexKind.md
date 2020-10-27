@@ -1,0 +1,1 @@
+**See Also:** [[regexKind]]  for match kind options.  

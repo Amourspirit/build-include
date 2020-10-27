@@ -14,7 +14,12 @@
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace.txt', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````
 
 ### Output
@@ -59,5 +64,10 @@ Comment in jsDoc style and remove padding between * and start of lines.
 `comment?padleft=0`  
 Setting padleft to a value of 0 actually removes any padding between * and the input file line contents. This may not be perferable in most cases. The value can be increased to created more spaces other than the default of 1.
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

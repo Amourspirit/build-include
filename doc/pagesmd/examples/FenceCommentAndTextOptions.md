@@ -18,38 +18,16 @@ When fences are removed it may result in extra lines that are not the most desir
 When you need to remove empty lines and or white space lines you can use the `text` `whiteSpaceLine` options.  
 See example: [Comment Remove Fenced And White Space Lines](FencedRemoveWithCommentAndWhiteSpaceLines.html)
 
-### Options
-
-<div class="nowrapcode">
-
-```text
-[fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true]
-```
-
-</div>
-
-[[include:includes/fence/fence.md]]
-
-[[include:includes/fence/type/type.md]]
-
-[[include:includes/fence/type/multiFlex/multiflex.md]]
-See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html)
-
-[[include:includes/fence/remove/remove.md]]
-
-[[include:includes/comment/comment.md]]
-
-[[include:includes/comment/type/SingleAsterisk.md]]
-
-[[include:includes/text/text.md]]
-
-[[include:includes/text/indent/indent.md]]
-
 ### Config
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace2.txt', {});
+const opt = {
+  match: {
+    kind: "bracketIncludeMulti"
+  }
+};
+const results = bp.buildInclude('','./includes/replace2.txt', opt);
 ````
 
 ### Output
@@ -106,5 +84,36 @@ const results = bp.buildInclude('','./includes/replace2.txt', {});
 
 </div>
 
+### Options
+
+<div class="nowrapcode">
+
+```text
+[fence?type=multiflex&remove=true,comment?type=singleAsterisk,text?indent=true]
+```
+
+</div>
+
+[[include:includes/fence/fence.md]]
+
+[[include:includes/fence/type/type.md]]
+
+[[include:includes/fence/type/multiFlex/multiflex.md]]
+See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/MultiFlex/index.html)
+
+[[include:includes/fence/remove/remove.md]]
+
+[[include:includes/comment/comment.md]]
+
+[[include:includes/comment/type/SingleAsterisk.md]]
+
+[[include:includes/text/text.md]]
+
+[[include:includes/text/indent/indent.md]]
+
+`{match:{kind: "bracketIncludeMulti" }}`  
+[[include:docs/enums/regexKind/bracketIncludeMulti.md]]
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

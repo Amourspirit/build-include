@@ -19,6 +19,6 @@ export class StrictFence implements IOptFence {
   public end: string | RegExp;
   public constructor() {
     this.start = '```';
-    this.end = '```'
+    this.end = '```';
   }
 }

@@ -27,7 +27,12 @@ File [replace02.txt](replacements/replace02.txt.html) is to be included in outpu
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace.txt', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````
 
 
@@ -71,5 +76,10 @@ See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/Mu
 
 [[include:includes/text/whiteSpaceLine/removeAllWs.md]]
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

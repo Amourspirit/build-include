@@ -1,5 +1,5 @@
 import { ILog } from "../interface/projectInterfaces";
-import { Events } from "../event/Events";
+import { EventHandler } from "class-event-handler";
 import { MsgEventAnyArgs } from "../event/MsgEventAnyArgs";
 import { EventArgs } from "../event/EventArgs";
 import { CancelEventArgs } from "../event/CancelEventArgs";
@@ -9,10 +9,10 @@ import { CancelEventArgs } from "../event/CancelEventArgs";
  */
 export class LogEvent implements ILog {
 	public isVerbose: boolean = false;
-	private events: Events;
+	private events: EventHandler;
 	// tslint:disable-next-line: no-empty
 	constructor() {
-		this.events = new Events();
+		this.events = new EventHandler();
 	}
 
 	//#region  ILog Methods
@@ -36,7 +36,7 @@ export class LogEvent implements ILog {
 	 * Write a new ling to the log
 	 * @param args one or more string args to write
 	 */
-	public write(...args: string[]): void {
+	public write(...args: any[]): void {
 		if (this.isVerbose === true) {
 			const mArgs = new MsgEventAnyArgs();
 			mArgs.args = [...args];

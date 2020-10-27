@@ -4,7 +4,8 @@ import { commentKind, fenceKind, triState, whiteSpLn } from "../enums/projectEnu
 import { IBiOpt, IBuildIncludeOpt, IOptFence } from "../interface/projectInterfaces";
 import { Util } from "../util/Util";
 import { lnEndOpt, splitByOpt, widthFlags } from "string-breaker";
-import { getFenceKind, getFenceOptions } from "./defaultOptions";
+import { FenceProcess } from '../process/FenceProcess';
+// import { getFenceKind, getFenceOptions } from "./defaultOptions";
 
 /**
  * Handles Merging of Options
@@ -82,7 +83,7 @@ export class MergeOptions {
     return hasOpt;
   }
 
-  private isMergedBiText (): boolean {
+  private isMergedBiText(): boolean {
     const txt = this.newOpt.text;
     let hasOpt: boolean = false;
     if (txt) {
@@ -236,7 +237,7 @@ export class MergeOptions {
     }
     return hasOpt;
   }
-  
+
   private isMergedBiBreakString(): boolean {
     const bs = this.newOpt.breakstring;
     let hasOpt: boolean = false;
@@ -253,9 +254,9 @@ export class MergeOptions {
             if (bs.break) {
               if (typeof bs.break === 'number') {
                 // parse just in case not a correct number
-                result = Util.ParseEnumSplitByOpt(bs.break);
+                result = Util.parseEnumSplitByOpt(bs.break);
               } else {
-                result = Util.ParseEnumSplitByOpt(bs.break.toString());
+                result = Util.parseEnumSplitByOpt(bs.break.toString());
               }
             }
             return result;
@@ -278,9 +279,9 @@ export class MergeOptions {
             if (bs.eol) {
               if (typeof bs.eol === 'number') {
                 // parse just in case not a correct number
-                result = Util.ParseEnumLnEndOpt(bs.eol);
+                result = Util.parseEnumLnEndOpt(bs.eol);
               } else {
-                result = Util.ParseEnumLnEndOpt(bs.eol.toString());
+                result = Util.parseEnumLnEndOpt(bs.eol.toString());
               }
             }
             return result;
@@ -345,36 +346,31 @@ export class MergeOptions {
     let maybeFence: IOptFence | undefined;
     if (typeof cFence === 'string' || typeof cFence === 'number') {
       this.currentOpt.fence.type = fenceKind.parse(cFence);
-      maybeFence = getFenceKind(this.currentOpt.fence.type);
+      maybeFence = FenceProcess.getFenceKind(this.currentOpt.fence.type);
       if (maybeFence) {
-        this.currentOpt.fence.start = maybeFence.start;
-        this.currentOpt.fence.end = maybeFence.end;
-        this.currentOpt.fence.remove = false;
+        for (const key in maybeFence) {
+          if (Object.prototype.hasOwnProperty.call(maybeFence, key)) {
+            const el = maybeFence[key];
+            if (typeof el !== "undefined"
+              && typeof el === typeof this.currentOpt.fence[key])
+              this.currentOpt.fence[key] = el;
+          }
+        }
       }
     } else if (typeof cFence === 'object') {
       if (cFence.hasOwnProperty('type')) {
-        maybeFence = getFenceKind(this.currentOpt.fence.type);
+        maybeFence = FenceProcess.getFenceKind(this.currentOpt.fence.type);
         this.currentOpt.fence.type = cFence.type;
       }
-      if (cFence.hasOwnProperty('start')) {
-        this.currentOpt.fence.start = cFence.start;
-      } else if (maybeFence) {
-        this.currentOpt.fence.start = maybeFence.start;
-      }
-      if (cFence.hasOwnProperty('end')) {
-        this.currentOpt.fence.end = cFence.end;
-      } else if (maybeFence) {
-        this.currentOpt.fence.end = maybeFence.end;
-      }
-
-      if (cFence.hasOwnProperty('remove')
-        && typeof cFence.remove === 'boolean') {
-        this.currentOpt.fence.remove = cFence.remove;
-      } else {
-        this.currentOpt.fence.remove = false;
+      for (const key in cFence) {
+        if (Object.prototype.hasOwnProperty.call(cFence, key)) {
+          const el = cFence[key];
+          if (typeof el !== "undefined" && typeof this.currentOpt.fence[key] !== "undefined")
+            this.currentOpt.fence[key] = el;
+        }
       }
     }
-    const reg: RegExp | undefined = getFenceOptions(this.newOpt.fence);
+    const reg: RegExp | undefined = FenceProcess.getFenceOptions(this.newOpt.fence);
     if (reg) {
       if (this.currentOpt.regexFence === undefined || this.hasOverride === true) {
         hasOpt = true;

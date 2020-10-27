@@ -14,7 +14,12 @@
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace.txt', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````
 
 ### Output
@@ -62,5 +67,10 @@ The indent before // BUILD_INCLUDE is added before each line of the output.
 
 [[include:includes/breakstring/flags/word.md]]
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

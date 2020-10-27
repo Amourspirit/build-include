@@ -90,11 +90,11 @@ See: Fence Type [MultiFlex](/build-include/pages/Docs/Main/Options/fence/type/Mu
 
 [[include:includes/text/indent/indent.md]]
 
-#### Match Kind: bracketIncludeMulti
 
+`{match:{kind: "bracketIncludeMulti" }}`  
 [[include:docs/enums/regexKind/bracketIncludeMulti.md]]
 
 [[include:includes/options/iopt.md]]
-
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

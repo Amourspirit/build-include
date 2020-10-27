@@ -384,7 +384,7 @@ module.exports = function (grunt) {
   //#endregion Register Task Constants
 
   //#region Grunt Task Build
-  grunt.registerTask('build', [
+  grunt.registerTask('buildcjs', [
     'env:build',
     'loadconst',
     'log-const',
@@ -416,8 +416,8 @@ module.exports = function (grunt) {
   ]);
 
 
-  grunt.registerTask('buildall', [
-    'build',
+  grunt.registerTask('build', [
+    'buildcjs',
     'buildesm',
     'copy:readme',
     'copy:license',

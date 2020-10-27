@@ -14,7 +14,12 @@
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace.txt', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````
 
 ### Output
@@ -61,5 +66,10 @@ Comment in jsDoc style and lines are brokend and near as possible to 70 characte
 
 [[include:includes/breakstring/flags/word.md]]
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

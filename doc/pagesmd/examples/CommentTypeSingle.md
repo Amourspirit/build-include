@@ -15,6 +15,9 @@
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   comment: {
     type: "Single"
   }
@@ -48,7 +51,10 @@ File [replace01.txt](replacements/replace01.txt.html) is to be included in outpu
 [[include:includes/comment/comment.md]]
 [[include:includes/comment/type/single.md]]
 
-[[include:includes/options/iopt.md]]
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

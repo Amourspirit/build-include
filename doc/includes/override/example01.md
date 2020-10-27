@@ -8,6 +8,9 @@ and each BUILD_INCLUE file would be split into lines that are 100 characters wid
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   asJsString: true,
   breakstring: {
     width: 100,

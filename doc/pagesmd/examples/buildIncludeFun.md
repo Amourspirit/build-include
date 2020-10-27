@@ -16,6 +16,9 @@ Using [buildInclude](/build-include/modules/src.html#buildinclude) method instea
 import { buildInclude } from 'build-include/cjs/index';
 
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   comment: {
     type: "pound"
   },
@@ -88,6 +91,8 @@ Comment in jsDoc style and lines are brokend and near as possible to 70 characte
 
 [[include:includes/breakstring/flags/word.md]]
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 [[include:includes/options/iopt.md]]
 
 [[include:style/nowrapcode.html]]  

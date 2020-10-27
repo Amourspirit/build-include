@@ -13,6 +13,9 @@ Any Missing file will be ignoreed with [ignoreMissing](/build-include/pages/Docs
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   text: {
     code: "base64",
     codekind: "encode"
@@ -64,6 +67,9 @@ File [replace01.txt](replacements/replace01.txt.html) is to be included in outpu
 
 [[include:includes/text/code/base64.md]]
 
-[[include:includes/options/iopt.md]]
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/heading.html]]

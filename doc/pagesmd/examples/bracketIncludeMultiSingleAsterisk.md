@@ -15,6 +15,9 @@
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "bracketIncludeMulti"
+  },
   comment: {
     type: "singleAsterisk"
   },
@@ -67,14 +70,6 @@ Comment in jsDoc style and remove padding between * and start of lines.
 
 ### Options
 
-<div class="nowrapcode">
-
-````text
-[comment?type=singleAsterisk, breakstring?width=60&flags=word, match?kind=bracketIncludeMulti, text?indent=true]
-````
-
-</div>
-
 [[include:includes/comment/comment.md]]
 
 [[include:includes/comment/type/SingleAsterisk.md]]
@@ -89,16 +84,13 @@ Comment in jsDoc style and remove padding between * and start of lines.
 
 [[include:includes/text/indent/indent.md]]
 
-[[include:includes/match/match.md]]
-
-### bracketIncludeMulti
-
-[[include:docs/enums/regexKind/bracketIncludeMulti.md]]
-
-#### Option
-
 `comment?padleft=0`  
 Setting padleft to a value of 0 actually removes any padding between * and the input file line contents. This may not be perferable in most cases. The value can be increased to created more spaces other than the default of 1.
 
+`{match:{kind: "bracketIncludeMulti" }}`  
+[[include:docs/enums/regexKind/bracketIncludeMulti.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

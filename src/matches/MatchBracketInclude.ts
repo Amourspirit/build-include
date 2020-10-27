@@ -52,7 +52,7 @@ export class MatchBracketInclude implements IMatchOpt {
   public constructor() {
     this.path = '';
     this.name = 'include:';
-    this.fileName = `([^\\s].+)\\]\\]`;
+    this.fileName = `([\\w\\.\\/-][\\w\\s\\/\\.-]+[\\.\\w-]+)\\]\\]`;
     this.parameters = `(?:\\(([^\\s].*)\\))?`;
     this.prefix = `(?:\\[\\[)`;
     this.suffix = '';

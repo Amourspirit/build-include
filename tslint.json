@@ -1,6 +1,10 @@
 {
   "extends": ["@ephox/tslint-rules/tslint.json", "tslint-config-prettier"],
   "rules": {
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ],
     "only-arrow-functions": true,
     "no-bitwise": false,
     "no-console": true

@@ -1,3 +1,5 @@
+import { regexKind } from "../enums/projectEnums";
+import { IMatchOpt } from "../interface/projectInterfaces";
 import { MatchBracketInclude } from "../matches/MatchBracketInclude";
 import { MatchBracketIncludeMulti } from "../matches/MatchBracketIncludeMulti";
 import { MatchBuildInclude } from "../matches/MatchBuildInclude";
@@ -5,43 +7,197 @@ import { MatchBuildIncludeHtml } from "../matches/MatchBuildIncludeHtml";
 import { MatchBuildIncludePound } from "../matches/MatchBuildIncludePound";
 import { MatchBuildIncludeQuote } from "../matches/MatchBuildIncludeQuote";
 import { MatchBuildIncludeSlash } from "../matches/MatchBuildIncludeSlash";
-import { regexKind } from "../enums/projectEnums";
-import { IBiOpt, ILogger, IMatchOpt } from "../interface/projectInterfaces";
 import { MatchDummy } from "../matches/MatchDummy";
-import { DEFAULT_MATCH_KIND } from "./defaultOptions";
+import { DEFAULT_MATCH_KIND } from "../opt/defaultOptions";
+import { Process } from "./Process";
 
-/**
- * Handels Merging of options
- */
-export class MergeMatch {
-  private options: IBiOpt;
-  private logger: ILogger;
-  /**
-   * Default constructor
-   * @param options current options
-   * @param logger current logger for output
-   */
-  constructor(options: IBiOpt, logger: ILogger) {
-    this.options = options;
-    this.logger = logger;
+export class MatchOptionsProcess extends Process {
+  // https://regexr.com/4cjvh
+  // https://regexr.com/4d14r revised April 27, 2019
+  // const re = /(?:(?:\/\/)|(?:<\!\-\-)|(?:\/\*))[ \t]*BUILD_INCLUDE\((?:[ ]+)?(?:['"])?(.*?)(?:['"](?:[ ]+)?)?\)(?:(?:[\n\r]+)?\[(.*)\])?(?:(?:[ \t]*\-\->)|(?:[ \t]*\*\/))?/i;
+
+  private _allowIndent: boolean = false;
+  private _regexString: string = '';
+  private _matchOptions: string = '';
+  private _regexMain: RegExp | null = null;
+  private _regexSimple: RegExp | null = null;
+  private _options: IMatchOpt | null = null;
+  private _isValid: boolean = false;
+  private _indexFile: number = 0;
+  private _indexOpt: number = 0;
+  private _indexOrigMatch: number = 0;
+  // private match: IMatchOpt|null = null;
+  constructor() {
+    super();
   }
 
-/**
+
+  public get allowIndent(): boolean {
+    return this._allowIndent;
+  }
+  public get regexMain() {
+    if (this._regexMain) {
+      return this._regexMain;
+    }
+    throw new Error("Process method is required to be called before regexMain property");
+  }
+
+  public get regexSimple() {
+    if (this._regexSimple) {
+      return this._regexSimple;
+    }
+    throw new Error("Process method is required to be called before regexSimple property");
+  }
+
+  public get options() {
+    if (this._options) {
+      return this._options;
+    }
+    throw new Error("Process method is required to be called before options property");
+  }
+
+  public get isValid(): boolean {
+    return this._isValid;
+  }
+
+  public get name(): string {
+    if (!this._options) {
+      return '';
+    }
+    return this._options.name;
+  }
+
+  public get indexFile(): number {
+    return this._indexFile;
+  }
+  public get indexOption(): number {
+    return this._indexOpt
+  }
+  public get indexOrigMatch(): number {
+    return this._indexOrigMatch;
+  }
+
+  public process(match: IMatchOpt | string | number) {
+    // this.match = m;
+    this._options = this.getMergedMatchOptions(match);
+    this.setIsValid();
+    if (this.isValid === false) {
+      return;
+    }
+
+    // capture if options.suffix contain a ^ (start of line value)
+    this.setAllowedIndent();
+    this.setRegexString();
+
+    this.setMatchOptions();
+    this.logger.verbose.writeln(`Regex Full: /${this._regexString}/${this._matchOptions}`);
+    this.setRegexMain();
+    this.setRegexSimple();
+  }
+
+  private setIsValid() {
+    if (!this._options) {
+      this._isValid = false;
+      return;
+    }
+    this._isValid = true;
+    if (!this._options.name) {
+      this._isValid = false;
+    }
+  }
+
+  private setRegexString() {
+    if (!this._options) {
+      return;
+    }
+
+    if (this._allowIndent === true) {
+      // match[1] will be the padding
+      // match[2] will be the total replacement without padding
+      // match[optMatch.indexFile + 2] will be the file segment
+      // match[optMatch.indexOptions + 2] will be the options segment
+      this._indexFile = this._options.indexFile + 2;   // adjust for indent
+      this._indexOpt = this._options.indexParam + 2; // adjust for indent.
+      this._indexOrigMatch = 2;
+    } else {
+      this._indexFile = this._options.indexFile;
+      this._indexOpt = this._options.indexParam;
+      this._indexOrigMatch = 0;
+    }
+
+    // regex capture group to capture indent
+    const reGroup1 = `(^[ \\t]+)?`;
+    let reGroup2: string = '';
+    if (this._allowIndent === true) {
+      reGroup2 += '(';
+    }
+    reGroup2 += `${this._options.prefix}${this._options.name}${this._options.fileName}${this._options.parameters}${this._options.suffix}`;
+
+    if (this._allowIndent === true) {
+      reGroup2 += ')';
+      // also include indent at the start of the regex
+      this._regexString = `${reGroup1}${reGroup2}`;
+    } else {
+      this._regexString = reGroup2;
+    }
+
+    this.logger.verbose.writeln(`Regex Match in: /${this._options.prefix}${this._options.name}${this._options.fileName}${this._options.parameters}${this._options.suffix}/${this._options.options}`);
+  }
+
+  private setAllowedIndent() {
+    if (!this._options) {
+      return;
+    }
+    let allowed = true;
+    if (this._options.prefix.indexOf('^') >= 0) {
+      allowed = false;
+    }
+    this._allowIndent = allowed;
+  }
+
+  private setMatchOptions() {
+    if (!this._options) {
+      return;
+    }
+    let mOpt: string = this._options.options;
+    // multi line is required to check for start of line ^
+    if (mOpt) {
+      mOpt = mOpt.toLowerCase();
+      if (mOpt.indexOf('m') === -1) {
+        mOpt += 'm';
+      }
+    } else {
+      mOpt = 'm';
+    }
+    this._matchOptions = mOpt;
+  }
+
+  private setRegexMain() {
+    this._regexMain = new RegExp(this._regexString, this._matchOptions);
+  }
+
+  private setRegexSimple() {
+    if (!this._options) {
+      return;
+    }
+    this._regexSimple = new RegExp(`${this._options.prefix}${this._options.name}`, this._options.options);
+  }
+  /**
 * Sets that match options from current passed in options and assigns any missing values that
 * may of been ommited in the passed in options
 * @returns Merged Options
 */
-  public getMergedMatchOptions(): IMatchOpt {
+  private getMergedMatchOptions(match: IMatchOpt | string | number): IMatchOpt {
     let reKind: regexKind;
-    if (typeof this.options.match === 'string' || typeof this.options.match === 'number') {
-      reKind = regexKind.parse(this.options.match.toString());
-      this.options.match = this.getPerferedMatch(reKind);
-      return this.options.match;
+    if (typeof match === 'string' || typeof match === 'number') {
+      reKind = regexKind.parse(match.toString());
+      match = this.getPerferedMatch(reKind);
+      return match;
     }
-    if (typeof this.options.match !== 'object') {
+    if (typeof match !== 'object') {
       this.logger.log.error(`Expected match to be string, number or object`);
-      this.options.match = this.getPerferedMatch(regexKind.buildInclude);
-      return this.options.match;
+      match = this.getPerferedMatch(regexKind.buildInclude);
+      return match;
     }
     //#region internal query functions
     const getMatchKind = () => {
@@ -193,14 +349,14 @@ export class MergeMatch {
     }
     //#endregion
 
-    const matchBuild: IMatchOpt = this.options.match;
+    const matchBuild: IMatchOpt = match;
     matchBuild.kind = getMatchKind();
     reKind = regexKind.parse(matchBuild.kind);
     const matchDefaults = this.getPerferedMatch(reKind);
     setMatchProperties();
     indexWarningCheck();
-    this.options.match = matchBuild;
-    return this.options.match;
+    match = matchBuild;
+    return match;
 
   }
 

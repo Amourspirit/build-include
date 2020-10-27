@@ -16,6 +16,9 @@ File [replace01.txt](replacements/replace01.txt.html) is to be included in outpu
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   asJsString: true,
   text: {
     code: "base64",
@@ -75,7 +78,10 @@ ZWJla1wncyBmdW4gVFYgcXVpeiBnYW1lLiBXb3ZlbiBzaWxrIHB5amFtYXMgZXhjaGFuZ\
 
 [[include:includes/text/code/base64.md]]
 
-[[include:includes/options/iopt.md]]
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

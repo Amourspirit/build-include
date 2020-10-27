@@ -7,4 +7,4 @@
 [options]
 ```
 
-**See Also:** [Class MatchBuildIncludePound](/build-include/classes/src_matches.matchbuildincludepound.html)  
+**See Also:** Class [[MatchBuildIncludePound]]  

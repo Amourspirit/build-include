@@ -17,7 +17,12 @@ const getStyleCss = () => {
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/css.js', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/css.js', opt);
 ````
 
 ### Output
@@ -93,6 +98,10 @@ The output file `style.min.css` is one long line. **BUILD_INCLUDE** can be used 
 
 `Width=80` determines that each line will be broken at 80 characers.
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

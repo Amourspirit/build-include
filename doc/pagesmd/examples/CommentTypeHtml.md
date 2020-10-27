@@ -71,7 +71,10 @@ fun TV quiz game. Woven silk pyjamas exchanged for blue quartz.
 
 [[include:includes/breakstring/flags/word.md]]
 
-[[include:includes/options/iopt.md]]
+`{match:{kind: "buildIncludeHtml" }}`  
+[[include:docs/enums/regexKind/buildIncludeHtml.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

@@ -13,6 +13,9 @@ File [replace04.txt](replacements/replace04.txt.html) is to be included in outpu
 ````js
 const bp = new BuildProcess();
 const opt = {
+   match: {
+    kind: "buildIncludeSlash"
+  },
   fence: {
     start: "^^^^",
     end: "^^^^",
@@ -76,9 +79,10 @@ In this case the fenced text is removed from the output.
 
 [[include:includes/breakstring/flags/word.md]]
 
-[[include:includes/enums/regexKind/buildInclude.md]]
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
 [[include:includes/options/iopt.md]]
-
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

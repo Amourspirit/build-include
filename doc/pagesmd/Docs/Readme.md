@@ -15,7 +15,12 @@ parsed and replaced with the actual contents.
 
 ```js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./lib/main.js', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./lib/main.js', opt);
 ```
 
 The **// BUILD_INCLUDE** in main.js will be replaced with the contents of *replaceComment.txt*.
@@ -33,13 +38,16 @@ Setting up instance of **build-include**
 ### Common JS
 
 ```js
-import { BuildProcess } from 'build-include/cjs/BuildProcess';
+import { BuildProcess } from "build-include/cjs/BuildProcess";
 import { LoggerSimple } from "build-include/cjs/log/LoggerSimple";
 
 // include LoggerSimple in the constructor so instance logs to the console.
 const bp = new BuildProcess(new LoggerSimple());
 
 const opt = {
+   match: {
+    kind: "buildIncludeSlash"
+  },
   comment: {
     type: "Single"
   }
@@ -50,13 +58,16 @@ const results = bp.buildInclude('','./includes/replace.txt', opt);
 ### ES6 Module
 
 ```js
-import { BuildProcess } from 'build-include/esm/BuildProcess';
+import { BuildProcess } from "build-include/esm/BuildProcess";
 import { LoggerSimple } from "build-include/esm/log/LoggerSimple";
 
 // include LoggerSimple in the constructor so instance logs to the console.
 const bp = new BuildProcess(new LoggerSimple());
 
 const opt = {
+   match: {
+    kind: "buildIncludeSlash"
+  }
   comment: {
     type: "Single"
   }

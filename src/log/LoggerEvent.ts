@@ -7,8 +7,8 @@ import { CancelEventArgs } from "../event/CancelEventArgs";
 //#endregion Imports
 
 /**
- * Logger raises events containing logging messags.
- * If Verbose [[isVerbose]] is true then verbose logging will raise events as well.
+ * Logger raises events containing log messags.
+ * If [[isVerbose]] is true then verbose log messages will raise events as well.
  */
 export class LoggerEvent implements ILogger {
 
@@ -24,11 +24,11 @@ export class LoggerEvent implements ILogger {
 	/**
 	 * Logger that does the general logging
 	 */
-	log: LogEvent;
+	public log: LogEvent;
 	/**
 	 * Logger that does the verbose logging
 	 */
-	verbose: LogEvent;
+	public verbose: LogEvent;
 
 	/**
 	 * Gets if the verbose logger is logging,
@@ -83,7 +83,7 @@ export class LoggerEvent implements ILogger {
 	public addHandlerBeforeWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.log.addHandlerBeforeWarn(callback);
 	}
-	public addHandaddHandlerAfterWarnlerWarn(callback: (e: MsgEventAnyArgs) => void) {
+	public addHandlerAfterWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.log.addHandlerAfterWarn(callback);
 	}
 	//#endregion Handlers Log
@@ -120,7 +120,7 @@ export class LoggerEvent implements ILogger {
 	public addHandlerBeforeWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
 		this.verbose.addHandlerBeforeWarn(callback);
 	}
-	public addHandaddHandlerAfterWarnlerWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
+	public addHandlerAfterWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
 		this.verbose.addHandlerAfterWarn(callback);
 	}
 	//#endregion Handlers Verbose
@@ -133,7 +133,7 @@ export class LoggerEvent implements ILogger {
 	public removeHandlerBeforeEmptyln(callback: (e: CancelEventArgs) => void) {
 		this.log.removeHandlerBeforeEmptyln(callback);
 	}
-	public removeandlerAfterEmptyln(callback: (e: EventArgs) => void) {
+	public removeHandlerAfterEmptyln(callback: (e: EventArgs) => void) {
 		this.log.removeHandlerAfterEmptyln(callback);
 	}
 
@@ -161,7 +161,7 @@ export class LoggerEvent implements ILogger {
 	public removeHandlerBeforeWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.log.removeHandlerBeforeWarn(callback);
 	}
-	public removeHandaddHandlerAfterWarnlerWarn(callback: (e: MsgEventAnyArgs) => void) {
+	public removeHandlerAfterWarn(callback: (e: MsgEventAnyArgs) => void) {
 		this.log.removeHandlerAfterWarn(callback);
 	}
 	//#endregion Handlers Log
@@ -198,7 +198,7 @@ export class LoggerEvent implements ILogger {
 	public removeHandlerBeforeWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
 		this.verbose.removeHandlerBeforeWarn(callback);
 	}
-	public removeHandaddHandlerAfterWarnlerWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
+	public removeHandlerAfterWarnVerbose(callback: (e: MsgEventAnyArgs) => void) {
 		this.verbose.removeHandlerAfterWarn(callback);
 	}
 	//#endregion Handlers Verbose

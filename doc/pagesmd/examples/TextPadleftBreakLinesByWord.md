@@ -14,7 +14,12 @@
 
 ````js
 const bp = new BuildProcess();
-const results = bp.buildInclude('','./includes/replace.txt', {});
+const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  }
+};
+const results = bp.buildInclude('','./includes/replace.txt', opt);
 ````
 
 ### Output
@@ -74,5 +79,10 @@ Due to `flags=word` lines will be broken and close as possible to 75 characters 
 
 Note: `breakstring` is applied before `text` options.  
 
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

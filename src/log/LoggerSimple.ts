@@ -1,19 +1,20 @@
-import { ILogger } from "../interface/projectInterfaces";
 import { LogSimple } from "./LogSimple";
 import { CancelEventArgs } from "../event/CancelEventArgs";
 import { MsgEventArgs } from "../event/MsgEventArg";
 import { EOL } from "os";
+import { LoggerEvent } from "./LoggerEvent";
 
 /**
  * Logger that logs to the Console.
- * If Verbose [[isVerbose]] is true then verbose logging will take place as well.
+ * If [[isVerbose]] is true then verbose logging will take place as well.
  */
-export class LoggerSimple implements ILogger {
-  private static LAST_LINE:string = '';
+export class LoggerSimple extends LoggerEvent {
+  private static LAST_LINE: string = '';
   /**
    * Creates a new instance of class
    */
   constructor() {
+    super();
     this.log = new LogSimple();
     this.verbose = new LogSimple();
     this.isVerbose = false;
@@ -29,14 +30,6 @@ export class LoggerSimple implements ILogger {
     this.log.addHandlerBeforeEmptyln(this.onEmptyln);
     this.verbose.addHandlerBeforeEmptyln(this.onEmptyln);
   }
-  /**
-   * Logger that does the general logging
-   */
-  log: LogSimple;
-  /**
-   * Logger that does the verbose logging
-   */
-  verbose: LogSimple;
 
   /**
    * Gets if the verbose logger is logging,
@@ -46,6 +39,7 @@ export class LoggerSimple implements ILogger {
   public get isVerbose() {
     return this.verbose.isVerbose;
   }
+
   /**
   * Sets if the verbose logger is logging,
   * If true verbose logger will log: Otherwise,
@@ -80,4 +74,5 @@ export class LoggerSimple implements ILogger {
   private onEmptyln(_e: CancelEventArgs) {
     LoggerSimple.LAST_LINE = EOL;
   }
+
 }

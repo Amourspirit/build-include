@@ -51,8 +51,8 @@ export class MatchBuildIncludeHtml implements IMatchOpt {
   public constructor() {
     this.path = '';
     this.name = 'BUILD_INCLUDE';
-    this.fileName = `\\((?:[ ]+)?(?:['"])?(.*?)(?:['"](?:[ ]+)?)?\\)`;
-    this.parameters = `(?:(?:[\\n\\r]+)?\\[(.*)\\])?`;
+    this.fileName = `\\((?:[ ]+)?(?:['"])?(?:[ ]+)?([\\w\\.\\/-<][>\\w\\s\\/\\.-]+[\\.\\w-]+)(?:[ ]+)?(?:['" ])?(?:[ ]+)?\\)`;
+    this.parameters = `(?:(?:[\\n\\r]+)?\\[(?:[ ]+)?(.*)\\])?`;
     this.prefix = `(?:<\\!\\-\\-[ \\t]*)`;
     this.suffix = `(?:[ \\t]*\\-\\->)`;
     this.options = 'i';

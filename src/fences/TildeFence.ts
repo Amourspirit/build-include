@@ -16,6 +16,7 @@ export class TildeFence implements IOptFence {
   * [[include:docs/fenceOpt/flexFence/end.md]]
   */
   public end: string | RegExp;
+  
   public constructor() {
     this.start = '~~~';
     this.end = '~~~';

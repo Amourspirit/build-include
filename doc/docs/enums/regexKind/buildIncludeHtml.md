@@ -7,4 +7,4 @@
 [options]-->
 ````
 
-**See Also:** [Class MatchBuildIncludeHtml](/build-include/classes/src_matches.matchbuildincludehtml.html)  
+**See Also:** Class [[MatchBuildIncludeHtml]]  

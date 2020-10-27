@@ -8,7 +8,7 @@ export class Util {
    * @param obj Object to test
    * @returns `true` if obj is a function; Otherwise, `false`
    */
-  public static IsFunction(obj: any): boolean {
+  public static isFunction(obj: any): boolean {
     return !!(obj && obj.constructor && obj.call && obj.apply);
   };
 
@@ -18,7 +18,7 @@ export class Util {
    * @param anyCase If true will match an enum value of any case; Otherwise, case must match.
    * @returns The value converted into splitByOpt
    */
-  public static ParseEnumSplitByOpt(value: string | number, anyCase: boolean = true): splitByOpt {
+  public static parseEnumSplitByOpt(value: string | number, anyCase: boolean = true): splitByOpt {
     const num: number = parseInt(value.toString(), 10);
     let v: string | number;
     if (isNaN(num) === true) {
@@ -60,7 +60,7 @@ export class Util {
    * @param anyCase If true will match an enum value of any case; Otherwise, case must match.
    * @returns The value converted into lnEndOpt
    */
-  public static ParseEnumLnEndOpt(value: string | number, anyCase: boolean = true): lnEndOpt {
+  public static parseEnumLnEndOpt(value: string | number, anyCase: boolean = true): lnEndOpt {
     const num: number = parseInt(value.toString(), 10);
     let v: string | number;
     if (isNaN(num) === true) {
@@ -100,7 +100,7 @@ export class Util {
    * Escapes a string for use in a regular expression
    * @param str String to escape
    */
-  public static EscapeRegex(str: string): string {
+  public static escapeRegex(str: string): string {
     // https://stackoverflow.com/questions/5105143/list-of-all-characters-that-should-be-escaped-before-put-in-to-regex
     if (!str) {
       return '';
@@ -146,7 +146,7 @@ export class Util {
     const copy = this.createInstance(instance);
 
     // const copy = new (instance.constructor as new () => T)();
-    return Util.DeepCopy(copy);
+    return Util.deepCopy(copy);
   }
 
   /**
@@ -156,7 +156,7 @@ export class Util {
  * @see Source project, ts-deepcopy https://github.com/ykdr2017/ts-deepcopy
  * @see Code pen {@link https://codepen.io/erikvullings/pen/ejyBYg}
  */
-  public static DeepCopy<T>(target: T): T {
+  public static deepCopy<T>(target: T): T {
     if (target === null) {
       return target;
     }
@@ -166,23 +166,23 @@ export class Util {
     if (target instanceof Array) {
       const cp = [] as any[];
       (target as any[]).forEach((v) => { cp.push(v); });
-      return cp.map((n: any) => Util.DeepCopy<any>(n)) as any;
+      return cp.map((n: any) => Util.deepCopy<any>(n)) as any;
     }
     if (typeof target === 'object' && target !== {}) {
       const cp = { ...(target as { [key: string]: any }) } as { [key: string]: any };
       Object.keys(cp).forEach(k => {
-        cp[k] = Util.DeepCopy<any>(cp[k]);
+        cp[k] = Util.deepCopy<any>(cp[k]);
       });
       return cp as T;
     }
     return target;
   }
   /**
-   * IsObject gets if a object is actually an object.
+   * IsObject gets if a object is actually an object add not null or an array.
    * @param obj Any value to test
    * @returns {boolean} if obj is an object and not an array, returns true; Otherwise, false
    */
-  public static IsObject(obj: any) {
+  public static IsObject(obj: any): obj is Object {
     return (obj && typeof obj === 'object' && !Array.isArray(obj));
   }
   /**
@@ -192,7 +192,7 @@ export class Util {
    * @returns `true` if str is empty or whitespace:
    * Otherwise, `false`
    */
-  public static IsEmptyOrWhiteSpace(str: string): boolean {
+  public static isEmptyOrWhiteSpace(str: string): boolean {
     if (str === undefined) {
       return true;
     }
@@ -217,31 +217,31 @@ export class Util {
    * Object passed in eariler will be have any properties overwritten by objects passed in laster with
    * the same key names.
    */
-  public static MergeDefaults<T extends object = object, U extends object = object>(defaults: U, ...opt: T[]) {
+  public static mergeDefaults<T extends object = object, U extends object = object>(defaults: U, ...opt: T[]) {
     // Example: https://jsfiddle.net/6p4rzmxo/1/
-    const result = Util.DeepCopy(defaults);
-    Util.DeepMerge(result, ...opt);
+    const result = Util.deepCopy(defaults);
+    Util.deepMerge(result, ...opt);
     return result;
   }
 
-/**
- * Merges sources into target and returns target.
- * This method is the same as DeepMerge with the excption sources must be of the same type
- * @param target The target to merge all sources into
- * @param sources The sources to merge into target
- *
- * target will be overwritten. To return a new object make the target {}
-```ts
-const merged = Util.DeepMergeGeneric(myTargetObj, sourceObj1, sourceObj2);
-// myTargetObj will be be equal to merged ( same object )
-```
- * or
-```ts
-const merged = Util.DeepMergeGeneric({}, myTargetObj, sourceObj1, sourceObj2);
-```
- */
-  public static DeepMergeGeneric<T extends object = object, U extends object = object>(target: T, ...sources: U[]): any {
-    return Util.DeepMerge(target, ...sources);
+  /**
+   * Merges sources into target and returns target.
+   * This method is the same as DeepMerge with the excption sources must be of the same type
+   * @param target The target to merge all sources into
+   * @param sources The sources to merge into target
+   *
+   * target will be overwritten. To return a new object make the target {}
+  ```ts
+  const merged = Util.DeepMergeGeneric(myTargetObj, sourceObj1, sourceObj2);
+  // myTargetObj will be be equal to merged ( same object )
+  ```
+   * or
+  ```ts
+  const merged = Util.DeepMergeGeneric({}, myTargetObj, sourceObj1, sourceObj2);
+  ```
+   */
+  public static deepMergeGeneric<T extends object = object, U extends object = object>(target: T, ...sources: U[]): any {
+    return Util.deepMerge(target, ...sources);
   }
   /**
    * Merges sources into target and returns target.
@@ -258,7 +258,7 @@ const merged = Util.DeepMerge(myTargetObj, sourceObj1, sourceObj2);
 const merged = Util.DeepMerge({}, myTargetObj, sourceObj1, sourceObj2);
 ```
    */
-  public static DeepMerge<T extends object = object>(target: T, ...sources: any[]): any {
+  public static deepMerge<T extends object = object>(target: T, ...sources: any[]): any {
     if (!sources.length) {
       return target;
     }
@@ -273,14 +273,14 @@ const merged = Util.DeepMerge({}, myTargetObj, sourceObj1, sourceObj2);
               Object.assign(target, { [key]: {} });
             };
             const newTarget = target[(key as unknown) as keyof T];
-            Util.DeepMerge(newTarget as Object, el);
+            Util.deepMerge(newTarget as Object, el);
           } else {
             Object.assign(target, { [key]: source[key] });
           }
         }
       }
     }
-    return Util.DeepMerge(target, ...sources);
+    return Util.deepMerge(target, ...sources);
   }
 
   /**
@@ -291,7 +291,7 @@ const merged = Util.DeepMerge({}, myTargetObj, sourceObj1, sourceObj2);
    * node fs file system requires a fixed string for encoding option.
    * This menthod ensure that a valid option is returned.
    */
-  public static Encoding(encoding: string): BufferEncoding {
+  public static encoding(encoding: string): BufferEncoding {
     const enc = encoding.toLowerCase();
     switch (enc) {
 
@@ -318,7 +318,7 @@ const merged = Util.DeepMerge({}, myTargetObj, sourceObj1, sourceObj2);
    * @param arr string of characters use to generate the the random string.
    * @returns A random string the length of len.
    */
-  public static RandomStr(len: number, arr: string): string {
+  public static randomStr(len: number, arr: string): string {
     let ans = '';
     for (let i = len; i > 0; i--) {
       ans +=
@@ -330,16 +330,37 @@ const merged = Util.DeepMerge({}, myTargetObj, sourceObj1, sourceObj2);
 * Generates a random alpha string
 * @param len the length of the string to generate
 */
-  public static GenAlphStr(len: number): string {
-    return Util.RandomStr(len, Util.ALPHA_NUM_STR.substr(0, 52));
+  public static genAlphStr(len: number): string {
+    return Util.randomStr(len, Util.ALPHA_NUM_STR.substr(0, 52));
   }
   /**
    * Generates a random alpha Numeric string
    * @param len the length of the string to generate
    */
-  public static GenAlphNumStr(len: number): string {
-    return Util.RandomStr(len, Util.ALPHA_NUM_STR);
+  public static genAlphNumStr(len: number): string {
+    return Util.randomStr(len, Util.ALPHA_NUM_STR);
   }
 
+  /**
+   * Builds a string of key value pairs for an object
+   * @param data Any object that has key value pairs
+   * @param joiner The seperator between each key value pair
+   */
+  public static keyValueToString<T extends object = object>(data: T, joiner: string = '; '): string {
+    if (!Util.IsObject(data)) {
+      return '';
+    }
+    const strArr: string[] = [];
+    for (const k in data) {
+      if (data.hasOwnProperty(k)) {
+        const d:any = data[(k as unknown) as keyof T];
+        const str = d.toString();
+        str.replace(/'/g, "\\'")
+          .replace(/"/g, '\\"');
+        strArr.push(k.toString() + '=' + d);
+      }
+    }
+    return strArr.join(joiner);
+  };
 }
 

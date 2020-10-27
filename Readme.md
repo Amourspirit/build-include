@@ -47,7 +47,7 @@ var getStyleCss = function () {
 ## Getting started
 
 ```text
-npm install build-include --save-dev
+npm install build-include --save
 ```
 
 [grunt-build-include](https://www.npmjs.com/package/grunt-build-include) is build upon this project and demonstrates many uses.  

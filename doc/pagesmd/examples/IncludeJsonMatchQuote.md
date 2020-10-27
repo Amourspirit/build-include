@@ -66,8 +66,8 @@ File [actors.json](replacements/actors.json.html) is to be included in output fi
 
 ### Options
 
-#### Match Kind: buildIncludeQuote
-
+`{match:{kind: "buildIncludeQuote" }}`  
 [[include:docs/enums/regexKind/buildIncludeQuote.md]]
 
 [[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]

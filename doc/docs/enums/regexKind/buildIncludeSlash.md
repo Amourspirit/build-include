@@ -2,9 +2,9 @@
 
 ```text
 // BUILD_INCLUDE(filePath)  
-// BUILD_INCLUDE\(filePath)[options]
-// BUILD_INCLUDE\(filePath\)  
+// BUILD_INCLUDE(filePath)[options]
+// BUILD_INCLUDE(filePath)  
 [options]
 ```
 
-**See Also:** [Class MatchBuildIncludeSlash](/build-include/classes/src_matches.matchbuildincludeslash.html)  
+**See Also:** Class [[MatchBuildIncludeSlash]]  

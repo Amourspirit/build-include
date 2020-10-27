@@ -2,6 +2,9 @@ import { eKindType } from "../enums/enumEKind";
 import { eProcessType } from "../enums/enumEProcess";
 import { lnEndOpt, splitByOpt, widthFlags } from 'string-breaker';
 import { commentKind, matchKind, fenceKind, whiteSpLn, triState } from "../enums/projectEnums";
+import { MsgEventAnyArgs } from "../event/MsgEventAnyArgs";
+import { CancelEventArgs } from "../event/CancelEventArgs";
+import { EventArgs } from "../event/EventArgs";
 
 type LogType<T> = (...args: T[]) => void;
 export type BufferEncoding = "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex";
@@ -442,7 +445,7 @@ interface IOptText {
 /**
  * [[include:docs/IOptFence/IOptFence.md]]
  */
-export interface IOptFence {
+export interface IOptFence extends Record<string, any> {
   /**
    * [[include:docs/IOptFence/start.md]]
    */
@@ -450,26 +453,18 @@ export interface IOptFence {
   /**
    * [[include:docs/IOptFence/end.md]]
    */
-  end: string | RegExp;
+  end: string | RegExp
 }
 // #endregion
 // #region IFence
 /**
  * [[include:docs/IFence/IFence.md]]
  */
-export interface IFence {
+export interface IFence extends IOptFence {
   /**
    * [[include:docs/IFence/type.md]]
    */
   type: fenceKind;
-  /**
-   * [[include:docs/IFence/start.md]]
-   */
-  start: string | RegExp;
-  /**
-   * [[include:docs/IFence/end.md]]
-   */
-  end: string | RegExp;
   /**
    * [[include:docs/IFence/remove.md]]
    */
@@ -533,8 +528,54 @@ export interface IMatchItemWsItm {
   countStart: number,
   /** number of empty lines as end of lines */
   countEnd: number,
-  /** Kind of matche being processed */
+  /** Kind of match being processed */
   kind: matchKind
+}
+
+export interface ILogEvents {
+  addHandlerBeforeError: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterError: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWrite: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWrite: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWriteln: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWriteln: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWarn: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWarn: (callback: (e: MsgEventAnyArgs) => void) => void
+  addHandlerBeforeEmptyln: (callback: (e: CancelEventArgs) => void) => void,
+  addHandlerAfterEmptyln: (callback: (e: EventArgs) => void) => void,
+  removeHandlerBeforeError: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterError: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWrite: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWrite: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWriteln: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWriteln: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWarn: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWarn: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeEmptyln: (callback: (e: CancelEventArgs) => void) => void,
+  removeHandlerAfterEmptyln: (callback: (e: EventArgs) => void) => void
+}
+
+export interface ILogEventsVerbose {
+  addHandlerBeforeErrorVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterErrorVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWriteVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWriteVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWritelnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWritelnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerBeforeWarnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  addHandlerAfterWarnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void
+  addHandlerBeforeEmptylnVerbose: (callback: (e: CancelEventArgs) => void) => void,
+  addHandlerAfterEmptylnVerbose: (callback: (e: EventArgs) => void) => void,
+  removeHandlerBeforeErrorVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterErrorVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWriteVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWriteVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWritelnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWritelnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeWarnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerAfterWarnVerbose: (callback: (e: MsgEventAnyArgs) => void) => void,
+  removeHandlerBeforeEmptylnVerbose: (callback: (e: CancelEventArgs) => void) => void,
+  removeHandlerAfterEmptylnVerbose: (callback: (e: EventArgs) => void) => void
 }
 /**
  * Interface for creating loggers that can be passed to the constructor of [[BuildProcess]]
@@ -542,7 +583,7 @@ export interface IMatchItemWsItm {
  * @see [[LoggerSimple]]
  * @see [[LoggerNull]]
  */
-export interface ILog {
+export interface ILog extends ILogEvents {
   /**
    * Log Errors method
    */
@@ -550,7 +591,7 @@ export interface ILog {
   /**
    * Write to log without a line terminator
    */
-  write: LogType<string>,
+  write: LogType<any>,
   /**
    * Write a new ling to the log
    */
@@ -569,7 +610,7 @@ export interface ILog {
  * Implements for creating a new Logger
  * @see [[LoggerSimple]]
  */
-export interface ILogger {
+export interface ILogger extends ILogEvents, ILogEventsVerbose {
   /**
    * Gets or sets if the Logger is currently allowing verbose logging
    */

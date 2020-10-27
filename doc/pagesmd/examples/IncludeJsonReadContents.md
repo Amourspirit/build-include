@@ -82,3 +82,9 @@ File [actors.json](replacements/actors.json.html) is to be included in output fi
 [[include:docs/enums/regexKind/buildIncludeQuote.md]]
 
 [[include:includes/options/iopt.md]]
+
+`{match:{kind: "buildIncludeQuote" }}`  
+[[include:docs/enums/regexKind/buildIncludeQuote.md]]
+
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]

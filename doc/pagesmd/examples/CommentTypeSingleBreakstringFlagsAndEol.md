@@ -17,6 +17,9 @@ File [replace01.txt](replacements/replace01.txt.html) is to be included in outpu
 ````js
 const bp = new BuildProcess();
 const opt = {
+  match: {
+    kind: "buildIncludeSlash"
+  },
   comment: {
     type: "Single"
   },
@@ -73,7 +76,10 @@ const results = bp.buildInclude('','./includes/replace.txt', opt);
 `width=75` determines that breaking of lines is to start at 75 characters.  
 Due to `eol=none` the output will break when it gets to `width` or the end or a line.
 
-[[include:includes/options/iopt.md]]
+`{match:{kind: "buildIncludeSlash" }}`  
+[[include:docs/enums/regexKind/buildIncludeSlash.md]]
 
+[[include:includes/options/iopt.md]]
+[[include:includes/match/regexKind.md]]
 [[include:style/nowrapcode.html]]  
 [[include:style/heading.html]]

@@ -35,7 +35,7 @@ const copyTestFiles = () => {
 mkdirp.sync(path.join(outDir, 'css'));
 copyTestFiles();
 
-describe('Build Includ Plugin', function () {
+describe('Build Include Plugin', function () {
 	it('should write a simple file and replace the build_replace contents matching fixture simple_repalced.txt',
 		(done) => {
 			const p = path.join(jsonDir, 'simple.json');
@@ -483,7 +483,8 @@ describe('Build Includ Plugin', function () {
 
 	it('should write a file using inline fence options.\
   \n\tReplace the build_replace contents matching fixture simple_fenced_replaced.txt\
-  \n\tThis searches for fences ``` and omitts any formating from fenced text.',
+	\n\tThis searches for fences ``` and omitts any formating from fenced text.\
+	\n\toverrrides option fence=strict',
 		(done) => {
 			const p = path.join(jsonDir, 'fence01.json');
 			const opt: IOpt = worker.getOptions(p);

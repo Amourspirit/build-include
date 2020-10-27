@@ -7,7 +7,6 @@ import { Util } from "../src/util/Util";
 import { BuildProcess } from "../src/BuildProcess";
 import { FancyLogger } from "./fancy.logger";
 import { ILogger } from "../src/interface/projectInterfaces";
-import { LoggerNull } from "../src/log/LoggerNull";
 import { LoggerSimple } from "../src/log/LoggerSimple";
 import { LoggerEvent } from "../src/log/LoggerEvent";
 import { LogEvents } from "./LogEvents";
@@ -48,12 +47,10 @@ export class TestWorker {
     const strLogger = this.getOption<string>(opt, 'logger', 'fancy');
     let logger: ILogger;
     switch (strLogger) {
-      case 'null':
-        logger = new LoggerNull();
-        break;
       case 'simple':
         logger = new LoggerSimple();
         break;
+      case 'null':
       case 'event':
         logger = new LoggerEvent();
         break;
@@ -89,8 +86,13 @@ export class TestWorker {
     }
     mkdirp.sync(dirPath);
     let logMonitior: LogEvents;
-    if (logger instanceof LoggerEvent) {
-      logMonitior = new LogEvents(logger);
+   // only trigger logMonitior if class is not inherited
+    if (logger instanceof LoggerEvent && (logger as any).__proto__ === (LoggerEvent as any).prototype) {
+      const strLogger = this.getOption<string>(opt, 'logger', 'fancy');
+      if (strLogger.toLowerCase() !== 'null') {
+        logMonitior = new LogEvents(logger);  
+      }
+      
     }
     const bp = new BuildProcess(logger);
     let paths: string[] = [];
@@ -121,12 +123,12 @@ export class TestWorker {
       // see if flag has been set to load from srcPath by buildInclude
       const loadSrc = this.getOption<boolean>(opt, 'readSrc', true);
       if (loadSrc) {
-        contents = fs.readFileSync(p, { encoding: Util.Encoding('utf8') });
+        contents = fs.readFileSync(p, { encoding: Util.encoding('utf8') });
       }
       try {
         const results = bp.buildInclude(contents, p, opt);
 
-        fs.writeFileSync(outFile, results, { encoding: Util.Encoding('utf8') });
+        fs.writeFileSync(outFile, results, { encoding: Util.encoding('utf8') });
       } catch (err) {
         throw err;
       }
@@ -143,7 +145,7 @@ export class TestWorker {
   public getOptions(jsonPath: string): IOpt {
     try {
       const p = jsonPath.replace(/\//g, path.sep);
-      const opt: IOpt = JSON.parse(fs.readFileSync(p, { encoding: Util.Encoding('utf8') }));
+      const opt: IOpt = JSON.parse(fs.readFileSync(p, { encoding: Util.encoding('utf8') }));
       return opt;
     } catch (err) {
       throw err;

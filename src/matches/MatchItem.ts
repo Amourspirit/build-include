@@ -57,7 +57,7 @@ export class MatchItem implements IMatchType, IClone<MatchItem> {
    * is empty string or whitespace; Otherwise, `false`
    */
   public isWhiteSpace(): boolean {
-   return Util.IsEmptyOrWhiteSpace(this.value);
+   return Util.isEmptyOrWhiteSpace(this.value);
   }
   /**
    * Gets if the current instance value is empty.
